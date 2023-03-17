@@ -1,8 +1,28 @@
 package main
 
-import "markup2/markaupapi/api"
+import (
+	"flag"
+	"log"
+	"markup2/markaupapi/api"
+	"markup2/markaupapi/config"
+)
+
+var (
+	configPath string
+)
+
+func parseFlags() {
+	flag.StringVar(&configPath, "config", "/usr/local/etc/markaup2.yaml", "configuration file to use")
+	flag.Parse()
+}
 
 func main() {
-	api := api.New()
+	cfg, err := config.New(configPath)
+	if err != nil {
+		log.Fatalf("failed to read config: %v", err)
+	}
+
+	api := api.New(cfg)
+
 	api.Run()
 }

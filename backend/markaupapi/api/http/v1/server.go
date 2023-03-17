@@ -2,7 +2,6 @@ package v1
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -16,7 +15,7 @@ import (
 )
 
 type Config struct {
-	Port            uint
+	Address         string
 	GracefulTimeout time.Duration
 }
 
@@ -61,7 +60,7 @@ func (s *Server) InitHealthCheck() {
 
 func (s *Server) ListenAndServe() error {
 	go func() {
-		err := s.Start(fmt.Sprintf(":%d", s.cfg.Port))
+		err := s.Start(s.cfg.Address)
 		if err != nil && err != http.ErrServerClosed {
 			s.Logger.Fatal("shutting down the server")
 		}
