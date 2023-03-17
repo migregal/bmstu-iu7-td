@@ -1,9 +1,9 @@
 package api
 
 import (
-	"markup2/markaupapi/api/http"
-	v1 "markup2/markaupapi/api/http/v1"
-	"markup2/markaupapi/config"
+	"markup2/markupapi/api/http"
+	v1 "markup2/markupapi/api/http/v1"
+	"markup2/markupapi/config"
 
 	"github.com/labstack/gommon/log"
 )

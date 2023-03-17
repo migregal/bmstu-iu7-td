@@ -1,3 +1,0 @@
-http:
-  address: ":2000"
-  gracefull_timeout: 10

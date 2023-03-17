@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"log"
-	"markup2/markaupapi/api"
-	"markup2/markaupapi/config"
+	"markup2/markupapi/api"
+	"markup2/markupapi/config"
 )
 
 var (
@@ -17,6 +17,8 @@ func parseFlags() {
 }
 
 func main() {
+	parseFlags()
+
 	cfg, err := config.New(configPath)
 	if err != nil {
 		log.Fatalf("failed to read config: %v", err)
