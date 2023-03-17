@@ -3,16 +3,14 @@ name: Go package
 on:
   push:
     branches:
-      - develop
       - master
   pull_request:
-    branches:
-      - develop
-      - master
+    paths:
+      - '**.go'
 permissions:
   contents: read
 jobs:
-  build:
+  unit-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
