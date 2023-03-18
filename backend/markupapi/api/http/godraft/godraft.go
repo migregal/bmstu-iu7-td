@@ -28,7 +28,7 @@ func Init() {
 				ID:      "auth",
 				Name:    "Auth",
 				Host:    "markup2.ru",
-				HostDEV: "localhost:2047",
+				HostDEV: "0.0.0.0:2047",
 			},
 		},
 	})

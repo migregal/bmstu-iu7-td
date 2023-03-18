@@ -12,7 +12,7 @@ var (
 )
 
 func parseFlags() {
-	flag.StringVar(&configPath, "config", "/usr/local/etc/markaup2.yaml", "configuration file to use")
+	flag.StringVar(&configPath, "config", "/usr/local/etc/markup2.yaml", "configuration file to use")
 	flag.Parse()
 }
 

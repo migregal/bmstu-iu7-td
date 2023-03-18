@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  markupapi-dev:
+    extends:
+      file: ../backend/docker/common-services.yml
+      service: markupapi
+    image: cosmtrek/air
+    working_dir: /tmp/project
+    entrypoint: ["/go/bin/air", "-c", "markupapi/.air.toml"]
+    ports:
+      - 2000:2000
+      - 2047:2047
+    volumes:
+      - ../backend:/tmp/project
+      - ../backend/config.yaml:/usr/local/etc/markup2.yaml
+    restart: always

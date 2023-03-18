@@ -1,0 +1,14 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+cmd = "make build"
+
+bin = "./out/markupapi.out"
+
+exclude_dir = ["out", "tmp", "vendor", "markupapi/test/"]
+
+delay = 500 # ms
+
+[misc]
+clean_on_exit = true
