@@ -1,12 +1,13 @@
 package api
 
 import (
-	"markup2/markupapi/api/http"
-	"markup2/markupapi/api/http/godraft"
-	v1 "markup2/markupapi/api/http/v1"
-	"markup2/markupapi/config"
-
 	"github.com/labstack/gommon/log"
+
+	"markup2/markupapi/api/http"
+	v1 "markup2/markupapi/api/http/v1"
+	"markup2/markupapi/api/http/v1/auth"
+	"markup2/markupapi/config"
+	"markup2/pkg/godraft"
 )
 
 type API struct {
@@ -20,11 +21,18 @@ func New(cfg config.Config) API {
 	s.http = v1.New(v1.Config(cfg.HTTP))
 
 	if cfg.Debug {
-		godraft.Init()
-		s.draftAPI = godraft.New(godraft.Config(cfg.Docs))
+		s.draftAPI = setupDocumentation(cfg)
 	}
 
 	return s
+}
+
+func setupDocumentation(cfg config.Config) *godraft.Documentation {
+	godraft.Init()
+	draftAPI := godraft.New(godraft.Config(cfg.Docs))
+	draftAPI.Add(auth.Service)
+
+	return draftAPI
 }
 
 func (s *API) Run() {

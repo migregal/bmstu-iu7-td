@@ -1,8 +1,12 @@
 package login
 
 import (
+	"net/http"
+
 	"github.com/gothing/draft"
 	"github.com/gothing/draft/types"
+
+	"markup2/pkg/godraft"
 )
 
 type AuthLogin struct {
@@ -36,15 +40,14 @@ func (a *AuthLogin) InitEndpointScheme(s *draft.Scheme) {
 	})
 
 	// 200 OK
-	s.Case(draft.Status.OK, "Успешная авторизация", func() {
+	s.Case(godraft.HTTPStatus(http.StatusOK), "Успешная авторизация", func() {
 		s.Body(AuthLoginResponse{
 			UserID: types.GenUserID(),
 		})
 	})
 
 	// 403 OK
-	s.Case(draft.Status.Denied, "Неправильный Логин или Пароль", func() {
-		// Переопределяем базовые параметры запроса
+	s.Case(godraft.HTTPStatus(http.StatusForbidden), "Неправильный Логин или Пароль", func() {
 		s.Params(AuthLoginParams{
 			Login:    "not-exists-login",
 			Password: types.GenPassword(),

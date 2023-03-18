@@ -2,7 +2,6 @@ package godraft
 
 import (
 	"fmt"
-	"markup2/markupapi/api/http/v1/auth"
 
 	"github.com/gothing/draft"
 )
@@ -11,6 +10,7 @@ type Config struct {
 	Address string
 }
 
+// doc.draft.Add(auth.Service)
 type Documentation struct {
 	draft *draft.APIService
 	cfg   Config
@@ -21,13 +21,14 @@ func Init() {
 		FrontURL:    "https://gothing.github.io/draft-front/",
 		ActiveGroup: "auth",
 		Groups: []draft.DocGroup{
-			{ID: "auth", Name: "AUTH", Entries: []string{"http://localhost:2047/godraft:scheme/"}},
+			{ID: "auth", Name: "AUTH", Entries: []string{"https://localhost/godraft:scheme/"}},
 		},
 		Projects: []draft.DocProject{
 			{
 				ID:      "auth",
 				Name:    "Auth",
 				Host:    "markup2.ru",
+				HostRC:  "host.docker.internal:443",
 				HostDEV: "0.0.0.0:2047",
 			},
 		},
@@ -42,8 +43,6 @@ func New(cfg Config) *Documentation {
 		MockMode:     draft.MockEnable,
 	})
 
-	doc.draft.Add(auth.Service)
-
 	fmt.Printf("Server: http://%s\n", cfg.Address)
 	fmt.Printf(" - http://%s/godraft:docs/\n", cfg.Address)
 	fmt.Printf(" - http://%s/godraft:scheme/\n\n", cfg.Address)
@@ -56,6 +55,10 @@ func New(cfg Config) *Documentation {
 	fmt.Println("")
 
 	return &doc
+}
+
+func (d *Documentation) Add(g draft.Group, groupHandlers ...draft.GroupHandler) {
+	d.draft.Add(g, groupHandlers...)
 }
 
 func (d *Documentation) ListenAndServe() error {
