@@ -15,6 +15,7 @@ github.com/golang/protobuf/ptypes/timestamp
 ## explicit; go 1.14
 github.com/gothing/draft
 github.com/gothing/draft/reflect
+github.com/gothing/draft/types
 # github.com/iancoleman/orderedmap v0.0.0-20190318233801-ac98e3ecb4b0
 ## explicit
 github.com/iancoleman/orderedmap
@@ -74,6 +75,9 @@ github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
 # github.com/rogpeppe/go-internal v1.9.0
 ## explicit; go 1.17
+# github.com/sethvargo/go-password v0.1.3
+## explicit; go 1.13
+github.com/sethvargo/go-password/password
 # github.com/valyala/bytebufferpool v1.0.0
 ## explicit
 github.com/valyala/bytebufferpool

@@ -9,7 +9,8 @@ import (
 )
 
 type Config struct {
-	HTTP struct {
+	Debug bool `yaml:"debug"`
+	HTTP  struct {
 		Address         string        `yaml:"address"`
 		GracefulTimeout time.Duration `yaml:"gracefull_timeout"`
 	} `yaml:"http"`

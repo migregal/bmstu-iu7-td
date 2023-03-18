@@ -11,7 +11,7 @@ import (
 
 type API struct {
 	http     http.Server
-	draftAPI godraft.Documentation
+	draftAPI *godraft.Documentation
 }
 
 func New(cfg config.Config) API {
@@ -19,20 +19,24 @@ func New(cfg config.Config) API {
 
 	s.http = v1.New(v1.Config(cfg.HTTP))
 
-	godraft.Init()
-	s.draftAPI = godraft.New(godraft.Config(cfg.Docs))
+	if cfg.Debug {
+		godraft.Init()
+		s.draftAPI = godraft.New(godraft.Config(cfg.Docs))
+	}
 
 	return s
 }
 
 func (s *API) Run() {
-	errs := make(chan error, 1)
+	errs := make(chan error, 2)
 
 	go func() {
 		errs <- s.http.ListenAndServe()
 	}()
 	go func() {
-		errs <- s.draftAPI.ListenAndServe()
+		if s.draftAPI != nil {
+			errs <- s.draftAPI.ListenAndServe()
+		}
 	}()
 
 	err := <-errs
