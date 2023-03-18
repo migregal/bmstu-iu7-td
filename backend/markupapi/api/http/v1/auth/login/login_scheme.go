@@ -14,17 +14,18 @@ type AuthLogin struct {
 }
 
 type AuthLoginParams struct {
-	Login    types.Login    `required:"true"`
+	Login    types.Email    `required:"true"`
 	Password types.Password `required:"true"`
 	Remember bool           `comment:"Запомнить сессию"` // инлайн комментарий
 }
 
 type AuthLoginResponse struct {
 	UserID types.UserID `comment:"{super}, авторизованного пользователя"`
+	Token  types.Token
 }
 
 func (a *AuthLogin) InitEndpointScheme(s *draft.Scheme) {
-	s.Project("auth")
+	s.Project("markup2")
 
 	s.Access(draft.Access.All)
 
@@ -35,7 +36,7 @@ func (a *AuthLogin) InitEndpointScheme(s *draft.Scheme) {
 	s.URL("/api/v1/auth/login")
 
 	s.Params(AuthLoginParams{
-		Login:    types.GenLogin(),
+		Login:    types.GenEmail(),
 		Password: types.GenPassword(),
 	})
 
@@ -43,6 +44,7 @@ func (a *AuthLogin) InitEndpointScheme(s *draft.Scheme) {
 	s.Case(godraft.HTTPStatus(http.StatusOK), "Успешная авторизация", func() {
 		s.Body(AuthLoginResponse{
 			UserID: types.GenUserID(),
+			Token:  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
 		})
 	})
 

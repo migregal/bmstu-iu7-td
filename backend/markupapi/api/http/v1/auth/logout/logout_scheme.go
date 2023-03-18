@@ -21,7 +21,7 @@ type AuthLogoutResponse struct {
 }
 
 func (a *AuthLogout) InitEndpointScheme(s *draft.Scheme) {
-	s.Project("auth")
+	s.Project("markup2")
 
 	s.Access(draft.Access.Auth)
 

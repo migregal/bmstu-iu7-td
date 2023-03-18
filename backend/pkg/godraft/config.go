@@ -21,11 +21,11 @@ func Init() {
 		FrontURL:    "https://gothing.github.io/draft-front/",
 		ActiveGroup: "auth",
 		Groups: []draft.DocGroup{
-			{ID: "auth", Name: "AUTH", Entries: []string{"https://localhost/godraft:scheme/"}},
+			{ID: "markup2", Name: "MarkUP2", Entries: []string{"https://localhost/godraft:scheme/"}},
 		},
 		Projects: []draft.DocProject{
 			{
-				ID:      "auth",
+				ID:      "markup2",
 				Name:    "Auth",
 				Host:    "markup2.ru",
 				HostRC:  "host.docker.internal:443",
