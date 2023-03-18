@@ -13,6 +13,9 @@ type Config struct {
 		Address         string        `yaml:"address"`
 		GracefulTimeout time.Duration `yaml:"gracefull_timeout"`
 	} `yaml:"http"`
+	Docs struct {
+		Address string `yaml:"address"`
+	} `yaml:"docs"`
 }
 
 func New(path string) (Config, error) {
