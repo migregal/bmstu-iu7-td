@@ -1,15 +1,18 @@
 package api
 
 import (
+	"github.com/labstack/gommon/log"
+
 	"markup2/markupapi/api/http"
 	v1 "markup2/markupapi/api/http/v1"
+	"markup2/markupapi/api/http/v1/auth"
 	"markup2/markupapi/config"
-
-	"github.com/labstack/gommon/log"
+	"markup2/pkg/godraft"
 )
 
 type API struct {
-	http http.Server
+	http     http.Server
+	draftAPI *godraft.Documentation
 }
 
 func New(cfg config.Config) API {
@@ -17,17 +20,34 @@ func New(cfg config.Config) API {
 
 	s.http = v1.New(v1.Config(cfg.HTTP))
 
+	if cfg.Debug {
+		s.draftAPI = setupDocumentation(cfg)
+	}
+
 	return s
 }
 
+func setupDocumentation(cfg config.Config) *godraft.Documentation {
+	godraft.Init()
+	draftAPI := godraft.New(godraft.Config(cfg.Docs))
+	draftAPI.Add(auth.Service)
+
+	return draftAPI
+}
+
 func (s *API) Run() {
-	errs := make(chan error, 1)
+	errs := make(chan error, 2)
 
 	go func() {
 		errs <- s.http.ListenAndServe()
 	}()
+	go func() {
+		if s.draftAPI != nil {
+			errs <- s.draftAPI.ListenAndServe()
+		}
+	}()
 
-	<-errs
+	err := <-errs
 
-	log.Warn("Terminating application")
+	log.Warn("Terminating application", err)
 }
