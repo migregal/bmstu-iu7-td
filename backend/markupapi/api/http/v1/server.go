@@ -2,6 +2,7 @@ package v1
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -12,16 +13,22 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
+
+	userRepo "markup2/markupapi/core/adapters/repositories/user"
+	"markup2/markupapi/core/interactors/user"
+	"markup2/markupapi/core/ports/repositories"
 )
 
 type Config struct {
 	Address         string
 	GracefulTimeout time.Duration
+	UserDB          repositories.UserConfig
 }
 
 type Server struct {
 	*echo.Echo
-	cfg Config
+	cfg  Config
+	user user.Interactor
 }
 
 func New(cfg Config) *Server {
@@ -31,6 +38,8 @@ func New(cfg Config) *Server {
 	s.InitMiddleware()
 
 	s.InitHealthCheck()
+
+	s.InitAuth()
 
 	return &s
 }
@@ -56,6 +65,17 @@ func (s *Server) InitHealthCheck() {
 	s.GET("/liveness", func(c echo.Context) error {
 		return c.NoContent(http.StatusOK)
 	})
+}
+
+func (s *Server) InitAuth() error {
+	userRepo, err := userRepo.New(s.cfg.UserDB)
+	if err != nil {
+		return fmt.Errorf("failed to init user repo: %w", err)
+	}
+
+	_ = user.New(userRepo)
+
+	return nil
 }
 
 func (s *Server) ListenAndServe() error {

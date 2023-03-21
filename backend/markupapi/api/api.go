@@ -8,6 +8,7 @@ import (
 	"markup2/markupapi/api/http/v1/auth"
 	"markup2/markupapi/api/http/v1/files"
 	"markup2/markupapi/config"
+	"markup2/markupapi/core/ports/repositories"
 	"markup2/pkg/godraft"
 )
 
@@ -19,7 +20,11 @@ type API struct {
 func New(cfg config.Config) API {
 	s := API{}
 
-	s.http = v1.New(v1.Config(cfg.HTTP))
+	s.http = v1.New(v1.Config{
+		Address: cfg.HTTP.Address,
+		GracefulTimeout: cfg.HTTP.GracefulTimeout,
+		UserDB: repositories.UserConfig(cfg.UserDB),
+	})
 
 	if cfg.Debug {
 		s.draftAPI = setupDocumentation(cfg)
