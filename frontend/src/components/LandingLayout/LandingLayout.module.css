@@ -1,0 +1,15 @@
+.LandingLayout {
+    position: relative;
+    min-height: 100vh;
+    padding: 80px 0 0;
+}
+
+/* .LandingLayout__header {
+    position: fixed;
+    top: 0;
+} */
+
+.LandingLayout__content {
+    margin: auto;
+    max-width: 1170px;
+}
