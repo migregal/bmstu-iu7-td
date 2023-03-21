@@ -8,6 +8,13 @@ import (
 	"gorm.io/gorm"
 )
 
+type User struct {
+	gorm.Model
+
+	ID           uint64 `gorm:"primaryKey"`
+	Login        string `gorm:"index"`
+	PasswordHash string
+}
 
 type Repository struct {
 	db *gorm.DB
@@ -25,10 +32,17 @@ func New(cfg repositories.UserConfig) (*Repository, error) {
 	return &Repository{db: db}, nil
 }
 
-func (r *Repository) Create(user repositories.User) error {
-	return nil
+func (r *Repository) Create(user repositories.User) (uint64, error) {
+	u := User{Login: user.Login, PasswordHash: user.PasswordHash}
+
+	result := r.db.Create(&user)
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return u.ID, nil
 }
 
-func (r *Repository) Get(id uint64) (repositories.User, error) {
+func (r *Repository) Get(login string) (repositories.User, error) {
 	return repositories.User{}, nil
 }

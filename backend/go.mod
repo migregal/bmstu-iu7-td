@@ -3,6 +3,7 @@ module markup2
 go 1.20
 
 require (
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/gothing/draft v1.0.0-alpha.14
 	github.com/labstack/echo-contrib v0.14.1
 	github.com/labstack/echo/v4 v4.10.2

@@ -3,8 +3,9 @@ package response
 import "github.com/labstack/echo/v4"
 
 var (
-	StatusEmpty   = "empty"
-	StatusInvalid = "invalid"
+	StatusEmpty     = "empty"
+	StatusInvalid   = "invalid"
+	StatusIncorrect = "incorrect"
 )
 
 type Response struct {

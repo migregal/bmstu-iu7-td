@@ -9,12 +9,12 @@ type UserConfig struct {
 }
 
 type User struct {
-	ID       uint64
-	Login    string
-	Password string
+	ID           uint64
+	Login        string
+	PasswordHash string
 }
 
 type UserRepo interface {
-	Create(User) error
-	Get(id uint64) (User, error)
+	Create(User) (uint64, error)
+	Get(login string) (User, error)
 }
