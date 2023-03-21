@@ -5,6 +5,7 @@ import (
 	"net/mail"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors/user"
@@ -27,6 +28,7 @@ type Request struct {
 func (h *Handler) Handle(c echo.Context) error {
 	req := new(Request)
 	if err := c.Bind(req); err != nil {
+		log.Warnf("bad request: %v", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
@@ -42,6 +44,7 @@ func (h *Handler) Handle(c echo.Context) error {
 	}
 
 	if len(errs) != 0 {
+		log.Warnf("failed to auth user: %v", errs)
 		resp := response.Response{Errors: errs}
 
 		return c.JSON(http.StatusOK, resp)
@@ -49,6 +52,7 @@ func (h *Handler) Handle(c echo.Context) error {
 
 	user, err := h.user.Get(req.Login)
 	if err != nil {
+		log.Errorf("failed to get user info: %v", err)
 		resp := response.Response{Errors: echo.Map{
 			"default": "failed to get user info",
 		}}
@@ -57,6 +61,8 @@ func (h *Handler) Handle(c echo.Context) error {
 	}
 
 	if req.Password != user.PasswordHash {
+		log.Warn("invalid password")
+		log.Warnf("invalid password: %v vs %v", req.Password, user.PasswordHash)
 		resp := response.Response{Errors: echo.Map{
 			"password": response.StatusIncorrect,
 		}}
@@ -66,6 +72,7 @@ func (h *Handler) Handle(c echo.Context) error {
 
 	t, err := jwt.NewToken([]byte("secret"), req.Login, user.ID)
 	if err != nil {
+		log.Errorf("failed to create token: %v", err)
 		resp := response.Response{Errors: echo.Map{
 			"default": "failed to create token",
 		}}

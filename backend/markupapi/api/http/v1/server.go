@@ -80,11 +80,12 @@ func (s *Server) InitAuth() error {
 
 	user := user.New(userRepo)
 
+	g := s.Group("/api/v1/auth")
 	registration := registration.New(user)
-	s.POST("/api/v1/auth/registration", registration.Handle)
+	g.POST("/registration", registration.Handle)
 
 	login := login.New(user)
-	s.POST("/api/v1/auth/login", login.Handle)
+	g.POST("/login", login.Handle)
 
 	return nil
 }

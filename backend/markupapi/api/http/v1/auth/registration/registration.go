@@ -7,6 +7,7 @@ import (
 	"net/mail"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 )
 
 type Handler struct {
@@ -25,6 +26,7 @@ type Request struct {
 func (h *Handler) Handle(c echo.Context) error {
 	req := new(Request)
 	if err := c.Bind(req); err != nil {
+		log.Warnf("bad request: %v", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
@@ -40,14 +42,21 @@ func (h *Handler) Handle(c echo.Context) error {
 	}
 
 	if len(errs) != 0 {
+		log.Warnf("bad request: %v", errs)
 		resp := response.Response{Errors: errs}
 
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	resp := response.Response{Data: echo.Map{
-		"token": "some data",
-	}}
+	user := user.User{Login: req.Login, PasswordHash: req.Password}
+	if _, err := h.user.Register(user) ; err != nil {
+		log.Errorf("failed to register new user: %v", err)
+		resp := response.Response{Errors: echo.Map{
+			"default": "failed to register new user",
+		}}
 
-	return c.JSON(http.StatusOK, resp)
+		return c.JSON(http.StatusOK, resp)
+	}
+
+	return c.Redirect(http.StatusTemporaryRedirect, "/api/v1/auth/login")
 }

@@ -18,10 +18,13 @@ func New(repo repositories.UserRepo) Interactor {
 	return Interactor{repo: repo}
 }
 
-func (i *Interactor) Register() (uint64, error) {
-	user := repositories.User{}
+func (i *Interactor) Register(user User) (uint64, error) {
+	u := repositories.User{
+		Login: user.Login,
+		PasswordHash: user.PasswordHash,
+	}
 
-	id, err := i.repo.Create(user)
+	id, err := i.repo.Create(u)
 	if err != nil {
 		return 0, fmt.Errorf("failed to create user: %w", err)
 	}

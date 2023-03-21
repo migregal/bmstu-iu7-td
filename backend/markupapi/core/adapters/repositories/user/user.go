@@ -12,7 +12,7 @@ type User struct {
 	gorm.Model
 
 	ID           uint64 `gorm:"primaryKey"`
-	Login        string `gorm:"index"`
+	Login        string `gorm:"uniqueIndex"`
 	PasswordHash string
 }
 
@@ -25,6 +25,11 @@ func New(cfg repositories.UserConfig) (*Repository, error) {
 		cfg.Host, cfg.Port, cfg.Name, cfg.User, cfg.Passsword)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.AutoMigrate(&User{})
 	if err != nil {
 		return nil, err
 	}
@@ -44,5 +49,18 @@ func (r *Repository) Create(user repositories.User) (uint64, error) {
 }
 
 func (r *Repository) Get(login string) (repositories.User, error) {
-	return repositories.User{}, nil
+	u := User{}
+
+	result := r.db.Find(&u, "login = ?", login)
+	if result.Error != nil {
+		return repositories.User{}, result.Error
+	}
+
+	user := repositories.User{
+		ID: u.ID,
+		Login: u.Login,
+		PasswordHash: u.PasswordHash,
+	}
+
+	return user, nil
 }
