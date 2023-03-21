@@ -1,6 +1,8 @@
 :root {
   --c-primary-text: #290342;
   --c-primary: #7209B7;
+  --c-primary-button-hover: #520684;
+  --c-danger: #F72585;
 }
 
 body {

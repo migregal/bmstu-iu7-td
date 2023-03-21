@@ -1,3 +1,7 @@
+import DashboardLayout from "components/DashboardLayout"
+import RequireViewer from "components/RequireViewer"
+import DashboardHomePage from "pages/DashboardHomePage"
+import RegistrationPage from "pages/RegistrationPage"
 import {
   createBrowserRouter,
 } from "react-router-dom"
@@ -13,6 +17,20 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <LandingHomePage />,
+      },
+      {
+        path: PATH.REGISTRATION,
+        element: <RegistrationPage />
+      }
+    ]
+  },
+  {
+    path: PATH.DASHBOARD,
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <RequireViewer><DashboardHomePage /></RequireViewer>,
       }
     ]
   }

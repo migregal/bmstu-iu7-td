@@ -1,0 +1,15 @@
+.Button {
+    background-color: var(--c-primary);
+    color: white;
+    padding: 16px 32px;
+    min-width: 180px;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 16px;
+    border-radius: 16px;
+}
+
+.Button:hover {
+    background-color: var(--c-primary-button-hover);
+}
