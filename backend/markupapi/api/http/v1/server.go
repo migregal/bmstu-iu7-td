@@ -15,6 +15,7 @@ import (
 	"github.com/labstack/gommon/log"
 
 	"markup2/markupapi/api/http/v1/auth/login"
+	"markup2/markupapi/api/http/v1/auth/registration"
 	userRepo "markup2/markupapi/core/adapters/repositories/user"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
@@ -79,9 +80,11 @@ func (s *Server) InitAuth() error {
 
 	user := user.New(userRepo)
 
-	login := login.New(user)
+	registration := registration.New(user)
+	s.POST("/api/v1/auth/registration", registration.Handle)
 
-	s.POST("/api/v1/auth/login", login.Login)
+	login := login.New(user)
+	s.POST("/api/v1/auth/login", login.Handle)
 
 	return nil
 }

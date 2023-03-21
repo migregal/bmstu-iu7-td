@@ -7,7 +7,6 @@ import (
 
 	"markup2/markupapi/api/http"
 	v1 "markup2/markupapi/api/http/v1"
-	"markup2/markupapi/api/http/v1/auth"
 	"markup2/markupapi/api/http/v1/files"
 	"markup2/markupapi/config"
 	"markup2/markupapi/core/ports/repositories"
@@ -42,7 +41,6 @@ func New(cfg config.Config) (API, error) {
 func setupDocumentation(cfg config.Config) *godraft.Documentation {
 	godraft.Init()
 	draftAPI := godraft.New(godraft.Config(cfg.Docs))
-	draftAPI.Add(auth.Service)
 	draftAPI.Add(files.Service)
 
 	return draftAPI

@@ -22,7 +22,7 @@ type Request struct {
 	Password string `json:"password"`
 }
 
-func (h *Handler) Login(c echo.Context) error {
+func (h *Handler) Handle(c echo.Context) error {
 	req := new(Request)
 	if err := c.Bind(req); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
