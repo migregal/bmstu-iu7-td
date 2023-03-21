@@ -24,9 +24,9 @@ func New(cfg config.Config) (API, error) {
 
 	var err error
 	s.http, err = v1.New(v1.Config{
-		Address: cfg.HTTP.Address,
+		Address:         cfg.HTTP.Address,
 		GracefulTimeout: cfg.HTTP.GracefulTimeout,
-		UserDB: repositories.UserConfig(cfg.UserDB),
+		UserDB:          repositories.UserConfig(cfg.UserDB),
 	})
 	if err != nil {
 		return API{}, fmt.Errorf("failed to init http api: %w", err)

@@ -14,6 +14,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 
+	"markup2/markupapi/api/http/v1/auth/login"
 	userRepo "markup2/markupapi/core/adapters/repositories/user"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
@@ -76,7 +77,11 @@ func (s *Server) InitAuth() error {
 		return fmt.Errorf("failed to init user repo: %w", err)
 	}
 
-	_ = user.New(userRepo)
+	user := user.New(userRepo)
+
+	login := login.New(user)
+
+	s.POST("/api/v1/auth/login", login.Login)
 
 	return nil
 }
