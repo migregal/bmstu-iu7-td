@@ -31,7 +31,7 @@ type Server struct {
 	user user.Interactor
 }
 
-func New(cfg Config) *Server {
+func New(cfg Config) (*Server, error) {
 	s := Server{cfg: cfg}
 	s.Echo = echo.New()
 
@@ -39,9 +39,12 @@ func New(cfg Config) *Server {
 
 	s.InitHealthCheck()
 
-	s.InitAuth()
+	err := s.InitAuth()
+	if err != nil {
+		return nil, err
+	}
 
-	return &s
+	return &s, nil
 }
 
 func (s *Server) InitMiddleware() {
