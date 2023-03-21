@@ -30,7 +30,6 @@ type Config struct {
 type Server struct {
 	*echo.Echo
 	cfg  Config
-	user user.Interactor
 }
 
 func New(cfg Config) (*Server, error) {
