@@ -48,7 +48,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	user := user.User{Login: req.Login, PasswordHash: req.Password}
+	user := user.UserInfo{Login: req.Login, Password: req.Password}
 	if _, err := h.user.Register(user) ; err != nil {
 		log.Errorf("failed to register new user: %v", err)
 		resp := response.Response{Errors: echo.Map{

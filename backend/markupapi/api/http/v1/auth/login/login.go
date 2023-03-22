@@ -60,7 +60,17 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	if req.Password != user.PasswordHash {
+	auth, err := h.user.CheckAuth(user, req.Password)
+	if err != nil {
+		log.Errorf("failed to check user auth: %v", err)
+		resp := response.Response{Errors: echo.Map{
+			"default": "failed to check user auth",
+		}}
+
+		return c.JSON(http.StatusOK, resp)
+	}
+
+	if !auth {
 		log.Warn("invalid password")
 		log.Warnf("invalid password: %v vs %v", req.Password, user.PasswordHash)
 		resp := response.Response{Errors: echo.Map{

@@ -1,6 +1,7 @@
 package user
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"markup2/markupapi/core/ports/repositories"
 )
@@ -10,6 +11,12 @@ type User struct {
 	Login        string
 	PasswordHash string
 }
+
+type UserInfo struct {
+	Login    string
+	Password string
+}
+
 type Interactor struct {
 	repo repositories.UserRepo
 }
@@ -18,10 +25,10 @@ func New(repo repositories.UserRepo) Interactor {
 	return Interactor{repo: repo}
 }
 
-func (i *Interactor) Register(user User) (uint64, error) {
+func (i *Interactor) Register(user UserInfo) (uint64, error) {
 	u := repositories.User{
-		Login: user.Login,
-		PasswordHash: user.PasswordHash,
+		Login:        user.Login,
+		PasswordHash: i.hashPassword(user.Password),
 	}
 
 	id, err := i.repo.Create(u)
@@ -32,6 +39,10 @@ func (i *Interactor) Register(user User) (uint64, error) {
 	return id, nil
 }
 
+func (i *Interactor) CheckAuth(user User, password string) (bool, error) {
+	return i.hashPassword(password) == user.PasswordHash, nil
+}
+
 func (i *Interactor) Get(login string) (User, error) {
 	user, err := i.repo.Get(login)
 	if err != nil {
@@ -40,4 +51,9 @@ func (i *Interactor) Get(login string) (User, error) {
 
 	u := User{ID: user.ID, Login: user.PasswordHash, PasswordHash: user.PasswordHash}
 	return u, err
+}
+
+func (i *Interactor) hashPassword(password string) string {
+	sum := sha256.Sum256([]byte(password))
+	return fmt.Sprintf("%x", sum)
 }
