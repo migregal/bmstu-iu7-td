@@ -2,7 +2,9 @@ package user
 
 import (
 	"crypto/sha256"
+	"errors"
 	"fmt"
+	"markup2/markupapi/core/interactors"
 	"markup2/markupapi/core/ports/repositories"
 )
 
@@ -46,11 +48,15 @@ func (i *Interactor) CheckAuth(user User, password string) (bool, error) {
 func (i *Interactor) Get(login string) (User, error) {
 	user, err := i.repo.Get(login)
 	if err != nil {
+		if errors.Is(err, repositories.ErrNotFound) {
+			err = interactors.ErrNotFound
+		}
+
 		return User{}, fmt.Errorf("failed to get user info: %w", err)
 	}
 
 	u := User{ID: user.ID, Login: user.PasswordHash, PasswordHash: user.PasswordHash}
-	return u, err
+	return u, nil
 }
 
 func (i *Interactor) hashPassword(password string) string {

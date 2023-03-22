@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"fmt"
 	"markup2/markupapi/core/ports/repositories"
 
@@ -51,8 +52,12 @@ func (r *Repository) Create(user repositories.User) (uint64, error) {
 func (r *Repository) Get(login string) (repositories.User, error) {
 	u := User{}
 
-	result := r.db.Find(&u, "login = ?", login)
+	result := r.db.First(&u, "login = ?", login)
 	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return repositories.User{}, repositories.ErrNotFound
+		}
+
 		return repositories.User{}, result.Error
 	}
 

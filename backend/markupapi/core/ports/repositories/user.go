@@ -1,5 +1,11 @@
 package repositories
 
+import "fmt"
+
+var (
+	ErrNotFound = fmt.Errorf("not found")
+)
+
 type UserConfig struct {
 	Host      string
 	Port      int
