@@ -1,7 +1,9 @@
 package registration
 
 import (
+	"errors"
 	"markup2/markupapi/api/http/v1/response"
+	"markup2/markupapi/core/interactors"
 	"markup2/markupapi/core/interactors/user"
 	"net/http"
 	"net/mail"
@@ -51,8 +53,14 @@ func (h *Handler) Handle(c echo.Context) error {
 	user := user.UserInfo{Login: req.Login, Password: req.Password}
 	if _, err := h.user.Register(user) ; err != nil {
 		log.Errorf("failed to register new user: %v", err)
+
+		desc := "failed to register new user"
+		if errors.Is(err, interactors.ErrExists) {
+			desc = "user already exists"
+		}
+
 		resp := response.Response{Errors: echo.Map{
-			"default": "failed to register new user",
+			"default": desc,
 		}}
 
 		return c.JSON(http.StatusOK, resp)

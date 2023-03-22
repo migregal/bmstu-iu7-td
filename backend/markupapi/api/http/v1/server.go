@@ -10,15 +10,18 @@ import (
 	"time"
 
 	"github.com/labstack/echo-contrib/prometheus"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"
 
 	"markup2/markupapi/api/http/v1/auth/login"
+	"markup2/markupapi/api/http/v1/auth/logout"
 	"markup2/markupapi/api/http/v1/auth/registration"
 	userRepo "markup2/markupapi/core/adapters/repositories/user"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
+	"markup2/pkg/jwt"
 )
 
 type Config struct {
@@ -85,6 +88,14 @@ func (s *Server) InitAuth() error {
 
 	login := login.New(user)
 	g.POST("/login", login.Handle)
+
+	cfg := jwt.NewConfig([]byte("secret"))
+
+	l := s.Group("/api/v1/auth")
+
+	logout := logout.New(user)
+	l.Use(echojwt.WithConfig(cfg))
+	l.POST("/logout", logout.Handle)
 
 	return nil
 }

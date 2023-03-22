@@ -43,6 +43,10 @@ func (r *Repository) Create(user repositories.User) (uint64, error) {
 
 	result := r.db.Create(&user)
 	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrDuplicatedKey) {
+			return 0, repositories.ErrExists
+		}
+
 		return 0, result.Error
 	}
 
@@ -62,8 +66,8 @@ func (r *Repository) Get(login string) (repositories.User, error) {
 	}
 
 	user := repositories.User{
-		ID: u.ID,
-		Login: u.Login,
+		ID:           u.ID,
+		Login:        u.Login,
 		PasswordHash: u.PasswordHash,
 	}
 

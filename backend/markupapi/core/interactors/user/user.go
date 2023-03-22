@@ -35,6 +35,10 @@ func (i *Interactor) Register(user UserInfo) (uint64, error) {
 
 	id, err := i.repo.Create(u)
 	if err != nil {
+		if errors.Is(err, repositories.ErrExists) {
+			err = interactors.ErrExists
+		}
+
 		return 0, fmt.Errorf("failed to create user: %w", err)
 	}
 
