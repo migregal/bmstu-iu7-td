@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo-contrib/prometheus"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -18,10 +19,11 @@ import (
 	"markup2/markupapi/api/http/v1/auth/login"
 	"markup2/markupapi/api/http/v1/auth/logout"
 	"markup2/markupapi/api/http/v1/auth/registration"
+	"markup2/markupapi/api/http/v1/response"
 	userRepo "markup2/markupapi/core/adapters/repositories/user"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
-	"markup2/pkg/jwt"
+	pkgjwt "markup2/pkg/jwt"
 )
 
 type Config struct {
@@ -32,7 +34,7 @@ type Config struct {
 
 type Server struct {
 	*echo.Echo
-	cfg  Config
+	cfg Config
 }
 
 func New(cfg Config) (*Server, error) {
@@ -89,12 +91,47 @@ func (s *Server) InitAuth() error {
 	login := login.New(user)
 	g.POST("/login", login.Handle)
 
-	cfg := jwt.NewConfig([]byte("secret"))
+	cfg := pkgjwt.NewConfig(
+		[]byte("secret"),
+		func(c echo.Context, err error) error {
+			log.Errorf("unauthorized: %v", err)
+			return c.JSON(http.StatusOK, response.Response{Errors: echo.Map{
+				"default": "unauthorized",
+			}})
+		},
+	)
 
 	l := s.Group("/api/v1/auth")
+	l.Use(echojwt.WithConfig(cfg))
+	l.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			token, ok := c.Get("user").(*jwt.Token)
+			if !ok {
+				log.Errorf("token not found")
+				return c.JSON(http.StatusOK, response.Response{Errors: echo.Map{
+					"default": "unauthorized",
+				}})
+			}
+			claims, ok := token.Claims.(*pkgjwt.JWTClaims)
+			if !ok {
+				log.Errorf("claims not found")
+				return c.JSON(http.StatusOK, response.Response{Errors: echo.Map{
+					"default": "unauthorized",
+				}})
+			}
+
+			if claims.ExpiresAt.Before(time.Now()) {
+				log.Errorf("expired")
+				return c.JSON(http.StatusOK, response.Response{Errors: echo.Map{
+					"default": "unauthorized",
+				}})
+			}
+
+			return next(c)
+		}
+	})
 
 	logout := logout.New(user)
-	l.Use(echojwt.WithConfig(cfg))
 	l.POST("/logout", logout.Handle)
 
 	return nil
