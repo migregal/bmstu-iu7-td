@@ -14,7 +14,6 @@ services:
   postgres_db:
     image: postgres:14.2
     container_name: postgresql
-    env_file: ./database/.env
     restart: always
     healthcheck:
       test:

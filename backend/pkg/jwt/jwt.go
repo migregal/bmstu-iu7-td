@@ -8,11 +8,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func NewConfig(secret []byte) echojwt.Config {
+func NewConfig(
+	secret []byte,
+	errHandler func(c echo.Context, err error) error,
+) echojwt.Config {
 	return echojwt.Config{
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(JWTClaims)
 		},
+		ErrorHandler: errHandler,
 		SigningKey: secret,
 	}
 }
