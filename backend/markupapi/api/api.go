@@ -1,13 +1,15 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/labstack/gommon/log"
 
 	"markup2/markupapi/api/http"
 	v1 "markup2/markupapi/api/http/v1"
-	"markup2/markupapi/api/http/v1/auth"
 	"markup2/markupapi/api/http/v1/files"
 	"markup2/markupapi/config"
+	"markup2/markupapi/core/ports/repositories"
 	"markup2/pkg/godraft"
 )
 
@@ -16,22 +18,29 @@ type API struct {
 	draftAPI *godraft.Documentation
 }
 
-func New(cfg config.Config) API {
+func New(cfg config.Config) (API, error) {
 	s := API{}
 
-	s.http = v1.New(v1.Config(cfg.HTTP))
+	var err error
+	s.http, err = v1.New(v1.Config{
+		Address:         cfg.HTTP.Address,
+		GracefulTimeout: cfg.HTTP.GracefulTimeout,
+		UserDB:          repositories.UserConfig(cfg.UserDB),
+	})
+	if err != nil {
+		return API{}, fmt.Errorf("failed to init http api: %w", err)
+	}
 
 	if cfg.Debug {
 		s.draftAPI = setupDocumentation(cfg)
 	}
 
-	return s
+	return s, nil
 }
 
 func setupDocumentation(cfg config.Config) *godraft.Documentation {
 	godraft.Init()
 	draftAPI := godraft.New(godraft.Config(cfg.Docs))
-	draftAPI.Add(auth.Service)
 	draftAPI.Add(files.Service)
 
 	return draftAPI
