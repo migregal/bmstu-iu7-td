@@ -20,9 +20,9 @@ import (
 	"markup2/markupapi/api/http/v1/auth/logout"
 	"markup2/markupapi/api/http/v1/auth/registration"
 	"markup2/markupapi/api/http/v1/response"
-	userRepo "markup2/markupapi/core/adapters/repositories/user"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
+	userRepo "markup2/markupapi/repositories/user"
 	pkgjwt "markup2/pkg/jwt"
 )
 
