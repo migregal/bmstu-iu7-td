@@ -19,6 +19,7 @@ import (
 	"markup2/markupapi/api/http/v1/auth/login"
 	"markup2/markupapi/api/http/v1/auth/logout"
 	"markup2/markupapi/api/http/v1/auth/registration"
+	"markup2/markupapi/api/http/v1/files/get"
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
@@ -46,6 +47,11 @@ func New(cfg Config) (*Server, error) {
 	s.InitHealthCheck()
 
 	err := s.InitAuth()
+	if err != nil {
+		return nil, err
+	}
+
+	err = s.InitFiles()
 	if err != nil {
 		return nil, err
 	}
@@ -133,6 +139,14 @@ func (s *Server) InitAuth() error {
 
 	logout := logout.New(user)
 	l.POST("/logout", logout.Handle)
+
+	return nil
+}
+
+func (s *Server) InitFiles() error {
+	g := s.Group("/api/v1/files")
+	get := get.New()
+	g.GET("/get", get.Handle)
 
 	return nil
 }
