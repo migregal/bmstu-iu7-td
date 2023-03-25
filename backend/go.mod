@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
+	github.com/gomarkdown/markdown v0.0.0-20230322041520-c84983bdbf2a
 	github.com/gothing/draft v1.0.0-alpha.14
 	github.com/labstack/echo-contrib v0.14.1
 	github.com/labstack/echo-jwt/v4 v4.1.0

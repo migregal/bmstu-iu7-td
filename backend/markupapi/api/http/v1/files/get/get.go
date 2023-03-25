@@ -1,11 +1,12 @@
 package get
 
 import (
-	"markup2/markupapi/api/http/v1/response"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
+
+	"markup2/markupapi/api/http/v1/response"
 )
 
 type Handler struct {
@@ -31,10 +32,15 @@ func (h *Handler) Handle(c echo.Context) error {
 	if req.ID == "" {
 		errs["id"] = response.StatusEmpty
 	}
+
+	contentType := "html"
 	switch req.Format {
 	case "":
 		req.Format = "html"
-	case "md", "html", "plain":
+	case "html":
+		contentType = "text/html"
+	case "md", "plain":
+		contentType = "text/plain"
 	default:
 		errs["format"] = response.StatusEmpty
 	}
@@ -48,5 +54,5 @@ func (h *Handler) Handle(c echo.Context) error {
 
 	data := []byte(`# Hello, world`)
 
-	return c.Blob(http.StatusOK, "text/plain", data)
+	return c.Blob(http.StatusOK, contentType, mdToHTML(data))
 }

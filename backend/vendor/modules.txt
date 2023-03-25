@@ -14,6 +14,12 @@ github.com/golang-jwt/jwt/v4
 ## explicit; go 1.9
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes/timestamp
+# github.com/gomarkdown/markdown v0.0.0-20230322041520-c84983bdbf2a
+## explicit; go 1.12
+github.com/gomarkdown/markdown
+github.com/gomarkdown/markdown/ast
+github.com/gomarkdown/markdown/html
+github.com/gomarkdown/markdown/parser
 # github.com/gothing/draft v1.0.0-alpha.14
 ## explicit; go 1.14
 github.com/gothing/draft
