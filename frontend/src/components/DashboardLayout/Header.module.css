@@ -1,0 +1,16 @@
+.Header {
+    /* background-color: rgba(209, 147, 250, 0.5); */
+    /* rgba(255, 255, 255, 0.9);*/
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--c-primary);
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+}
+
+.Header__logout {
+    min-width: auto;
+}

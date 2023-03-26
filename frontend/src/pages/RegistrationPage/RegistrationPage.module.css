@@ -1,0 +1,43 @@
+.RegistrationPage {
+    width: 100%;
+}
+
+.RegistrationPage__form {
+    margin: auto;
+}
+
+.Form {
+    max-width: 300px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Form__title {
+    width: 100%;
+    text-align: center;
+}
+
+.Form__group {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.Form__label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.Form__input {
+    padding: 8px;
+    width: 100%;
+}
+
+.Form__action {
+    margin-bottom: 8px;
+}
+
+.error {
+    color: var(--c-danger);
+}
