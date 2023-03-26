@@ -71,17 +71,20 @@ func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool
 	return ast.GoToNext, false
 }
 
-func (r Renderer) MDToHTML(md []byte, style string) []byte {
+type MDToHTMLOpts struct {
+	Style string
+	Title string
+}
+
+func (r Renderer) MDToHTML(md []byte, opts MDToHTMLOpts) []byte {
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock | parser.SuperSubscript
 	p := parser.NewWithExtensions(extensions)
 	doc := p.Parse(md)
 
-	htmlFlags := html.CommonFlags | html.HrefTargetBlank
-	opts := html.RendererOptions{
-		Flags:          htmlFlags,
+	renderer := html.NewRenderer(html.RendererOptions{
+		Flags:          html.CommonFlags | html.HrefTargetBlank,
 		RenderNodeHook: renderHook,
-	}
-	renderer := html.NewRenderer(opts)
+	})
 
 	content := markdown.Render(doc, renderer)
 
@@ -92,11 +95,11 @@ func (r Renderer) MDToHTML(md []byte, style string) []byte {
 		Content      template.HTML
 		WrapperEnd   template.HTML
 	}{
-		Style:        r.cfg.HTML.Styles[style],
-		Title:        "TODO",
+		Style:        r.cfg.HTML.Styles[opts.Style],
+		Title:        opts.Title,
 		Content:      template.HTML(content),
-		WrapperBegin: template.HTML(r.cfg.HTML.Wrappers[style].Begin),
-		WrapperEnd:   template.HTML(r.cfg.HTML.Wrappers[style].End),
+		WrapperBegin: template.HTML(r.cfg.HTML.Wrappers[opts.Style].Begin),
+		WrapperEnd:   template.HTML(r.cfg.HTML.Wrappers[opts.Style].End),
 	}
 
 	var processed bytes.Buffer

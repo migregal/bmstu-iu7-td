@@ -57,9 +57,13 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	data, err := h.files.Get(files.Opts{Format: req.Format, Style: req.Style})
+	data, err := h.files.Get(
+		c.Request().Context(),
+		req.ID,
+		files.Opts{Format: req.Format, Style: req.Style},
+	)
 	if err != nil {
-		log.Warnf("failed to get file info: %v", errs)
+		log.Warnf("failed to get file info: %v", err)
 
 		desc := "failed to get file info"
 		if errors.Is(err, interactors.ErrNotFound) {

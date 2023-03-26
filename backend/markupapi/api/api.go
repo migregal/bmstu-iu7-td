@@ -28,6 +28,7 @@ func New(cfg config.Config) (API, error) {
 		GracefulTimeout: cfg.HTTP.GracefulTimeout,
 		UserDB:          repositories.UserConfig(cfg.UserDB),
 		Render:          filesInteractor.Config(cfg.Render),
+		FilesDB:         repositories.FilesConfig(cfg.FilesDB),
 	})
 	if err != nil {
 		return API{}, fmt.Errorf("failed to init http api: %w", err)

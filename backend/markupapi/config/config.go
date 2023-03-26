@@ -24,6 +24,13 @@ type Config struct {
 		Passsword string `yaml:"password"`
 		Name      string `yaml:"name"`
 	} `yaml:"user_db"`
+	FilesDB struct {
+		Host      string `yaml:"host"`
+		Port      int    `yaml:"port"`
+		User      string `yaml:"user"`
+		Passsword string `yaml:"password"`
+		Name      string `yaml:"name"`
+	} `yaml:"files_db"`
 	Render struct {
 		Styles   map[string]string `yaml:"styles"`
 		Wrappers map[string]struct {

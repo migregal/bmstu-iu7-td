@@ -4,6 +4,10 @@ import (
 	stripmd "github.com/writeas/go-strip-markdown"
 )
 
-func (r Renderer) MDToPlain(data []byte, style string) []byte {
+type MDToPlainOpts struct {
+
+}
+
+func (r Renderer) MDToPlain(data []byte, opts MDToPlainOpts) []byte {
 	return []byte(stripmd.Strip(string(data)))
 }

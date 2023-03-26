@@ -61,7 +61,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	id, err := h.files.Add(req.Title, bufio.NewReader(file))
+	id, err := h.files.Add(c.Request().Context(), req.Title, bufio.NewReader(file))
 	if err != nil {
 		log.Warnf("failed to add file info: %v", errs)
 

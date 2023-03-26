@@ -25,3 +25,10 @@ user_db:
   name: markup2
   user: username
   password: "#dDay!5HQQ3@f!mf^*+Y"
+
+files_db:
+  host: mongo_db
+  port: 27017
+  name: markup2
+  user: username
+  password: "wmMCfyDG0WjKgCL"

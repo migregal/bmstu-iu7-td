@@ -25,6 +25,7 @@ import (
 	"markup2/markupapi/core/interactors/files"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
+	filesRepo "markup2/markupapi/repositories/files"
 	userRepo "markup2/markupapi/repositories/user"
 	pkgjwt "markup2/pkg/jwt"
 )
@@ -34,6 +35,7 @@ type Config struct {
 	GracefulTimeout time.Duration
 	UserDB          repositories.UserConfig
 	Render          files.Config
+	FilesDB         repositories.FilesConfig
 }
 
 type Server struct {
@@ -147,7 +149,12 @@ func (s *Server) InitAuth() error {
 }
 
 func (s *Server) InitFiles() error {
-	files, err := files.New(s.cfg.Render)
+	filesRepo, err := filesRepo.New(s.cfg.FilesDB)
+	if err != nil {
+		return fmt.Errorf("failed to init user repo: %w", err)
+	}
+
+	files, err := files.New(s.cfg.Render, filesRepo)
 	if err != nil {
 		return fmt.Errorf("failed to init interactor: %w", err)
 	}
