@@ -19,6 +19,7 @@ import (
 	"markup2/markupapi/api/http/v1/auth/login"
 	"markup2/markupapi/api/http/v1/auth/logout"
 	"markup2/markupapi/api/http/v1/auth/registration"
+	"markup2/markupapi/api/http/v1/files/add"
 	"markup2/markupapi/api/http/v1/files/get"
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors/files"
@@ -152,6 +153,9 @@ func (s *Server) InitFiles() error {
 	}
 
 	g := s.Group("/api/v1/files")
+
+	add := add.New(files)
+	g.POST("/add", add.Handle)
 
 	get := get.New(files)
 	g.GET("/get", get.Handle)

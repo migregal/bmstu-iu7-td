@@ -2,6 +2,7 @@ package files
 
 import (
 	"fmt"
+	"io"
 	"markup2/markupapi/core/interactors"
 	"markup2/pkg/render"
 )
@@ -59,4 +60,8 @@ func (i *Interactor) Get(opts Opts) ([]byte, error) {
 `)
 
 	return renderers[opts.Format](data, opts.Style), nil
+}
+
+func (i *Interactor) Add(title string, in io.Reader) (string, error) {
+	return "", nil
 }
