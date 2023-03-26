@@ -28,6 +28,7 @@ services:
       - api-gateaway
       - backend
       - database
+      - storage
     volumes:
       - ../backend:/tmp/project
       - ../backend/config.yaml:/usr/local/etc/markup2.yaml
@@ -49,6 +50,23 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  mongo_db:
+    extends:
+      file: ../backend/docker/common-services.yml
+      service: mongo_db
+    env_file: ../backend/docker/storage/.dev.env
+    networks:
+      - storage
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u $$MONGO_INITDB_ROOT_USERNAME -p $$MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
 networks:
   api-gateaway:
     driver: bridge
@@ -58,5 +76,9 @@ networks:
     internal: true
 
   database:
+    driver: bridge
+    internal: true
+
+  storage:
     driver: bridge
     internal: true

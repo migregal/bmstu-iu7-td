@@ -13,10 +13,8 @@ type Config struct {
 	HTTP  struct {
 		Address         string        `yaml:"address"`
 		GracefulTimeout time.Duration `yaml:"gracefull_timeout"`
+		JWTSecret       string        `yaml:"jwt_secret"`
 	} `yaml:"http"`
-	Docs struct {
-		Address string `yaml:"address"`
-	} `yaml:"docs"`
 	UserDB struct {
 		Host      string `yaml:"host"`
 		Port      int    `yaml:"port"`
@@ -24,6 +22,20 @@ type Config struct {
 		Passsword string `yaml:"password"`
 		Name      string `yaml:"name"`
 	} `yaml:"user_db"`
+	FilesDB struct {
+		Host      string `yaml:"host"`
+		Port      int    `yaml:"port"`
+		User      string `yaml:"user"`
+		Passsword string `yaml:"password"`
+		Name      string `yaml:"name"`
+	} `yaml:"files_db"`
+	Render struct {
+		Styles   map[string]string `yaml:"styles"`
+		Wrappers map[string]struct {
+			Begin string `yaml:"begin"`
+			End   string `yaml:"end"`
+		} `yaml:"wrappers"`
+	}
 }
 
 func New(path string) (Config, error) {

@@ -22,3 +22,16 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  mongo_db:
+    image: mongodb/mongodb-community-server:6.0.5-ubuntu2204
+    container_name: mongo
+    restart: always
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u $$MONGO_INITDB_ROOT_USERNAME -p $$MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
