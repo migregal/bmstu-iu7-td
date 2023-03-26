@@ -145,6 +145,9 @@ func (r *Repository) Add(ctx context.Context, ownerID uint64, title string, cont
 		{Key: "owner_id", Value: ownerID},
 	})
 	objectID, err := bucket.UploadFromStream(random.String(64), content, uploadOpts)
+	if err != nil {
+		return "", fmt.Errorf("failed to upload to db: %w", err)
+	}
 
 	return objectID.Hex(), nil
 }

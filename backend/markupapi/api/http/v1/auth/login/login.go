@@ -15,11 +15,12 @@ import (
 )
 
 type Handler struct {
-	user user.Interactor
+	user   user.Interactor
+	secret string
 }
 
-func New(user user.Interactor) Handler {
-	return Handler{user: user}
+func New(user user.Interactor, secret string) Handler {
+	return Handler{user: user, secret: secret}
 }
 
 type Request struct {
@@ -87,7 +88,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	t, err := jwt.NewToken([]byte("secret"), req.Login, info.ID)
+	t, err := jwt.NewToken([]byte(h.secret), req.Login, info.ID)
 	if err != nil {
 		log.Errorf("failed to create token: %v", err)
 		resp := response.Response{Errors: echo.Map{

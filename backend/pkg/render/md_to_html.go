@@ -40,12 +40,16 @@ func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool
 	if _, ok := node.(*ast.Heading); ok {
 		level := strconv.Itoa(node.(*ast.Heading).Level)
 
+		var err error
 		if entering && level == "1" {
-			w.Write([]byte(`<h1 class="title is-1 has-text-centered">`))
+			_, err = w.Write([]byte(`<h1 class="title is-1 has-text-centered">`))
 		} else if entering {
-			w.Write([]byte("<h" + level + ">"))
+			_, err = w.Write([]byte("<h" + level + ">"))
 		} else {
-			w.Write([]byte("</h" + level + ">"))
+			_, err = w.Write([]byte("</h" + level + ">"))
+		}
+		if err != nil {
+			return ast.Terminate, true
 		}
 
 		return ast.GoToNext, true
@@ -57,12 +61,16 @@ func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool
 		c := node.(*ast.Image).GetChildren()[0]
 		alt := string(c.AsLeaf().Literal)
 
+		var err error
 		if entering && alt != "" {
-			w.Write([]byte(`<figure class="image is-5by3"><img src="` + src + `" alt="` + alt + `">`))
+			_, err = w.Write([]byte(`<figure class="image is-5by3"><img src="` + src + `" alt="` + alt + `">`))
 		} else if entering {
-			w.Write([]byte(`<figure class="image is-5by3"><img src="` + src + `">`))
+			_, err = w.Write([]byte(`<figure class="image is-5by3"><img src="` + src + `">`))
 		} else {
-			w.Write([]byte(`</figure>`))
+			_, err = w.Write([]byte(`</figure>`))
+		}
+		if err != nil {
+			return ast.Terminate, true
 		}
 
 		return ast.SkipChildren, true
@@ -103,7 +111,7 @@ func (r Renderer) MDToHTML(md []byte, opts MDToHTMLOpts) []byte {
 	}
 
 	var processed bytes.Buffer
-	htmlTemplate.Execute(&processed, vars)
+	_ = htmlTemplate.Execute(&processed, vars)
 
 	return processed.Bytes()
 }

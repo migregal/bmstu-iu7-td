@@ -37,6 +37,7 @@ type Config struct {
 	UserDB          repositories.UserConfig
 	Render          files.Config
 	FilesDB         repositories.FilesConfig
+	Secret          string
 }
 
 type Server struct {
@@ -100,10 +101,10 @@ func (s *Server) InitAuth() error {
 	registration := registration.New(user)
 	g.POST("/registration", registration.Handle)
 
-	login := login.New(user)
+	login := login.New(user, s.cfg.Secret)
 	g.POST("/login", login.Handle)
 
-	cfg := pkgjwt.NewConfig([]byte("secret"), ForceAuthError)
+	cfg := pkgjwt.NewConfig([]byte(s.cfg.Secret), ForceAuthError)
 
 	l := s.Group("/api/v1/auth")
 	l.Use(echojwt.WithConfig(cfg))
@@ -126,7 +127,7 @@ func (s *Server) InitFiles() error {
 		return fmt.Errorf("failed to init interactor: %w", err)
 	}
 
-	optAuthCfg := pkgjwt.NewConfig([]byte("secret"), IgnoreError)
+	optAuthCfg := pkgjwt.NewConfig([]byte(s.cfg.Secret), IgnoreError)
 	optAuth := s.Group("/api/v1/files")
 	optAuth.Use(echojwt.WithConfig(optAuthCfg))
 	optAuth.Use(auth.OptionalAuthMiddleware)
@@ -134,7 +135,7 @@ func (s *Server) InitFiles() error {
 	get := get.New(files)
 	optAuth.GET("/get", get.Handle)
 
-	authCfg := pkgjwt.NewConfig([]byte("secret"), ForceAuthError)
+	authCfg := pkgjwt.NewConfig([]byte(s.cfg.Secret), ForceAuthError)
 	authed := s.Group("/api/v1/files")
 	authed.Use(echojwt.WithConfig(authCfg))
 	authed.Use(auth.AuthMiddleware)

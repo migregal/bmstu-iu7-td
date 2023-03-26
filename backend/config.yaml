@@ -3,9 +3,7 @@ debug: true
 http:
   address: ":2000"
   gracefull_timeout: 10
-
-docs:
-  address: "0.0.0.0:2047"
+  jwt_secret: 'some super secret'
 
 render:
   styles:

@@ -13,7 +13,7 @@ import (
 )
 
 type API struct {
-	http     http.Server
+	http http.Server
 }
 
 func New(cfg config.Config) (API, error) {
@@ -26,6 +26,7 @@ func New(cfg config.Config) (API, error) {
 		UserDB:          repositories.UserConfig(cfg.UserDB),
 		Render:          filesInteractor.Config(cfg.Render),
 		FilesDB:         repositories.FilesConfig(cfg.FilesDB),
+		Secret:          cfg.HTTP.JWTSecret,
 	})
 	if err != nil {
 		return API{}, fmt.Errorf("failed to init http api: %w", err)

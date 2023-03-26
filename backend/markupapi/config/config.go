@@ -13,10 +13,8 @@ type Config struct {
 	HTTP  struct {
 		Address         string        `yaml:"address"`
 		GracefulTimeout time.Duration `yaml:"gracefull_timeout"`
+		JWTSecret       string        `yaml:"jwt_secret"`
 	} `yaml:"http"`
-	Docs struct {
-		Address string `yaml:"address"`
-	} `yaml:"docs"`
 	UserDB struct {
 		Host      string `yaml:"host"`
 		Port      int    `yaml:"port"`

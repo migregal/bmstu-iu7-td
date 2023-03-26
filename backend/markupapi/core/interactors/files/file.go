@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
+
 	"markup2/markupapi/core/interactors"
 	"markup2/markupapi/core/ports/repositories"
 	"markup2/pkg/render"
@@ -48,8 +48,6 @@ var formats = map[string]struct{}{
 	"plain": {},
 }
 
-var renderer render.Renderer
-
 var renderers map[string]func([]byte, any) []byte
 
 type GetOpts struct {
@@ -67,7 +65,7 @@ func (i *Interactor) Get(ctx context.Context, id string, opts GetOpts) ([]byte, 
 		return nil, fmt.Errorf("failed to get file from db: %w", err)
 	}
 
-	data, err := ioutil.ReadAll(reader)
+	data, err := io.ReadAll(reader)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file contents: %w", err)
 	}
