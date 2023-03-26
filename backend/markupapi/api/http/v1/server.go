@@ -21,6 +21,7 @@ import (
 	"markup2/markupapi/api/http/v1/files/add"
 	"markup2/markupapi/api/http/v1/files/del"
 	"markup2/markupapi/api/http/v1/files/get"
+	"markup2/markupapi/api/http/v1/files/upd"
 	"markup2/markupapi/api/http/v1/middleware/auth"
 	"markup2/markupapi/core/interactors/files"
 	"markup2/markupapi/core/interactors/user"
@@ -140,6 +141,9 @@ func (s *Server) InitFiles() error {
 
 	add := add.New(files)
 	authed.POST("/add", add.Handle)
+
+	upd := upd.New(files)
+	authed.PUT("/upd", upd.Handle)
 
 	del := del.New(files)
 	authed.DELETE("/del", del.Handle)

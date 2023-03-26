@@ -80,5 +80,5 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{"id": id})
+	return c.JSON(http.StatusOK, response.Response{Data: echo.Map{"id": id}})
 }

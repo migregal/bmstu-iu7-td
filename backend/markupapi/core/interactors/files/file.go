@@ -106,6 +106,10 @@ func (i *Interactor) Add(ctx context.Context, owner uint64, title string, in io.
 	return i.repo.Add(ctx, owner, title, in)
 }
 
+func (i *Interactor) Update(ctx context.Context, owner uint64, id string, title string, in io.Reader) (string, error) {
+	return i.repo.Update(ctx, owner, title, id, in)
+}
+
 func (i *Interactor) Delete(ctx context.Context, ownerID uint64, id string) error {
 	return i.repo.Delete(ctx, ownerID, id)
 }

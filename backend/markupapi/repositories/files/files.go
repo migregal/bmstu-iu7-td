@@ -149,6 +149,18 @@ func (r *Repository) Add(ctx context.Context, ownerID uint64, title string, cont
 	return objectID.Hex(), nil
 }
 
+func (r *Repository) Update(ctx context.Context, ownerID uint64, id string, title string, content io.Reader) (string, error) {
+	log.Error("~~~~ before delete")
+	err := r.Delete(ctx, ownerID, id)
+	if err != nil {
+		return "", err
+	}
+	log.Error("~~~~ after delete")
+
+	log.Error("~~~~ before add")
+	return r.Add(ctx, ownerID, title, content)
+}
+
 func (r *Repository) Delete(ctx context.Context, ownerID uint64, id string) error {
 	client, cancel, err := r.newConn(ctx)
 	if err != nil {
