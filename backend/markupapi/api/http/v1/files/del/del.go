@@ -20,7 +20,7 @@ func New(files files.Interactor) Handler {
 }
 
 type Request struct {
-	ID string `query:"id"`
+	ID string `param:"id"`
 }
 
 func (h *Handler) Handle(c echo.Context) error {

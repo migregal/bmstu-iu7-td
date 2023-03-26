@@ -20,7 +20,7 @@ func New(files files.Interactor) Handler {
 }
 
 type Request struct {
-	ID    string `form:"id"`
+	ID    string `param:"id"`
 	Title string `form:"title"`
 }
 

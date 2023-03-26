@@ -22,9 +22,9 @@ func New(files files.Interactor) Handler {
 }
 
 type Request struct {
-	ID     string `json:"id" query:"id"`
-	Format string `json:"format" query:"format"`
-	Style  string `json:"style" query:"style"`
+	ID     string `param:"id"`
+	Format string `query:"format"`
+	Style  string `query:"style"`
 }
 
 type File struct {

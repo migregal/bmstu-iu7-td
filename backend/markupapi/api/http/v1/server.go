@@ -133,6 +133,7 @@ func (s *Server) InitFiles() error {
 	optAuth.Use(auth.OptionalAuthMiddleware)
 
 	get := get.New(files)
+	optAuth.GET("/get/:id", get.Handle)
 	optAuth.GET("/get", get.Handle)
 
 	authCfg := pkgjwt.NewConfig([]byte(s.cfg.Secret), ForceAuthError)
@@ -144,10 +145,10 @@ func (s *Server) InitFiles() error {
 	authed.POST("/add", add.Handle)
 
 	upd := upd.New(files)
-	authed.PUT("/upd", upd.Handle)
+	authed.PUT("/upd/:id", upd.Handle)
 
 	del := del.New(files)
-	authed.DELETE("/del", del.Handle)
+	authed.DELETE("/del/:id", del.Handle)
 
 	return nil
 }
