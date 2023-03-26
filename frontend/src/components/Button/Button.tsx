@@ -7,13 +7,14 @@ type Props = {
     className?: string
     onClick?: React.MouseEventHandler<HTMLAnchorElement>,
     disabled?: boolean
+    outline?: boolean
 }
 
-export function Button({ children, renderAs, className, onClick, disabled }: PropsWithChildren<Props>) {
+export function Button({ children, renderAs, className, onClick, disabled, outline }: PropsWithChildren<Props>) {
   return createElement(
     renderAs ?? "button",
     {
-      className: classNames(s.Button, className),
+      className: classNames(s.Button, {[s.Button_outline]: outline },  className),
       onClick,
       disabled,
     },

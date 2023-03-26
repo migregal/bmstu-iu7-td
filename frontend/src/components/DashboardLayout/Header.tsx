@@ -22,7 +22,7 @@ export function Header({ className }: Props) {
   }
 
   return <nav className={classnames(s.Header, className)}>
-    <Button className={s.Header__logout} onClick={handleLogout}>
+    <Button className={s.Header__logout} onClick={handleLogout} outline>
         Log out
     </Button >
   </nav>
