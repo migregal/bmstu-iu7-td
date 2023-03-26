@@ -6,3 +6,10 @@ http:
 
 docs:
   address: "0.0.0.0:2047"
+
+user_db:
+  host: postgres_db
+  port: 5432
+  name: markup2
+  user: username
+  password: "#dDay!5HQQ3@f!mf^*+Y"

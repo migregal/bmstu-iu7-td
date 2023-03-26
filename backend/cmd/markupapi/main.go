@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+
 	"markup2/markupapi/api"
 	"markup2/markupapi/config"
 )
@@ -24,7 +25,10 @@ func main() {
 		log.Fatalf("failed to read config: %v", err)
 	}
 
-	api := api.New(cfg)
+	api, err := api.New(cfg)
+	if err != nil {
+		log.Fatalf("failed to init API: %v", err)
+	}
 
 	api.Run()
 }

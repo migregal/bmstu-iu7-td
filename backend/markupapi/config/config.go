@@ -17,6 +17,13 @@ type Config struct {
 	Docs struct {
 		Address string `yaml:"address"`
 	} `yaml:"docs"`
+	UserDB struct {
+		Host      string `yaml:"host"`
+		Port      int    `yaml:"port"`
+		User      string `yaml:"user"`
+		Passsword string `yaml:"password"`
+		Name      string `yaml:"name"`
+	} `yaml:"user_db"`
 }
 
 func New(path string) (Config, error) {
