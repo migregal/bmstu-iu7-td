@@ -1,19 +1,23 @@
 package get
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 
 	"markup2/markupapi/api/http/v1/response"
+	"markup2/markupapi/core/interactors"
+	"markup2/markupapi/core/interactors/files"
 )
 
 type Handler struct {
+	files files.Interactor
 }
 
-func New() Handler {
-	return Handler{}
+func New(files files.Interactor) Handler {
+	return Handler{files: files}
 }
 
 type Request struct {
@@ -33,16 +37,16 @@ func (h *Handler) Handle(c echo.Context) error {
 		errs["id"] = response.StatusEmpty
 	}
 
-	contentType := "html"
+	contentType := "text/html"
 	switch req.Format {
-	case "":
-		req.Format = "html"
 	case "html":
 		contentType = "text/html"
-	case "md", "plain":
+	case "md":
+		contentType = "text/markdown"
+	case "plain":
 		contentType = "text/plain"
 	default:
-		errs["format"] = response.StatusEmpty
+		req.Format = "html"
 	}
 
 	if len(errs) != 0 {
@@ -52,7 +56,20 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	data := []byte(`# Hello, world`)
+	data, err := h.files.Get(files.Opts{Format: req.Format})
+	if err != nil {
+		log.Warnf("failed to get file info: %v", errs)
 
-	return c.Blob(http.StatusOK, contentType, mdToHTML(data))
+		desc := "failed to get file info"
+		if errors.Is(err, interactors.ErrNotFound) {
+			desc = "user doesn't exist"
+		}
+		resp := response.Response{Errors: echo.Map{
+			"default": desc,
+		}}
+
+		return c.JSON(http.StatusOK, resp)
+	}
+
+	return c.Blob(http.StatusOK, contentType, data)
 }

@@ -21,6 +21,7 @@ import (
 	"markup2/markupapi/api/http/v1/auth/registration"
 	"markup2/markupapi/api/http/v1/files/get"
 	"markup2/markupapi/api/http/v1/response"
+	"markup2/markupapi/core/interactors/files"
 	"markup2/markupapi/core/interactors/user"
 	"markup2/markupapi/core/ports/repositories"
 	userRepo "markup2/markupapi/repositories/user"
@@ -144,8 +145,11 @@ func (s *Server) InitAuth() error {
 }
 
 func (s *Server) InitFiles() error {
+	files := files.New()
+
 	g := s.Group("/api/v1/files")
-	get := get.New()
+
+	get := get.New(files)
 	g.GET("/get", get.Handle)
 
 	return nil
