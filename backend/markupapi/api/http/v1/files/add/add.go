@@ -2,6 +2,7 @@ package add
 
 import (
 	"bufio"
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -9,14 +10,20 @@ import (
 
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors/files"
+	"markup2/pkg/shortener"
 )
 
+type Config struct {
+	RedirectHost string
+}
+
 type Handler struct {
+	cfg   Config
 	files files.Interactor
 }
 
-func New(files files.Interactor) Handler {
-	return Handler{files: files}
+func New(cfg Config, files files.Interactor) Handler {
+	return Handler{cfg: cfg, files: files}
 }
 
 type Request struct {
@@ -80,5 +87,11 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	return c.JSON(http.StatusOK, response.Response{Data: echo.Map{"id": id}})
+	encoded, _ := shortener.Encode([]byte(id))
+	shortID := string(encoded)
+	resp := response.Response{Data: echo.Map{
+		"id":  shortID,
+		"url": fmt.Sprintf("https://%s/pages/%s", h.cfg.RedirectHost, shortID),
+	}}
+	return c.JSON(http.StatusOK, resp)
 }

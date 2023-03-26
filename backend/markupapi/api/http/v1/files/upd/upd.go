@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors/files"
+	"markup2/pkg/shortener"
 	"markup2/pkg/validation"
 	"net/http"
 
@@ -20,7 +21,7 @@ func New(files files.Interactor) Handler {
 }
 
 type Request struct {
-	ID    string `form:"id"`
+	ID    string `param:"id"`
 	Title string `form:"title"`
 }
 
@@ -49,7 +50,8 @@ func (h *Handler) Handle(c echo.Context) error {
 	if req.ID == "" {
 		errs["id"] = response.StatusEmpty
 	}
-	if !validation.IsHex(req.ID) {
+	fullID, err := shortener.Decode([]byte(req.ID))
+	if err != nil || !validation.IsHex(string(fullID)) {
 		errs["id"] = response.StatusInvalid
 	}
 
@@ -77,7 +79,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	id, err := h.files.Update(c.Request().Context(), ownerID, req.Title, req.ID, bufio.NewReader(file))
+	id, err := h.files.Update(c.Request().Context(), ownerID, req.Title, string(fullID), bufio.NewReader(file))
 	if err != nil {
 		log.Warnf("failed to update file info: %v", err)
 
@@ -88,5 +90,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	return c.JSON(http.StatusOK, response.Response{Data: echo.Map{"id": id}})
+	shortID, _ := shortener.Encode([]byte(id))
+	resp := response.Response{Data: echo.Map{"id": string(shortID)}}
+	return c.JSON(http.StatusOK, resp)
 }

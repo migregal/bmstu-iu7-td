@@ -2,6 +2,7 @@ package get
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -10,27 +11,34 @@ import (
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors"
 	"markup2/markupapi/core/interactors/files"
+	"markup2/pkg/shortener"
 	"markup2/pkg/validation"
 )
 
+type Config struct {
+	RedirectHost string
+}
+
 type Handler struct {
+	cfg   Config
 	files files.Interactor
 }
 
-func New(files files.Interactor) Handler {
-	return Handler{files: files}
+func New(cfg Config, files files.Interactor) Handler {
+	return Handler{cfg: cfg, files: files}
 }
 
 type Request struct {
-	ID     string `json:"id" query:"id"`
-	Format string `json:"format" query:"format"`
-	Style  string `json:"style" query:"style"`
+	ID     string `param:"id"`
+	Format string `query:"format"`
+	Style  string `query:"style"`
 }
 
 type File struct {
 	ID     string `json:"id"`
 	Title  string `json:"title"`
 	Length int64  `json:"length"`
+	URL    string `json:"url"`
 }
 
 func (h *Handler) Handle(c echo.Context) error {
@@ -44,8 +52,21 @@ func (h *Handler) Handle(c echo.Context) error {
 	if req.ID == "" && c.Get("user_id") == nil {
 		errs["id"] = response.StatusEmpty
 	}
-	if req.ID != "" && !validation.IsHex(req.ID) {
-		errs["id"] = response.StatusInvalid
+	var fullID string
+	if req.ID != "" {
+		decoded, err := shortener.Decode([]byte(req.ID))
+		if err != nil || !validation.IsHex(string(decoded)) {
+			errs["id"] = response.StatusInvalid
+		}
+
+		fullID = string(decoded)
+	}
+
+	if len(errs) != 0 {
+		log.Warnf("failed to get file: %v", errs)
+		resp := response.Response{Errors: errs}
+
+		return c.JSON(http.StatusOK, resp)
 	}
 
 	contentType := "text/html"
@@ -60,17 +81,10 @@ func (h *Handler) Handle(c echo.Context) error {
 		req.Format = "html"
 	}
 
-	if len(errs) != 0 {
-		log.Warnf("failed to get file: %v", errs)
-		resp := response.Response{Errors: errs}
-
-		return c.JSON(http.StatusOK, resp)
-	}
-
-	if req.ID != "" {
+	if fullID != "" {
 		data, err := h.files.Get(
 			c.Request().Context(),
-			req.ID,
+			fullID,
 			files.GetOpts{Format: req.Format, Style: req.Style},
 		)
 		if err != nil {
@@ -112,10 +126,14 @@ func (h *Handler) Handle(c echo.Context) error {
 
 	files := make([]File, 0, len(filesInfo))
 	for _, info := range filesInfo {
+		encoded, _ := shortener.Encode([]byte(info.ID))
+		shortID := string(encoded)
+
 		files = append(files, File{
-			ID:     info.ID,
+			ID:     string(shortID),
 			Title:  info.Title,
 			Length: info.Length,
+			URL:    fmt.Sprintf("https://%s/pages/%s", h.cfg.RedirectHost, shortID),
 		})
 	}
 

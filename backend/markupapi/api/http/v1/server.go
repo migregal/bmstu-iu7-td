@@ -34,6 +34,7 @@ import (
 type Config struct {
 	Address         string
 	GracefulTimeout time.Duration
+	RedirectHost    string
 	UserDB          repositories.UserConfig
 	Render          files.Config
 	FilesDB         repositories.FilesConfig
@@ -132,7 +133,8 @@ func (s *Server) InitFiles() error {
 	optAuth.Use(echojwt.WithConfig(optAuthCfg))
 	optAuth.Use(auth.OptionalAuthMiddleware)
 
-	get := get.New(files)
+	get := get.New(get.Config{RedirectHost: s.cfg.RedirectHost}, files)
+	optAuth.GET("/get/:id", get.Handle)
 	optAuth.GET("/get", get.Handle)
 
 	authCfg := pkgjwt.NewConfig([]byte(s.cfg.Secret), ForceAuthError)
@@ -140,14 +142,14 @@ func (s *Server) InitFiles() error {
 	authed.Use(echojwt.WithConfig(authCfg))
 	authed.Use(auth.AuthMiddleware)
 
-	add := add.New(files)
+	add := add.New(add.Config{RedirectHost: s.cfg.RedirectHost}, files)
 	authed.POST("/add", add.Handle)
 
 	upd := upd.New(files)
-	authed.PUT("/upd", upd.Handle)
+	authed.PUT("/upd/:id", upd.Handle)
 
 	del := del.New(files)
-	authed.DELETE("/del", del.Handle)
+	authed.DELETE("/del/:id", del.Handle)
 
 	return nil
 }

@@ -8,6 +8,7 @@ import (
 
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors/files"
+	"markup2/pkg/shortener"
 	"markup2/pkg/validation"
 )
 
@@ -20,7 +21,7 @@ func New(files files.Interactor) Handler {
 }
 
 type Request struct {
-	ID string `query:"id"`
+	ID string `param:"id"`
 }
 
 func (h *Handler) Handle(c echo.Context) error {
@@ -43,7 +44,8 @@ func (h *Handler) Handle(c echo.Context) error {
 	if req.ID == "" {
 		errs["id"] = response.StatusEmpty
 	}
-	if !validation.IsHex(req.ID) {
+	fullID, err := shortener.Decode([]byte(req.ID))
+	if err != nil || !validation.IsHex(string(fullID)) {
 		errs["id"] = response.StatusInvalid
 	}
 
@@ -54,7 +56,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	err := h.files.Delete(c.Request().Context(), ownerID, req.ID)
+	err = h.files.Delete(c.Request().Context(), ownerID, string(fullID))
 	if err != nil {
 		log.Warnf("failed to delete file info: %v", errs)
 

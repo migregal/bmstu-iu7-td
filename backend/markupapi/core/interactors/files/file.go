@@ -73,6 +73,12 @@ func (i *Interactor) Get(ctx context.Context, id string, opts GetOpts) ([]byte, 
 	var renderOpts any
 	switch opts.Format {
 	case "html":
+		if opts.Style == "" {
+			for k := range i.cfg.Styles {
+				opts.Style = k
+				break
+			}
+		}
 		renderOpts = render.MDToHTMLOpts{
 			Style: opts.Style,
 			Title: title,
