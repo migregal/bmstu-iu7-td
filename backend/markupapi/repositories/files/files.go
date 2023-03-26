@@ -148,3 +148,46 @@ func (r *Repository) Add(ctx context.Context, ownerID uint64, title string, cont
 
 	return objectID.Hex(), nil
 }
+
+func (r *Repository) Delete(ctx context.Context, ownerID uint64, id string) error {
+	client, cancel, err := r.newConn(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to connect to db: %w", err)
+	}
+	defer cancel()
+
+	db := client.Database(r.cfg.Name)
+	bucket, err := gridfs.NewBucket(db)
+	if err != nil {
+		return fmt.Errorf("failed to connect to db: %w", err)
+	}
+
+	fileID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return fmt.Errorf("invalid file id: %w", err)
+	}
+
+	// echck that file exists in gridfs
+	filter := bson.D{
+		{Key: "_id", Value: bson.D{{Key: "$eq", Value: fileID}}},
+		{Key: "metadata.owner_id", Value: bson.D{{Key: "$eq", Value: ownerID}}},
+	}
+	cursor, err := bucket.Find(filter)
+	if err != nil {
+		return fmt.Errorf("failed to find file metadata: %w", err)
+	}
+
+	var foundFiles []gridfsFile
+	if err = cursor.All(ctx, &foundFiles); err != nil {
+		return fmt.Errorf("failed to retrieve file metadata: %w", err)
+	}
+	if len(foundFiles) == 0 {
+		return fmt.Errorf("failed to find owned file by id: %w", err)
+	}
+
+	if err := bucket.Delete(fileID); err != nil {
+		return fmt.Errorf("failed to delete file from db: %w", err)
+	}
+
+	return nil
+}

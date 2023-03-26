@@ -10,6 +10,7 @@ import (
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors"
 	"markup2/markupapi/core/interactors/files"
+	"markup2/pkg/validation"
 )
 
 type Handler struct {
@@ -42,6 +43,9 @@ func (h *Handler) Handle(c echo.Context) error {
 	errs := echo.Map{}
 	if req.ID == "" && c.Get("user_id") == nil {
 		errs["id"] = response.StatusEmpty
+	}
+	if req.ID != "" && !validation.IsHex(req.ID) {
+		errs["id"] = response.StatusInvalid
 	}
 
 	contentType := "text/html"

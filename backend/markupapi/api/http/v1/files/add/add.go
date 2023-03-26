@@ -34,7 +34,6 @@ func (h *Handler) Handle(c echo.Context) error {
 	}
 
 	req := new(Request)
-	c.Request().ParseForm()
 	if err := c.Bind(req); err != nil {
 		log.Warnf("bad request: %v", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())

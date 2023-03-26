@@ -84,6 +84,7 @@ func (i *Interactor) Get(ctx context.Context, id string, opts GetOpts) ([]byte, 
 	default:
 		renderOpts = nil
 	}
+
 	return renderers[opts.Format](data, renderOpts), nil
 }
 
@@ -103,4 +104,8 @@ func (i *Interactor) Find(ctx context.Context, ownerID uint64) ([]File, error) {
 
 func (i *Interactor) Add(ctx context.Context, owner uint64, title string, in io.Reader) (string, error) {
 	return i.repo.Add(ctx, owner, title, in)
+}
+
+func (i *Interactor) Delete(ctx context.Context, ownerID uint64, id string) error {
+	return i.repo.Delete(ctx, ownerID, id)
 }
