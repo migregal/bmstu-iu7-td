@@ -37,7 +37,7 @@ export function RegistrationPage() {
       const { data, errors } = await fetchRegistration({ login, password })
 
       if (data) {
-        setViewer(data.user_id, data.token)
+        setViewer(data.id, data.token)
         navigate(PATH.DASHBOARD)
       }
       else if (errors) {

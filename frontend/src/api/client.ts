@@ -1,8 +1,7 @@
 
 type Response<B> = {
-    status: number
-    data?: B | null
-    errors?: Record<string, string> | null
+    data: B | null
+    errors: Record<string, string> | null
 }
 
 export class ApiClient {
@@ -45,21 +44,7 @@ export class ApiClient {
 
     const raw = await resp.json()
 
-    if (raw.status === 200 || raw.status === "ok") {
-      return { status: raw.status, data: raw.body }
-    }
-    else if (raw.status >= 400 && raw.status < 500 || raw.status === "invalid") {
-      const errors: Record<string, string> = {}
-      for (const key in raw.body) {
-        if (raw.body[key].error) {
-          errors[key] = (raw.body[key].error ?? "Unknown error") + ""
-        }
-      }
-
-      return { status: raw.status, errors }
-    } else {
-      return { status: raw.status  }
-    }
+    return { data: raw.data ?? null, errors: raw.errors && Object.keys(raw.errors).length > 0 ? raw.errors : null }
   }
 }
 

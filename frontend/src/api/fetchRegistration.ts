@@ -7,7 +7,7 @@ type Body = {
 
 type Result = {
     token: string
-    user_id: string
+    id: string
 }
 
 export function fetchRegistration(body: Body) {
