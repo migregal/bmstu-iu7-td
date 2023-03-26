@@ -1,6 +1,8 @@
-package files
+package render
 
 import (
+	"bytes"
+	"html/template"
 	"io"
 	"strconv"
 
@@ -8,9 +10,47 @@ import (
 	"github.com/gomarkdown/markdown/ast"
 	"github.com/gomarkdown/markdown/html"
 	"github.com/gomarkdown/markdown/parser"
-
-	stripmd "github.com/writeas/go-strip-markdown"
 )
+
+var htmlHeaderTemplate = `
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{if .Style}}
+   <link rel="stylesheet" href="{{.Style}}">
+{{end}}
+   <title>Blog Post Example</title>
+</head>
+<body>
+{{if .WrapperBegin}}
+	{{.WrapperBegin}}
+{{end}}
+{{if .Content}}
+	{{.Content}}
+{{end}}
+{{if .WrapperEnd}}
+	{{.WrapperEnd}}
+{{end}}
+</body>
+</html>
+`
+
+var htmlStyles = map[string]string{
+	"bulma": "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css",
+	"pico":  "https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css",
+}
+
+var htmlWrapperBegin = map[string]string{
+	"bulma": `<br><div class="container is-max-desktop"><div class="content">`,
+	"pico":  `<main class="container">`,
+}
+
+var htmlWrapperEnd = map[string]string{
+	"bulma": `</div></div><br>`,
+	"pico":  `</main>`,
+}
 
 func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool) {
 	if _, ok := node.(*ast.Heading); ok {
@@ -47,27 +87,11 @@ func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool
 	return ast.GoToNext, false
 }
 
-func mdToHTML(md []byte) []byte {
-	htmlHeader := `
-<html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
-   <title>Blog Post Example</title>
-</head>
-<body>
-<br>
-<div class="container is-max-desktop">
-<div class="content">`
-
-	htmlFooter := `
-</div>
-</div>
-<br>
-</body>
-</html>`
+func MDToHTML(md []byte, style string) []byte {
+	t, err := template.New("header").Parse(htmlHeaderTemplate)
+	if err != nil {
+		panic(err)
+	}
 
 	// create markdown parser with extensions
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock | parser.SuperSubscript
@@ -77,15 +101,24 @@ func mdToHTML(md []byte) []byte {
 	htmlFlags := html.CommonFlags | html.HrefTargetBlank
 	opts := html.RendererOptions{
 		Flags: htmlFlags,
-		// CSS:   "https://unpkg.com/@picocss/pico@1.*/css/pico.min.css",
 		RenderNodeHook: renderHook,
 	}
 	renderer := html.NewRenderer(opts)
 
 	content := markdown.Render(doc, renderer)
-	return append([]byte(htmlHeader), append(content, []byte(htmlFooter)...)...)
-}
 
-func mdToPlain(data []byte) []byte {
-	return []byte(stripmd.Strip(string(data)))
+	vars := struct {
+		Style                             string
+		WrapperBegin, Content, WrapperEnd template.HTML
+	}{
+		Style:        htmlStyles[style],
+		Content:      template.HTML(content),
+		WrapperBegin: template.HTML(htmlWrapperBegin[style]),
+		WrapperEnd:   template.HTML(htmlWrapperEnd[style]),
+	}
+
+	var processed bytes.Buffer
+	t.Execute(&processed, vars)
+
+	return processed.Bytes()
 }

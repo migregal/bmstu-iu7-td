@@ -2,6 +2,7 @@ package files
 
 import (
 	"markup2/markupapi/core/interactors"
+	"markup2/pkg/render"
 )
 
 type Interactor struct {
@@ -17,10 +18,10 @@ var formats = map[string]struct{}{
 	"plain": {},
 }
 
-var renderers = map[string]func([]byte) []byte{
-	"md": func(d []byte) []byte { return d },
-	"html": mdToHTML,
-	"plain": mdToPlain,
+var renderers = map[string]func([]byte, string) []byte{
+	"md": func(d []byte, _ string) []byte { return d },
+	"html": render.MDToHTML,
+	"plain": render.MDToPlain,
 }
 
 type Opts struct {
@@ -38,5 +39,5 @@ func (i *Interactor) Get(opts Opts) ([]byte, error) {
 ![image](https://thumb.tildacdn.com/tild6465-6132-4937-b964-336163313261/-/format/webp/mem-2-1024x683.jpg)
 `)
 
-	return renderers[opts.Format](data), nil
+	return renderers[opts.Format](data, "bulma"), nil
 }

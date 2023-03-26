@@ -24,6 +24,13 @@ type Config struct {
 		Passsword string `yaml:"password"`
 		Name      string `yaml:"name"`
 	} `yaml:"user_db"`
+	Render struct {
+		Styles   map[string]string `yaml:"styles"`
+		Wrappers map[string]struct {
+			Begin string `yaml:"begin"`
+			End   string `yaml:"end"`
+		} `yaml:"wrappers"`
+	}
 }
 
 func New(path string) (Config, error) {
