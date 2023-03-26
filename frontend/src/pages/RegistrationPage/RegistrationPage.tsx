@@ -1,5 +1,4 @@
 import { fetchRegistration } from "api/fetchRegistration"
-import classNames from "classnames"
 import Button from "components/Button"
 import { Form, FormField } from "components/StraightForm"
 import { useViewerContext } from "contexts/viewer"
@@ -37,7 +36,7 @@ export function RegistrationPage() {
 
       if (data) {
         setViewer(data.id, data.token)
-        navigate(PATH.DASHBOARD)
+        setTimeout(() => navigate(PATH.DASHBOARD), 0)
       }
       else if (errors) {
         setState(state => ({ ...state, errors }))

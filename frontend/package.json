@@ -11,10 +11,10 @@
     "@types/node": "16.18.16",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
-    "classnames": "^2.3.2",
+    "classnames": "2.3.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "^6.9.0",
+    "react-router-dom": "6.9.0",
     "react-scripts": "5.0.1",
     "typescript": "4.9.5"
   },
@@ -48,7 +48,7 @@
     "@typescript-eslint/parser": "5.55.0",
     "eslint": "8.36.0",
     "eslint-plugin-react": "7.32.2",
-    "husky": "^8.0.3",
+    "husky": "8.0.3",
     "lint-staged": "13.2.0"
   },
   "proxy": "https://localhost"

@@ -10,7 +10,7 @@ type Props = {
 }
 
 export function Form(props: PropsWithChildren<Props>) {
-  const { children, onSubmit, error, className } = props
+  const { children, onSubmit, error, className, title } = props
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -21,7 +21,7 @@ export function Form(props: PropsWithChildren<Props>) {
   }
 
   return <form className={classNames(s.Form, className)} onSubmit={handleSubmit}>
-    <h2 className={s.Form__title}>Create account</h2>
+    <h2 className={s.Form__title}>{title}</h2>
     {error ? <p className={classNames(s.Form__field, s.error)}>{error}</p> : null}
     {children}
   </form>
