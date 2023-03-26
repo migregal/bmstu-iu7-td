@@ -29,6 +29,8 @@ var htmlHeaderTemplate = `
 </html>
 `
 
+var htmlTemplate *template.Template
+
 type HTMLOpts struct {
 	Styles   map[string]string
 	Wrappers map[string]struct{ Begin, End string }
@@ -70,11 +72,6 @@ func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool
 }
 
 func (r Renderer) MDToHTML(md []byte, style string) []byte {
-	t, err := template.New("html-tmpl").Parse(htmlHeaderTemplate)
-	if err != nil {
-		panic(err)
-	}
-
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock | parser.SuperSubscript
 	p := parser.NewWithExtensions(extensions)
 	doc := p.Parse(md)
@@ -103,7 +100,7 @@ func (r Renderer) MDToHTML(md []byte, style string) []byte {
 	}
 
 	var processed bytes.Buffer
-	t.Execute(&processed, vars)
+	htmlTemplate.Execute(&processed, vars)
 
 	return processed.Bytes()
 }

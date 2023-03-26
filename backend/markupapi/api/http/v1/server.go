@@ -146,7 +146,10 @@ func (s *Server) InitAuth() error {
 }
 
 func (s *Server) InitFiles() error {
-	files := files.New(s.cfg.Render)
+	files, err := files.New(s.cfg.Render)
+	if err != nil {
+		return fmt.Errorf("failed to init interactor: %w", err)
+	}
 
 	g := s.Group("/api/v1/files")
 

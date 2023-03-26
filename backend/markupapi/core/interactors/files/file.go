@@ -1,6 +1,7 @@
 package files
 
 import (
+	"fmt"
 	"markup2/markupapi/core/interactors"
 	"markup2/pkg/render"
 )
@@ -16,8 +17,11 @@ type Interactor struct {
 	cfg Config
 }
 
-func New(cfg Config) Interactor {
-	renderer = render.New(render.Config{HTML: render.HTMLOpts(cfg)})
+func New(cfg Config) (Interactor, error) {
+	renderer, err := render.New(render.Config{HTML: render.HTMLOpts(cfg)})
+	if err != nil {
+		return Interactor{}, fmt.Errorf("failed to init renderer: %w", err)
+	}
 
 	renderers = map[string]func([]byte, string) []byte{
 		"md":    func(d []byte, _ string) []byte { return d },
@@ -25,7 +29,7 @@ func New(cfg Config) Interactor {
 		"plain": renderer.MDToPlain,
 	}
 
-	return Interactor{cfg: cfg}
+	return Interactor{cfg: cfg}, nil
 }
 
 var formats = map[string]struct{}{
