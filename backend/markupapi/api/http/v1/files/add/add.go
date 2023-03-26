@@ -24,6 +24,15 @@ type Request struct {
 }
 
 func (h *Handler) Handle(c echo.Context) error {
+	ownerID, ok := c.Get("user_id").(uint64)
+	if !ok {
+		resp := response.Response{Errors: echo.Map{
+			"default": "invalid user_id",
+		}}
+
+		return c.JSON(http.StatusOK, resp)
+	}
+
 	req := new(Request)
 	c.Request().ParseForm()
 	if err := c.Bind(req); err != nil {
@@ -61,7 +70,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	id, err := h.files.Add(c.Request().Context(), req.Title, bufio.NewReader(file))
+	id, err := h.files.Add(c.Request().Context(), ownerID, req.Title, bufio.NewReader(file))
 	if err != nil {
 		log.Warnf("failed to add file info: %v", errs)
 

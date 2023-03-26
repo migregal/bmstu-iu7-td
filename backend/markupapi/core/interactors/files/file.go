@@ -52,12 +52,12 @@ var renderer render.Renderer
 
 var renderers map[string]func([]byte, any) []byte
 
-type Opts struct {
+type GetOpts struct {
 	Format string
 	Style  string
 }
 
-func (i *Interactor) Get(ctx context.Context, id string, opts Opts) ([]byte, error) {
+func (i *Interactor) Get(ctx context.Context, id string, opts GetOpts) ([]byte, error) {
 	if _, found := formats[opts.Format]; !found {
 		return nil, interactors.ErrNotFound
 	}
@@ -87,6 +87,20 @@ func (i *Interactor) Get(ctx context.Context, id string, opts Opts) ([]byte, err
 	return renderers[opts.Format](data, renderOpts), nil
 }
 
-func (i *Interactor) Add(ctx context.Context, title string, in io.Reader) (string, error) {
-	return i.repo.Add(ctx, title, in)
+func (i *Interactor) Find(ctx context.Context, ownerID uint64) ([]File, error) {
+	repoFiles, err := i.repo.Find(ctx, ownerID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get files info from db: %w", err)
+	}
+
+	files := make([]File, 0, len(repoFiles))
+	for _, file := range repoFiles {
+		files = append(files, File(file))
+	}
+
+	return files, nil
+}
+
+func (i *Interactor) Add(ctx context.Context, owner uint64, title string, in io.Reader) (string, error) {
+	return i.repo.Add(ctx, owner, title, in)
 }

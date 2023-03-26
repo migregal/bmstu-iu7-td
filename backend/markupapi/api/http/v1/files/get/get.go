@@ -26,6 +26,12 @@ type Request struct {
 	Style  string `json:"style" query:"style"`
 }
 
+type File struct {
+	ID     string `json:"id"`
+	Title  string `json:"title"`
+	Length int64  `json:"length"`
+}
+
 func (h *Handler) Handle(c echo.Context) error {
 	req := new(Request)
 	if err := c.Bind(req); err != nil {
@@ -34,7 +40,7 @@ func (h *Handler) Handle(c echo.Context) error {
 	}
 
 	errs := echo.Map{}
-	if req.ID == "" {
+	if req.ID == "" && c.Get("user_id") == nil {
 		errs["id"] = response.StatusEmpty
 	}
 
@@ -57,24 +63,57 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	data, err := h.files.Get(
-		c.Request().Context(),
-		req.ID,
-		files.Opts{Format: req.Format, Style: req.Style},
-	)
-	if err != nil {
-		log.Warnf("failed to get file info: %v", err)
+	if req.ID != "" {
+		data, err := h.files.Get(
+			c.Request().Context(),
+			req.ID,
+			files.GetOpts{Format: req.Format, Style: req.Style},
+		)
+		if err != nil {
+			log.Warnf("failed to get file info: %v", err)
 
-		desc := "failed to get file info"
-		if errors.Is(err, interactors.ErrNotFound) {
-			desc = "user doesn't exist"
+			desc := "failed to get file info"
+			if errors.Is(err, interactors.ErrNotFound) {
+				desc = "user doesn't exist"
+			}
+			resp := response.Response{Errors: echo.Map{
+				"default": desc,
+			}}
+
+			return c.JSON(http.StatusOK, resp)
 		}
+
+		return c.Blob(http.StatusOK, contentType, data)
+	}
+
+	ownerID, ok := c.Get("user_id").(uint64)
+	if !ok {
 		resp := response.Response{Errors: echo.Map{
-			"default": desc,
+			"default": "invalid user_id",
 		}}
 
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	return c.Blob(http.StatusOK, contentType, data)
+	filesInfo, err := h.files.Find(c.Request().Context(), ownerID)
+	if err != nil {
+		log.Warnf("failed to get files info: %v", err)
+
+		resp := response.Response{Errors: echo.Map{
+			"default": "failed to get files info",
+		}}
+
+		return c.JSON(http.StatusOK, resp)
+	}
+
+	files := make([]File, 0, len(filesInfo))
+	for _, info := range filesInfo {
+		files = append(files, File{
+			ID:     info.ID,
+			Title:  info.Title,
+			Length: info.Length,
+		})
+	}
+
+	return c.JSON(http.StatusOK, response.Response{Data: echo.Map{"files": files}})
 }

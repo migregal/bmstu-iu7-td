@@ -65,12 +65,9 @@ func (r *Repository) Get(ctx context.Context, id string) (io.Reader, string, err
 	if err != nil {
 		return nil, "", fmt.Errorf("failed to find file metadata: %w", err)
 	}
-	type gridfsFile struct {
-		ID   string `bson:"_id"`
-		Meta bson.D `bson:"metadata"`
-	}
+
 	var foundFiles []gridfsFile
-	if err = cursor.All(context.TODO(), &foundFiles); err != nil {
+	if err = cursor.All(ctx, &foundFiles); err != nil {
 		return nil, "", fmt.Errorf("failed to retrieve file metadata: %w", err)
 	}
 	if len(foundFiles) == 0 {
@@ -87,7 +84,50 @@ func (r *Repository) Get(ctx context.Context, id string) (io.Reader, string, err
 	return fileBuffer, title, nil
 }
 
-func (r *Repository) Add(ctx context.Context, title string, content io.Reader) (string, error) {
+func (r *Repository) Find(ctx context.Context, ownerID uint64) ([]repositories.File, error) {
+	client, cancel, err := r.newConn(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to db: %w", err)
+	}
+	defer cancel()
+
+	db := client.Database(r.cfg.Name)
+	bucket, err := gridfs.NewBucket(db)
+	if err != nil {
+		return nil, fmt.Errorf("failed to connect to db: %w", err)
+	}
+
+	// extract exact files info from metadata of gridfs
+	filter := bson.D{{Key: "metadata.owner_id", Value: bson.D{{Key: "$eq", Value: ownerID}}}}
+	cursor, err := bucket.Find(filter)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find file metadata: %w", err)
+	}
+
+	var foundFiles []gridfsFile
+	if err = cursor.All(ctx, &foundFiles); err != nil {
+		return nil, fmt.Errorf("failed to retrieve file metadata: %w", err)
+	}
+
+	files := make([]repositories.File, 0, len(foundFiles))
+
+	for _, file := range foundFiles {
+		title, ok := file.Meta.Map()["title"].(string)
+		if !ok {
+			continue
+		}
+
+		files = append(files, repositories.File{
+			ID:     file.ID,
+			Title:  title,
+			Length: file.Length,
+		})
+	}
+
+	return files, nil
+}
+
+func (r *Repository) Add(ctx context.Context, ownerID uint64, title string, content io.Reader) (string, error) {
 	client, cancel, err := r.newConn(ctx)
 	if err != nil {
 		return "", fmt.Errorf("failed to connect to db: %w", err)
@@ -100,7 +140,10 @@ func (r *Repository) Add(ctx context.Context, title string, content io.Reader) (
 		return "", fmt.Errorf("failed to connect to db: %w", err)
 	}
 
-	uploadOpts := options.GridFSUpload().SetMetadata(bson.D{{Key: "title", Value: title}})
+	uploadOpts := options.GridFSUpload().SetMetadata(bson.D{
+		{Key: "title", Value: title},
+		{Key: "owner_id", Value: ownerID},
+	})
 	objectID, err := bucket.UploadFromStream(random.String(64), content, uploadOpts)
 
 	return objectID.Hex(), nil

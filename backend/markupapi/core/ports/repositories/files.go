@@ -13,7 +13,14 @@ type FilesConfig struct {
 	Name      string
 }
 
+type File struct {
+	ID     string
+	Title  string
+	Length int64
+}
+
 type FilesRepo interface {
 	Get(ctx context.Context, id string) (io.Reader, string, error)
-	Add(ctx context.Context, title string, content io.Reader) (string, error)
+	Find(ctx context.Context, ownerID uint64) ([]File, error)
+	Add(ctx context.Context, ownerID uint64, title string, content io.Reader) (string, error)
 }

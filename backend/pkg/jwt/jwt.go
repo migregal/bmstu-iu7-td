@@ -16,14 +16,15 @@ func NewConfig(
 		NewClaimsFunc: func(c echo.Context) jwt.Claims {
 			return new(JWTClaims)
 		},
-		ErrorHandler: errHandler,
-		SigningKey: secret,
+		ErrorHandler:           errHandler,
+		SigningKey:             secret,
+		ContinueOnIgnoredError: true,
 	}
 }
 
 type JWTClaims struct {
-	Login string `json:"login"`
-	ID    uint64 `json:"id"`
+	Login  string `json:"login"`
+	UserID uint64 `json:"id"`
 	jwt.RegisteredClaims
 }
 
