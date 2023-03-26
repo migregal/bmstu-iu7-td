@@ -13,6 +13,7 @@ type Config struct {
 	HTTP  struct {
 		Address         string        `yaml:"address"`
 		GracefulTimeout time.Duration `yaml:"gracefull_timeout"`
+		RedirectHost    string        `yaml:"redirect_host"`
 		JWTSecret       string        `yaml:"jwt_secret"`
 	} `yaml:"http"`
 	UserDB struct {

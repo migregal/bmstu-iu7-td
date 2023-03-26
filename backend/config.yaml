@@ -3,6 +3,7 @@ debug: true
 http:
   address: ":2000"
   gracefull_timeout: 10
+  redirect_host: localhost
   jwt_secret: 'some super secret'
 
 render:

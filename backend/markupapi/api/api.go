@@ -23,6 +23,7 @@ func New(cfg config.Config) (API, error) {
 	s.http, err = v1.New(v1.Config{
 		Address:         cfg.HTTP.Address,
 		GracefulTimeout: cfg.HTTP.GracefulTimeout,
+		RedirectHost:    cfg.HTTP.RedirectHost,
 		UserDB:          repositories.UserConfig(cfg.UserDB),
 		Render:          filesInteractor.Config(cfg.Render),
 		FilesDB:         repositories.FilesConfig(cfg.FilesDB),
