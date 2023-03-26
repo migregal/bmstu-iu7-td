@@ -8,7 +8,7 @@ export function LandingHomePage() {
       Some markdown pages for you ❤️
     </p>
     <p>
-      <Link to={PATH.SIGN_IN}>Log in</Link> to your account if you already have one.
+      <Link to={PATH.LOGIN}>Log in</Link> to your account if you already have one.
     </p>
     <p>
       Or <Link to={PATH.REGISTRATION}>create a new one</Link> if this is your first time here, sweetie ✨.

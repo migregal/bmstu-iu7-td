@@ -1,17 +1,16 @@
-import { fetchRegistration } from "api/fetchRegistration"
+import { fetchLogin } from "api/fetchLogin"
 import Button from "components/Button"
 import { Form, FormField } from "components/StraightForm"
 import { useViewerContext } from "contexts/viewer"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { PATH } from "routes/paths"
-import s from "./RegistrationPage.module.css"
+import s from "./LoginPage.module.css"
 
-export function RegistrationPage() {
+export function LoginPage() {
   const [state, setState] = useState({
     login: "",
     password: "",
-    confirmPassword: "",
     errors: {} as Record<string,  string | null>
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -24,15 +23,11 @@ export function RegistrationPage() {
   }
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async () => {
-    const { login, password, confirmPassword } = state
-    if (password !== confirmPassword) {
-      setState(state => ({...state, errors: {...state.errors, confirmPassword: "It is not equal to password"}}))
-      return
-    }
+    const { login, password } = state
     setIsLoading(true)
 
     try {
-      const { data, errors } = await fetchRegistration({ login, password })
+      const { data, errors } = await fetchLogin({ login, password })
 
       if (data) {
         setViewer(data.id, data.token)
@@ -47,14 +42,14 @@ export function RegistrationPage() {
         setIsLoading(false)
       }
     } catch(error: any) {
-      console.error("RegistrationPage.handleSubmit", error)
+      console.error("LoginPage.handleSubmit", error)
       setState(state => ({...state, errors: {default: "Unknown error" }}))
       setIsLoading(false)
     } 
   }
 
-  return <main className={s.RegistrationPage}>
-    <Form className={s.RegistrationPage__form} onSubmit={handleSubmit} title="Create account" error={state.errors.default}>
+  return <main className={s.LoginPage}>
+    <Form className={s.LoginPage__form} onSubmit={handleSubmit} title="Sign in" error={state.errors.default}>
       <FormField 
         label="Email"
         type="email"
@@ -73,19 +68,9 @@ export function RegistrationPage() {
         value={state.password}
         error={state.errors.password}
       />
-      <FormField 
-        label="Confirm password"
-        type="password"
-        required
-        autoComplete="false"
-        onChange={handleChange}
-        name="confirmPassword"
-        value={state.confirmPassword}
-        error={state.errors.confirmPassword}
-      />
-      <Button disabled={isLoading}>Create new account</Button>
+      <Button disabled={isLoading}>Login</Button>
       <p>
-        Or <Link to={PATH.LOGIN}>log in to existing account</Link>
+        Or <Link to={PATH.REGISTRATION}>create new account</Link>
       </p>
     </Form>
   </main>

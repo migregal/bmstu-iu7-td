@@ -8,6 +8,7 @@
     transition: 0.2s;
     font-size: 16px;
     border-radius: 16px;
+    user-select: none;
 }
 
 .Button:hover {
