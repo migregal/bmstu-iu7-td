@@ -23,6 +23,7 @@ func New(files files.Interactor) Handler {
 type Request struct {
 	ID     string `json:"id" query:"id"`
 	Format string `json:"format" query:"format"`
+	Style  string `json:"style" query:"style"`
 }
 
 func (h *Handler) Handle(c echo.Context) error {
@@ -56,7 +57,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	data, err := h.files.Get(files.Opts{Format: req.Format})
+	data, err := h.files.Get(files.Opts{Format: req.Format, Style: req.Style})
 	if err != nil {
 		log.Warnf("failed to get file info: %v", errs)
 

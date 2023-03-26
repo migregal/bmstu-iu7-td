@@ -7,6 +7,18 @@ http:
 docs:
   address: "0.0.0.0:2047"
 
+render:
+  styles:
+    bulma: 'https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css'
+    pico: 'https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css'
+  wrappers:
+    bulma:
+      begin: '<br><div class="container is-max-desktop"><div class="content">'
+      end: '</div></div><br>'
+    pico:
+      begin: '<main class="container">'
+      end: '</main>'
+
 user_db:
   host: postgres_db
   port: 5432

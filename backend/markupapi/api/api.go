@@ -9,6 +9,7 @@ import (
 	v1 "markup2/markupapi/api/http/v1"
 	"markup2/markupapi/api/http/v1/files"
 	"markup2/markupapi/config"
+	filesInteractor "markup2/markupapi/core/interactors/files"
 	"markup2/markupapi/core/ports/repositories"
 	"markup2/pkg/godraft"
 )
@@ -26,6 +27,7 @@ func New(cfg config.Config) (API, error) {
 		Address:         cfg.HTTP.Address,
 		GracefulTimeout: cfg.HTTP.GracefulTimeout,
 		UserDB:          repositories.UserConfig(cfg.UserDB),
+		Render:          filesInteractor.Config(cfg.Render),
 	})
 	if err != nil {
 		return API{}, fmt.Errorf("failed to init http api: %w", err)

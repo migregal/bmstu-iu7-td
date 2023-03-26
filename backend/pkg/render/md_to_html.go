@@ -15,41 +15,23 @@ import (
 var htmlHeaderTemplate = `
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{{if .Style}}
-   <link rel="stylesheet" href="{{.Style}}">
-{{end}}
-   <title>Blog Post Example</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	{{if .Style}}<link rel="stylesheet" href="{{.Style}}">{{end}}
+	{{if .Title}}<title>{{.Title}}</title>{{end}}
 </head>
 <body>
-{{if .WrapperBegin}}
-	{{.WrapperBegin}}
-{{end}}
-{{if .Content}}
-	{{.Content}}
-{{end}}
-{{if .WrapperEnd}}
-	{{.WrapperEnd}}
-{{end}}
+{{if .WrapperBegin}}{{.WrapperBegin}}{{end}}
+{{if .Content}}{{.Content}}{{end}}
+{{if .WrapperEnd}}{{.WrapperEnd}}{{end}}
 </body>
 </html>
 `
 
-var htmlStyles = map[string]string{
-	"bulma": "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css",
-	"pico":  "https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css",
-}
-
-var htmlWrapperBegin = map[string]string{
-	"bulma": `<br><div class="container is-max-desktop"><div class="content">`,
-	"pico":  `<main class="container">`,
-}
-
-var htmlWrapperEnd = map[string]string{
-	"bulma": `</div></div><br>`,
-	"pico":  `</main>`,
+type HTMLOpts struct {
+	Styles   map[string]string
+	Wrappers map[string]struct{ Begin, End string }
 }
 
 func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool) {
@@ -87,20 +69,19 @@ func renderHook(w io.Writer, node ast.Node, entering bool) (ast.WalkStatus, bool
 	return ast.GoToNext, false
 }
 
-func MDToHTML(md []byte, style string) []byte {
-	t, err := template.New("header").Parse(htmlHeaderTemplate)
+func (r Renderer) MDToHTML(md []byte, style string) []byte {
+	t, err := template.New("html-tmpl").Parse(htmlHeaderTemplate)
 	if err != nil {
 		panic(err)
 	}
 
-	// create markdown parser with extensions
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock | parser.SuperSubscript
 	p := parser.NewWithExtensions(extensions)
 	doc := p.Parse(md)
 
 	htmlFlags := html.CommonFlags | html.HrefTargetBlank
 	opts := html.RendererOptions{
-		Flags: htmlFlags,
+		Flags:          htmlFlags,
 		RenderNodeHook: renderHook,
 	}
 	renderer := html.NewRenderer(opts)
@@ -108,13 +89,17 @@ func MDToHTML(md []byte, style string) []byte {
 	content := markdown.Render(doc, renderer)
 
 	vars := struct {
-		Style                             string
-		WrapperBegin, Content, WrapperEnd template.HTML
+		Style        string
+		Title        string
+		WrapperBegin template.HTML
+		Content      template.HTML
+		WrapperEnd   template.HTML
 	}{
-		Style:        htmlStyles[style],
+		Style:        r.cfg.HTML.Styles[style],
+		Title:        "TODO",
 		Content:      template.HTML(content),
-		WrapperBegin: template.HTML(htmlWrapperBegin[style]),
-		WrapperEnd:   template.HTML(htmlWrapperEnd[style]),
+		WrapperBegin: template.HTML(r.cfg.HTML.Wrappers[style].Begin),
+		WrapperEnd:   template.HTML(r.cfg.HTML.Wrappers[style].End),
 	}
 
 	var processed bytes.Buffer

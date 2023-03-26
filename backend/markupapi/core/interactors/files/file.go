@@ -5,11 +5,27 @@ import (
 	"markup2/pkg/render"
 )
 
+type Config struct {
+	Styles   map[string]string
+	Wrappers map[string]struct {
+		Begin string
+		End   string
+	}
+}
 type Interactor struct {
+	cfg Config
 }
 
-func New() Interactor {
-	return Interactor{}
+func New(cfg Config) Interactor {
+	renderer = render.New(render.Config{HTML: render.HTMLOpts(cfg)})
+
+	renderers = map[string]func([]byte, string) []byte{
+		"md":    func(d []byte, _ string) []byte { return d },
+		"html":  renderer.MDToHTML,
+		"plain": renderer.MDToPlain,
+	}
+
+	return Interactor{cfg: cfg}
 }
 
 var formats = map[string]struct{}{
@@ -18,14 +34,13 @@ var formats = map[string]struct{}{
 	"plain": {},
 }
 
-var renderers = map[string]func([]byte, string) []byte{
-	"md": func(d []byte, _ string) []byte { return d },
-	"html": render.MDToHTML,
-	"plain": render.MDToPlain,
-}
+var renderer render.Renderer
+
+var renderers map[string]func([]byte, string) []byte
 
 type Opts struct {
 	Format string
+	Style  string
 }
 
 func (i *Interactor) Get(opts Opts) ([]byte, error) {
@@ -39,5 +54,5 @@ func (i *Interactor) Get(opts Opts) ([]byte, error) {
 ![image](https://thumb.tildacdn.com/tild6465-6132-4937-b964-336163313261/-/format/webp/mem-2-1024x683.jpg)
 `)
 
-	return renderers[opts.Format](data, "bulma"), nil
+	return renderers[opts.Format](data, opts.Style), nil
 }

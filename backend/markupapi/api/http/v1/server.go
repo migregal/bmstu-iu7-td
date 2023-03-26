@@ -32,6 +32,7 @@ type Config struct {
 	Address         string
 	GracefulTimeout time.Duration
 	UserDB          repositories.UserConfig
+	Render          files.Config
 }
 
 type Server struct {
@@ -145,7 +146,7 @@ func (s *Server) InitAuth() error {
 }
 
 func (s *Server) InitFiles() error {
-	files := files.New()
+	files := files.New(s.cfg.Render)
 
 	g := s.Group("/api/v1/files")
 
