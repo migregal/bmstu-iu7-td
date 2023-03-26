@@ -1,6 +1,7 @@
 import DashboardLayout from "components/DashboardLayout"
 import RequireViewer from "components/RequireViewer"
 import DashboardHomePage from "pages/DashboardHomePage"
+import LoginPage from "pages/LoginPage"
 import RegistrationPage from "pages/RegistrationPage"
 import {
   createBrowserRouter,
@@ -21,16 +22,20 @@ export const router = createBrowserRouter([
       {
         path: PATH.REGISTRATION,
         element: <RegistrationPage />
+      },
+      {
+        path: PATH.LOGIN,
+        element: <LoginPage />
       }
     ]
   },
   {
     path: PATH.DASHBOARD,
-    element: <DashboardLayout />,
+    element: <RequireViewer><DashboardLayout /></RequireViewer>,
     children: [
       {
         index: true,
-        element: <RequireViewer><DashboardHomePage /></RequireViewer>,
+        element: <DashboardHomePage />,
       }
     ]
   }

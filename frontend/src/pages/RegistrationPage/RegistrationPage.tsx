@@ -1,6 +1,7 @@
 import { fetchRegistration } from "api/fetchRegistration"
 import classNames from "classnames"
 import Button from "components/Button"
+import { Form, FormField } from "components/StraightForm"
 import { useViewerContext } from "contexts/viewer"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
@@ -23,9 +24,7 @@ export function RegistrationPage() {
     setState(state => ({ ...state, [name]: value, errors: {...state.errors, [name]: null}}))
   }
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
-    event.preventDefault()
-    event.stopPropagation()
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async () => {
     const { login, password, confirmPassword } = state
     if (password !== confirmPassword) {
       setState(state => ({...state, errors: {...state.errors, confirmPassword: "It is not equal to password"}}))
@@ -56,28 +55,39 @@ export function RegistrationPage() {
   }
 
   return <main className={s.RegistrationPage}>
-    <form className={classNames(s.Form, s.RegistrationPage__form)} onSubmit={handleSubmit}>
-      <h2 className={s.Form}>Create account</h2>
-      {state.errors.default && <p className={classNames(s.Form__group, s.error)}>{state.errors.default}</p>}
-      <div className={s.Form__group}>
-        <label className={s.Form__label}>Login</label>
-        <input className={s.Form__input} required name="login" onChange={handleChange} value={state.login}/>
-        <div className={s.error}>{state.errors.login}</div>
-      </div>
-      <div className={s.Form__group}>
-        <label className={s.Form__label}>Password</label>
-        <input className={s.Form__input} required type="password" name="password" onChange={handleChange} value={state.password}/>
-        <div className={s.error}>{state.errors.password}</div>
-      </div>
-      <div className={s.Form__group}>
-        <label className={s.Form__label}>Confirm password</label>
-        <input className={s.Form__input} required type="password" autoComplete="false" name="confirmPassword" onChange={handleChange} value={state.confirmPassword}/>
-        <div className={s.error}>{state.errors.confirmPassword}</div>
-      </div>
-      <Button className={s.Form__action} disabled={isLoading}>Create new account</Button>
-      <div>
-        Or <Link to={PATH.SIGN_IN}>log in to existing account</Link>
-      </div>
-    </form>
+    <Form className={s.RegistrationPage__form} onSubmit={handleSubmit} title="Create account" error={state.errors.default}>
+      <FormField 
+        label="Email"
+        type="email"
+        required
+        onChange={handleChange}
+        name="login"
+        value={state.login}
+        error={state.errors.login}
+      />
+      <FormField 
+        label="Password"
+        type="password"
+        required
+        onChange={handleChange}
+        name="password"
+        value={state.password}
+        error={state.errors.password}
+      />
+      <FormField 
+        label="Confirm password"
+        type="password"
+        required
+        autoComplete="false"
+        onChange={handleChange}
+        name="confirmPassword"
+        value={state.confirmPassword}
+        error={state.errors.confirmPassword}
+      />
+      <Button disabled={isLoading}>Create new account</Button>
+      <p>
+        Or <Link to={PATH.LOGIN}>log in to existing account</Link>
+      </p>
+    </Form>
   </main>
 }
