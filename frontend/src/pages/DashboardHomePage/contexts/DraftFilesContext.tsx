@@ -55,17 +55,27 @@ export function createDraftFilesContext({ onCreate }: Params) {
     acceptedFiles: File[],
     fileRejections: FileRejection[],
   ) => {
+
+    function fileToKey(file: File) {
+      return file.name
+    }
+
+    const updatingFiles = new Set([
+      ...acceptedFiles.map(fileToKey),
+      ...fileRejections.map(({file}) => fileToKey(file))
+    ])
+
     setDraftFiles((prev) => [
       ...fileRejections.map(({ file, errors }) => ({
         file,
-        errors,
+        fileErrors: errors,
         title: getFileBaseName(file.name),
       })),
       ...acceptedFiles.map(file => ({
         file,
         title: getFileBaseName(file.name),
       })),
-      ...prev,
+      ...prev.filter(draft => !updatingFiles.has(fileToKey(draft.file))),
     ])
   }, [])
 
@@ -100,8 +110,6 @@ export function createDraftFilesContext({ onCreate }: Params) {
       const data = new FormData()
       data.append("title", draft.title)
       data.append("file", draft.file)
-
-      await new Promise((res) => setTimeout(res, 5000))
 
       try {
         const result = await fetchAddFile(data)
