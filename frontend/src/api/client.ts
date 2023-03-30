@@ -26,7 +26,7 @@ export class ApiClient {
     if (this.token) {
       init.headers = {
         ...init.headers,
-        Authorization: this.token,
+        Authorization: `Bearer ${this.token}`,
       }
     }
 
@@ -36,7 +36,7 @@ export class ApiClient {
   private async parseResponseJson(resp: globalThis.Response) {
     const raw = await resp.json()
 
-    return { 
+    return {
       data: raw.data ?? null,
       errors: raw.errors && Object.keys(raw.errors).length > 0 ? raw.errors : null
     }
@@ -54,7 +54,7 @@ export class ApiClient {
     if (resp.status !== 200) {
       console.error("ApiClient.post: wrong status code in response", resp)
 
-      throw new Error("Received wrong response from server")    
+      throw new Error("Received wrong response from server")
     }
 
     return this.parseResponseJson(resp)

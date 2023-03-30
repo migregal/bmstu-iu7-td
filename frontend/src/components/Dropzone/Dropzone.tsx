@@ -1,11 +1,12 @@
 import classNames from "classnames"
+import React from "react"
 import { DropzoneOptions, useDropzone } from "react-dropzone"
 import s from "./Dropzone.module.css"
 
-type Props = { className?: string } & DropzoneOptions
+type Props = { className?: string, title?: React.ReactNode } & DropzoneOptions
 
-export function Dropzone(props: Props) {
-  const { className, ...dropzoneOptions} = props
+export const Dropzone = React.memo(function Dropzone(props: Props) {
+  const { className, title, ...dropzoneOptions} = props
 
   const {
     getInputProps,
@@ -21,6 +22,6 @@ export function Dropzone(props: Props) {
     [s.root_reject]: isDragReject,
   })})}>
     <input {...getInputProps()} />
-    <p>Drop files here</p>
+    <p>{title}</p>
   </div>
-}
+})

@@ -9,5 +9,5 @@ type Body = {
  * @param data should contain `title` and `file` keys.
  */
 export function fetchAddFile(data: FormData) {
-  return client.postForm<Body>("/api/v1/files/add", data)
+  return client.postForm<Body>("/files/add", data)
 }

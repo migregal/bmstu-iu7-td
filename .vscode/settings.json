@@ -2,5 +2,7 @@
   "prettier.enable": false,
   "typescript.suggest.paths": false,
   "path-autocomplete.includeExtension": false,
-  "path-autocomplete.extensionOnImport": true
+  "path-autocomplete.extensionOnImport": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true
 }
