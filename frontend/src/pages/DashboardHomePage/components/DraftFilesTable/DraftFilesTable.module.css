@@ -1,0 +1,84 @@
+.table {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+    border-spacing: 0;
+}
+
+.row {}
+
+.row:hover .cell {
+    background-color: var(--c-gray);
+    border-color: var(--c-primary-light);
+}
+
+.cell {
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    padding: 8px 0;
+    transition: 0.3s;
+    vertical-align: top;
+}
+
+.cell:first-of-type {
+    border-left: 1px solid white;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.cell:last-of-type {
+    border-right: 1px solid white;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+.cell_qr {
+    width: 24px;
+}
+
+.cell_title {
+    padding: 8px;
+}
+
+.title__errors {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--c-danger);
+}
+
+.title__input {
+    padding: 8px;
+    width: 100%;
+}
+
+.cell_size {
+    width: 6em;
+    font-family: monospace;
+    font-size: 1.2em;
+    text-align: right;
+}
+
+.cell_delete {
+    width: 24px;
+    padding: 8px 8px;
+}
+
+.deleteDraft {
+    cursor: pointer;
+    color: var(--c-primary-text);
+    transform: translate(3px, -3px);
+}
+
+.deleteDraft:hover {
+    color: var(--c-danger);
+}
+
+.deleteDraft_disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.actions>* {
+    margin-right: 16px;
+}

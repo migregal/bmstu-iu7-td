@@ -41,7 +41,7 @@ export function LoginPage() {
         setState(state => ({...state, errors: {default: "Unknown response" }}))
         setIsLoading(false)
       }
-    } catch(error: any) {
+    } catch(error) {
       console.error("LoginPage.handleSubmit", error)
       setState(state => ({...state, errors: {default: "Unknown error" }}))
       setIsLoading(false)

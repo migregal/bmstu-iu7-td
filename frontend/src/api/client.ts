@@ -22,29 +22,51 @@ export class ApiClient {
     }
   }
 
-  async post<B>(url: string, body: object): Promise<Response<B>> {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    }
-
+  private fetch(url: string, init: RequestInit) {
     if (this.token) {
-      headers["Authorization"] = this.token
+      init.headers = {
+        ...init.headers,
+        Authorization: `Bearer ${this.token}`,
+      }
     }
 
-    const resp = await fetch(this.baseUrl + url, {
+    return window.fetch(this.baseUrl + url, init)
+  }
+
+  private async parseResponseJson(resp: globalThis.Response) {
+    const raw = await resp.json()
+
+    return {
+      data: raw.data ?? null,
+      errors: raw.errors && Object.keys(raw.errors).length > 0 ? raw.errors : null
+    }
+  }
+
+  async post<B>(url: string, body: object): Promise<Response<B>> {
+    const resp = await this.fetch(url, {
       method: "POST",
       body: JSON.stringify(body),
-      headers,    })
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
 
     if (resp.status !== 200) {
       console.error("ApiClient.post: wrong status code in response", resp)
 
-      throw new Error("Received wrong response from server")    
+      throw new Error("Received wrong response from server")
     }
 
-    const raw = await resp.json()
+    return this.parseResponseJson(resp)
+  }
 
-    return { data: raw.data ?? null, errors: raw.errors && Object.keys(raw.errors).length > 0 ? raw.errors : null }
+  async postForm<B>(url: string, body: FormData): Promise<Response<B>> {
+    const resp = await this.fetch(url, {
+      method: "POST",
+      body,
+    })
+
+    return this.parseResponseJson(resp)
   }
 }
 

@@ -1,0 +1,29 @@
+.placeholder__wrapper {
+    position: relative;
+}
+
+.placeholder {
+    width: 100%;
+    top: 0;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    margin-top: 16px;
+    transition: 0.3s visibility, 0.3s opacity;
+}
+
+.placeholder_show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.placeholder__image {
+    display: block;
+    max-height: 60vh;
+    margin: 0 auto;
+}
+
+.placeholder__text {
+    text-align: center;
+    margin: 0;
+}
