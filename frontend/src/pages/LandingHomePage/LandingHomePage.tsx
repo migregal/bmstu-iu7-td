@@ -1,7 +1,14 @@
-import { Link } from "react-router-dom"
+import { useViewerContext } from "contexts/viewer"
+import { Link, Navigate } from "react-router-dom"
 import { PATH } from "routes/paths"
 
 export function LandingHomePage() {
+  const { isAuth } = useViewerContext()
+
+  if (isAuth) {
+    return <Navigate to={PATH.DASHBOARD} replace />
+  }
+
   return <main>
     <h1>Markup2</h1>
     <p>
