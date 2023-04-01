@@ -5,7 +5,7 @@
     border-spacing: 0;
 }
 
-.row {}
+/* .row {} */
 
 .row:hover .cell {
     background-color: var(--c-gray);

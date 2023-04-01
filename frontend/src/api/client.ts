@@ -68,6 +68,14 @@ export class ApiClient {
 
     return this.parseResponseJson(resp)
   }
+
+  async get<B>(url: string): Promise<Response<B>> {
+    const resp = await this.fetch(url, {
+      method: "GET",
+    })
+
+    return this.parseResponseJson(resp)
+  }
 }
 
 export const client = new ApiClient()

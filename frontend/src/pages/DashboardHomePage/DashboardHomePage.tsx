@@ -1,23 +1,24 @@
-import s from "./DashboardHomePage.module.css"
-import Dropzone from "components/Dropzone"
-import Placeholder from "./components/Placeholder"
-import { DraftFilesContextProvider, useDraftFilesContext } from "./contexts/DraftFilesContext"
+import Compose from "components/Compose"
+
+import { DraftFilesContextProvider } from "./contexts/DraftFilesContext"
+import { FilesContextProvider } from "./contexts/FilesContext"
+
 import DraftFilesTable from "./components/DraftFilesTable"
+import Dropzone from "./components/Dropzone"
+import Placeholder from "./components/Placeholder"
 
-const ACCEPT = {"text/markdown": [".md"]}
-
-function DashboardDropzone() {
-  const { isLoading, handleDrop } = useDraftFilesContext()
-
-  return <Dropzone accept={ACCEPT} onDrop={handleDrop} title="Drop 🗏 or 🗐 here" disabled={isLoading} />
-}
+import s from "./DashboardHomePage.module.css"
+import FilesTable from "./components/FilesTable"
 
 export function DashboardHomePage() {
-  return <DraftFilesContextProvider>
+  return <Compose
+    components={[FilesContextProvider, DraftFilesContextProvider]}
+  >
     <main className={s.root}>
-      <DashboardDropzone />
+      <Dropzone />
       <Placeholder />
       <DraftFilesTable />
+      <FilesTable />
     </main>
-  </DraftFilesContextProvider>
+  </Compose>
 }

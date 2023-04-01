@@ -1,8 +1,12 @@
 import classNames from "classnames"
-import { isValidDraft, useDraftFilesContext } from "pages/DashboardHomePage/contexts/DraftFilesContext"
+
+import Button from "components/Button"
+
+import { useDraftFilesContext } from "../../contexts/DraftFilesContext"
+import isValidDraft from "../../helpers/isValidDraft"
+
 import s from "./DraftFilesTable.module.css"
 import { ReactComponent as CloseIcon } from "./Close.svg"
-import Button from "components/Button"
 
 const FILE_SIZES = [
   "b",
