@@ -9,7 +9,7 @@ export function Dropzone() {
   return <InnerDropzone
     accept={ACCEPT}
     onDrop={handleDrop}
-    title="Drop 🗏 or 🗐 here"
+    title="Drop files here"
     disabled={isLoading}
   />
 }

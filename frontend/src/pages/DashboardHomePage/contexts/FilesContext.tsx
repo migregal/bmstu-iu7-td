@@ -1,6 +1,6 @@
 import { fetchAllFiles } from "api/fetchAllFiles"
 import bus from "bus"
-import { FilesCreatedEventPayload } from "bus/events"
+import { DraftsSavedEventPayload } from "bus/events"
 import { useViewerContext } from "contexts/viewer"
 import { useRef, useState, createContext, PropsWithChildren, useContext, useEffect } from "react"
 
@@ -50,7 +50,7 @@ export function createFilesContext() {
   }, [])
 
   useEffect(() => {
-    function onFilesCreated({ created }: FilesCreatedEventPayload) {
+    function onFilesCreated({ saved: created }: DraftsSavedEventPayload) {
       setFiles(files => [
         ...created.map(({ draft, data }) => ({
           ...data,
@@ -61,10 +61,10 @@ export function createFilesContext() {
       ])
     }
 
-    bus.addListener("filesCreated", onFilesCreated)
+    bus.addListener("draftsSaved", onFilesCreated)
 
     return () => {
-      bus.removeListener("filesCreated", onFilesCreated)
+      bus.removeListener("draftsSaved", onFilesCreated)
     }
   }, [])
 

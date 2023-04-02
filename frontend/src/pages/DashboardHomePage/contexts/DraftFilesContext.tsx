@@ -119,8 +119,8 @@ export function createDraftFilesContext() {
     }
 
     if (created.size > 0) {
-      bus.emit("filesCreated", {
-        created: Array.from(created.entries())
+      bus.emit("draftsSaved", {
+        saved: Array.from(created.entries())
           .map(([draft, data]) => ({ draft, data }))
       })
     }
