@@ -1,6 +1,6 @@
 import { client } from "./client"
 
-type Body = {
+export type FetchAddFileBody = {
     id: string
     url: string
 }
@@ -9,5 +9,5 @@ type Body = {
  * @param data should contain `title` and `file` keys.
  */
 export function fetchAddFile(data: FormData) {
-  return client.postForm<Body>("/files/add", data)
+  return client.postForm<FetchAddFileBody>("/files/add", data)
 }

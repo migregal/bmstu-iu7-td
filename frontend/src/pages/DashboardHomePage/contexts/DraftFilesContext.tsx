@@ -1,25 +1,12 @@
 import {  useCallback, useRef, useState, createContext, PropsWithChildren, useContext } from "react"
-import { FileError, FileRejection } from "react-dropzone"
-import { fetchAddFile } from "api/fetchAddFile"
+import { FileRejection } from "react-dropzone"
 
-export type DraftFile = {
-  file: File
-  title: string
-  fileErrors?: FileError[]
-  saveErrors?: string[] | null
-}
+import bus from "bus"
+import { FetchAddFileBody, fetchAddFile } from "api/fetchAddFile"
+import { DraftFile } from "types/DraftFile"
 
-type Params = {
-    onCreate?: () => void;
-}
-
-export function getFileBaseName(name: string) {
-  return name.split(/\.(?=[^.]+$)/)[0]
-}
-
-export function isValidDraft(draft: DraftFile) {
-  return !draft.fileErrors || !draft.fileErrors.length
-}
+import getFileBaseName from "../helpers/getFileBaseName"
+import isValidDraft from "../helpers/isValidDraft"
 
 function errorsObjectToArray(errors: Record<string, string>, knownFields: string[] = [], onlyKnown = false) {
   errors = {...errors}
@@ -35,7 +22,7 @@ function errorsObjectToArray(errors: Record<string, string>, knownFields: string
   return onlyKnown ? arr : arr.concat(Object.values(errors))
 }
 
-export function createDraftFilesContext({ onCreate }: Params) {
+export function createDraftFilesContext() {
   const [draftFiles, setDraftFiles] = useState<DraftFile[]>([])
   const draftFilesRef = useRef<DraftFile[]>(draftFiles)
   draftFilesRef.current = draftFiles
@@ -103,7 +90,7 @@ export function createDraftFilesContext({ onCreate }: Params) {
   const handleSaveDraft = useCallback(async () => {
     setIsLoading(true)
 
-    const created = new Map<DraftFile, { id: string, url: string }>()
+    const created = new Map<DraftFile, FetchAddFileBody>()
     const failed = new Map<DraftFile, string[]>()
 
     for(const draft of draftFilesRef.current.filter(isValidDraft)) {
@@ -131,8 +118,11 @@ export function createDraftFilesContext({ onCreate }: Params) {
       }
     }
 
-    if (onCreate) {
-      onCreate() // TODO: pass data created
+    if (created.size > 0) {
+      bus.emit("draftsSaved", {
+        saved: Array.from(created.entries())
+          .map(([draft, data]) => ({ draft, data }))
+      })
     }
 
     setDraftFiles(drafts =>
@@ -167,6 +157,6 @@ export function useDraftFilesContext() {
   return useContext(DraftFilesContext)!
 }
 
-export function DraftFilesContextProvider({ children, ...rest }: PropsWithChildren<Params>) {
-  return <DraftFilesContext.Provider value={createDraftFilesContext(rest)}>{children}</DraftFilesContext.Provider>
+export function DraftFilesContextProvider({ children }: PropsWithChildren) {
+  return <DraftFilesContext.Provider value={createDraftFilesContext()}>{children}</DraftFilesContext.Provider>
 }

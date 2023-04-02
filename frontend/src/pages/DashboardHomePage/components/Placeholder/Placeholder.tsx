@@ -1,8 +1,11 @@
+import React from "react"
 import classNames from "classnames"
+
+import { useDraftFilesContext } from "../../contexts/DraftFilesContext"
+import { useFilesContext } from "../../contexts/FilesContext"
+
 import s from "./Placeholder.module.css"
 import { ReactComponent as Empty } from "./Empty.svg"
-import { useDraftFilesContext } from "pages/DashboardHomePage/contexts/DraftFilesContext"
-import React from "react"
 
 type Props = {
     className?: string
@@ -25,6 +28,10 @@ const InnerPlaceholder = React.memo(function InnerPlaceholder({ className, shoul
 
 export function Placeholder(props: Props) {
   const { draftFiles } = useDraftFilesContext()
+  const { files, isLoading } = useFilesContext()
 
-  return <InnerPlaceholder shouldShow={draftFiles.length === 0} {...props} />
+  return <InnerPlaceholder
+    shouldShow={draftFiles.length === 0 && files.length === 0 && !isLoading}
+    {...props}
+  />
 }
