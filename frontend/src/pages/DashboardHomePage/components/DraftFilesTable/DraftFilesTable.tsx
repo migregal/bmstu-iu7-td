@@ -1,5 +1,6 @@
 import classNames from "classnames"
 
+import { ReactComponent as CloseIcon } from "assets/icons/Close.svg"
 import Button from "components/Button"
 import { Table, TableBody, TableCell, TableRow } from "components/FilesTable"
 
@@ -8,7 +9,6 @@ import isValidDraft from "../../helpers/isValidDraft"
 import pluralizeFileSize from "../../helpers/pluralizeFileSize"
 
 import s from "./DraftFilesTable.module.css"
-import { ReactComponent as CloseIcon } from "./Close.svg"
 
 export function DraftFilesTable() {
   const { draftFiles, handleChangeDraft, isLoading, handleDeleteDraft, handleSaveDraft, handleCancelDraft } = useDraftFilesContext()

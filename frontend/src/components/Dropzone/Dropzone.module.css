@@ -16,7 +16,7 @@
 }
 
 .root_accept {
-    border-color: #00e676;
+    border-color: var(--c-success);
 }
 
 .root_reject {

@@ -1,0 +1,14 @@
+.button {
+    all: unset;
+
+    display: block;
+
+    width: 24px;
+    height: 24px;
+
+    cursor: pointer;
+}
+
+.button:hover {
+    color: var(--c-primary);
+}
