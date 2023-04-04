@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"markup2/markupapi/core/ports/repositories"
-	"time"
 
 	"github.com/labstack/gommon/log"
 	"github.com/labstack/gommon/random"
@@ -195,13 +194,7 @@ func (r *Repository) Update(ctx context.Context, ownerID uint64, id string, titl
 			return "", fmt.Errorf("failed to get file from db: %w", err)
 		}
 
-		time.Sleep(1)
-
-		data, err := io.ReadAll(fileBuffer)
-		if err != nil {
-			return "", fmt.Errorf("failed to get file content from stream: %w", err)
-		}
-		content = bytes.NewBuffer(data)
+		content = fileBuffer
 	}
 
 	if err := bucket.Delete(fileID); err != nil {
