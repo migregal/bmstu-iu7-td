@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"markup2/markupapi/core/ports/repositories"
+	"time"
 
 	"github.com/labstack/gommon/log"
 	"github.com/labstack/gommon/random"
@@ -188,8 +189,31 @@ func (r *Repository) Update(ctx context.Context, ownerID uint64, id string, titl
 		return "", fmt.Errorf("failed to find owned file by id: %w", err)
 	}
 
+	if content == nil {
+		fileBuffer := bytes.NewBuffer(nil)
+		if _, err := bucket.DownloadToStream(fileID, fileBuffer); err != nil {
+			return "", fmt.Errorf("failed to get file from db: %w", err)
+		}
+
+		time.Sleep(1)
+
+		data, err := io.ReadAll(fileBuffer)
+		if err != nil {
+			return "", fmt.Errorf("failed to get file content from stream: %w", err)
+		}
+		content = bytes.NewBuffer(data)
+	}
+
 	if err := bucket.Delete(fileID); err != nil {
 		return "", fmt.Errorf("failed to delete file from db: %w", err)
+	}
+
+	if title == "" {
+		oldTitle, ok := foundFiles[0].Meta.Map()["title"].(string)
+		if !ok {
+			return "", fmt.Errorf("failed to update file title: %w", ErrInvalid)
+		}
+		title = oldTitle
 	}
 
 	uploadOpts := options.GridFSUpload().SetMetadata(bson.D{

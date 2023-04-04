@@ -146,7 +146,7 @@ func (s *Server) InitFiles() error {
 	authed.POST("/add", add.Handle)
 
 	upd := upd.New(files)
-	authed.PUT("/upd/:id", upd.Handle)
+	authed.PATCH("/upd/:id", upd.Handle)
 
 	del := del.New(files)
 	authed.DELETE("/del/:id", del.Handle)
