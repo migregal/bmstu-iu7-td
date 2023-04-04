@@ -40,6 +40,11 @@ export const EditableTitle = React.memo(function EditableTitle(props: Props) {
       return
     }
 
+    if (value === "") {
+      setErrors(["empty"])
+      return
+    }
+
     setLoading(true)
     try {
       if (props.onSave) {
@@ -81,7 +86,7 @@ export const EditableTitle = React.memo(function EditableTitle(props: Props) {
   } else {
     return <div className={styles.title}>
       <a href={props.href} target="_blank" rel="noreferrer" >{props.value}</a>
-      <IconButton className={styles.title__edit} onClick={handleEdit}>
+      <IconButton className={styles.title__edit} onClick={handleEdit} title="Edit">
         <Edit />
       </IconButton>
     </div>

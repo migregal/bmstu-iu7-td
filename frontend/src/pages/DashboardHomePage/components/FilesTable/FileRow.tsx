@@ -7,25 +7,33 @@ import pluralizeFileSize from "../../helpers/pluralizeFileSize"
 
 import EditableTitle from "../EditableTitle"
 import QRCodeButton from "../QRCodeButton"
+import UpdateFileButton from "../UpdateFileButton"
 
 import styles from "./FilesTable.module.css"
 import { ReactComponent as Delete } from "./Delete.svg"
 import { ReactComponent as OpenFile } from "./OpenFile.svg"
-import { ReactComponent as UpdateFile} from "./UpdateFile.svg"
 
 type Props = {
     file: File
     onChange?: (id: string, update: Partial<File>) => Promise<{ errors?: Record<string, string> | null }>
+    onChangeFile?: (id: string, file: globalThis.File) => Promise<{ errors?: Record<string, string> | null }>
 }
 
 export const FileRow = React.memo(function FileRow(props: Props) {
-  const { file, onChange } = props
+  const { file, onChange, onChangeFile } = props
 
   const handleSaveTitle = useCallback(async (title: string) => {
     if (onChange) {
       return onChange(file.id, { title })
     }
     return {}
+  }, [file.id])
+
+  const handleDrop = useCallback(async (newFile: globalThis.File) => {
+    if (!onChangeFile) {
+      return {}
+    }
+    return onChangeFile(file.id, newFile)
   }, [file.id])
 
   return <TableRow key={file.id} data-id={file.id}>
@@ -41,11 +49,8 @@ export const FileRow = React.memo(function FileRow(props: Props) {
     </TableCell>
     <TableCell className={styles.cell_size}>
       <div className={styles.size__wrapper}>
-        <div className={styles.updateFile}>
-          <input type="file" accept="text/markdown,.md" />
-          <UpdateFile />
-        </div>
-        <a href={`${file.url}?format=md`} target="_blank" className={styles.openFile} rel="noreferrer">
+        <UpdateFileButton onDrop={handleDrop} />
+        <a href={`${file.url}?format=md`} target="_blank" className={styles.openFile} rel="noreferrer" title="Open source file">
           <OpenFile />
         </a>
         <span className={styles.size}>{pluralizeFileSize(file.length)}</span>
