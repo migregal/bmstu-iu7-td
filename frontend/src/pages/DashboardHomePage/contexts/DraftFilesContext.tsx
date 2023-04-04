@@ -7,20 +7,7 @@ import { DraftFile } from "types/DraftFile"
 
 import getFileBaseName from "../helpers/getFileBaseName"
 import isValidDraft from "../helpers/isValidDraft"
-
-function errorsObjectToArray(errors: Record<string, string>, knownFields: string[] = [], onlyKnown = false) {
-  errors = {...errors}
-  const arr = []
-
-  for (const key of knownFields) {
-    if (key in errors) {
-      arr.push(errors[key])
-      delete errors[key]
-    }
-  }
-
-  return onlyKnown ? arr : arr.concat(Object.values(errors))
-}
+import errorsObjectToArray from "../helpers/errorsObjectToArray"
 
 export function createDraftFilesContext() {
   const [draftFiles, setDraftFiles] = useState<DraftFile[]>([])
