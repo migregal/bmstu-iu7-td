@@ -78,7 +78,7 @@ func (h *Handler) Handle(c echo.Context) error {
 
 	id, err := h.files.Add(c.Request().Context(), ownerID, req.Title, bufio.NewReader(file))
 	if err != nil {
-		log.Warnf("failed to add file info: %v", errs)
+		log.Warnf("failed to add file info: %v", err)
 
 		resp := response.Response{Errors: echo.Map{
 			"default": "failed to add file info",

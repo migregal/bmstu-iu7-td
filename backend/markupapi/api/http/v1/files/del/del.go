@@ -1,12 +1,14 @@
 package del
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 
 	"markup2/markupapi/api/http/v1/response"
+	"markup2/markupapi/core/interactors"
 	"markup2/markupapi/core/interactors/files"
 	"markup2/pkg/shortener"
 	"markup2/pkg/validation"
@@ -58,10 +60,15 @@ func (h *Handler) Handle(c echo.Context) error {
 
 	err = h.files.Delete(c.Request().Context(), ownerID, string(fullID))
 	if err != nil {
-		log.Warnf("failed to delete file info: %v", errs)
+		log.Warnf("failed to delete file info: %v", err)
+
+		desc := "failed to delete file info"
+		if errors.Is(err, interactors.ErrNotFound) {
+			desc = "file not found"
+		}
 
 		resp := response.Response{Errors: echo.Map{
-			"default": "failed to delete file info",
+			"default": desc,
 		}}
 
 		return c.JSON(http.StatusOK, resp)

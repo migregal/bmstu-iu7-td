@@ -2,6 +2,7 @@ package files
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 
@@ -115,5 +116,14 @@ func (i *Interactor) Update(ctx context.Context, owner uint64, id string, title 
 }
 
 func (i *Interactor) Delete(ctx context.Context, ownerID uint64, id string) error {
-	return i.repo.Delete(ctx, ownerID, id)
+	err := i.repo.Delete(ctx, ownerID, id)
+	if err != nil {
+		if errors.Is(err, repositories.ErrNotFound) {
+			return interactors.ErrNotFound
+		}
+
+		return fmt.Errorf("failed to delete file from repo: %w", err)
+	}
+
+	return nil
 }

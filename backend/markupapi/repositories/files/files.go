@@ -204,7 +204,7 @@ func (r *Repository) Update(ctx context.Context, ownerID uint64, id string, titl
 	if title == "" {
 		oldTitle, ok := foundFiles[0].Meta.Map()["title"].(string)
 		if !ok {
-			return "", fmt.Errorf("failed to update file title: %w", ErrInvalid)
+			return "", fmt.Errorf("failed to update file title: %w", repositories.ErrInvalid)
 		}
 		title = oldTitle
 	}
@@ -254,7 +254,7 @@ func (r *Repository) Delete(ctx context.Context, ownerID uint64, id string) erro
 		return fmt.Errorf("failed to retrieve file metadata: %w", err)
 	}
 	if len(foundFiles) == 0 {
-		return fmt.Errorf("failed to find owned file by id: %w", err)
+		return fmt.Errorf("failed to find owned file by id: %w", repositories.ErrNotFound)
 	}
 
 	if err := bucket.Delete(fileID); err != nil {
