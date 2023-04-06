@@ -6,12 +6,16 @@ import styles from "./FilesTable.module.css"
 import { FileRow } from "./FileRow"
 
 export function FilesTable() {
-  const { files } = useFilesContext()
+  const { files, handlePartialChange, handleUploadFile } = useFilesContext()
 
   return <Table className={styles.table}>
     <TableBody>
       {files.map(file => (
-        <FileRow file={file} key={file.id} />
+        <FileRow
+          key={file.id}
+          file={file}
+          onChange={handlePartialChange}
+          onChangeFile={handleUploadFile} />
       ))}
     </TableBody>
   </Table>

@@ -53,9 +53,9 @@ export const EditableTitle = React.memo(function EditableTitle(props: Props) {
           setErrors(errorsObjectToArray(errors, ["default", "title"]))
         } else {
           setErrors(null)
+          setEditing(false)
         }
       }
-      setEditing(false)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log("Title.handleSave", error)
