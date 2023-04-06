@@ -85,6 +85,14 @@ export class ApiClient {
 
     return this.parseResponseJson(resp)
   }
+
+  async delete<B>(url: string): Promise<Response<B>> {
+    const resp = await this.fetch(url, {
+      method: "DELETE",
+    })
+
+    return this.parseResponseJson(resp)
+  }
 }
 
 export const client = new ApiClient()

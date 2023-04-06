@@ -1,0 +1,12 @@
+.DeleteForeverButton {
+    transition: 0.3s;
+    position: relative;
+}
+
+.DeleteForeverButton_danger {
+    left: -100%;
+}
+
+.DeleteForeverButton_danger:hover {
+    color: var(--c-danger);
+}

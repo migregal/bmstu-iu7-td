@@ -1,21 +1,22 @@
-import { PropsWithChildren, createElement } from "react"
+import { PropsWithChildren, createElement, forwardRef } from "react"
 import classNames from "classnames"
 
 import s from "./IconButton.module.css"
 
 type ButtonProps = { renderAs?: "button" | null } & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
-type AnchorProps = { renderAs: "a" } & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
+type AnchorProps = { renderAs: "a" } & React.DetailedHTMLProps<React.AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement>;
 type Props = ButtonProps | AnchorProps
 
-export function IconButton(props: PropsWithChildren<Props>) {
+export const IconButton = forwardRef(function IconButton(props: PropsWithChildren<Props>, ref) {
   const { renderAs, className, children, ...rest } = props
 
   return createElement(
     renderAs ?? "button",
     {
       className: classNames(s.button,  className),
+      ref,
       ...rest,
     },
     children,
   )
-}
+})

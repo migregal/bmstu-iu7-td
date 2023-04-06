@@ -6,7 +6,7 @@ import styles from "./FilesTable.module.css"
 import { FileRow } from "./FileRow"
 
 export function FilesTable() {
-  const { files, handlePartialChange, handleUploadFile } = useFilesContext()
+  const { files, handlePartialChange, handleUploadFile, handleDeleteFile } = useFilesContext()
 
   return <Table className={styles.table}>
     <TableBody>
@@ -15,7 +15,9 @@ export function FilesTable() {
           key={file.id}
           file={file}
           onChange={handlePartialChange}
-          onChangeFile={handleUploadFile} />
+          onChangeFile={handleUploadFile}
+          onDelete={handleDeleteFile}
+        />
       ))}
     </TableBody>
   </Table>

@@ -26,45 +26,16 @@
 }
 
 .cell_delete {
-    width: 24px;
+    width: 64px;
 }
 
-.openFile {
-    display: block;
-    width: 24px;
-    color: var(--c-primary-text);
-}
-
-.openFile:hover {
-    color: var(--c-primary);
-}
-
-
-.updateFile {
+.delete__wrapper {
     position: relative;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.3s;
-}
-
-.openFile:hover {
-    color: var(--c-primary);
-}
-
-.updateFile input {
-    position: absolute;
     width: 100%;
-    height: 100%;
-    opacity: 0;
-    display: none;
+    display: flex;
+    justify-content: flex-end;
 }
 
-.updateFile svg {
-    user-select: none;
-    width: 20px;
-    height: 20px;
+.delete {
+    position: relative;
 }
