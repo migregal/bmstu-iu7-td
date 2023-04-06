@@ -1,0 +1,1750 @@
+{
+	"info": {
+		"_postman_id": "db983cb7-3b9e-4a3e-8f42-18b5117dd357",
+		"name": "MarkUP2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16256001"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "registration",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"int\",",
+											"        \"token\": \"string\"",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.environment.set(\"token\", pm.response.json().data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"{{login}}\",\n    \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/registration",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"registration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "registration: already exists",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'user already exists'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql(\"user already exists\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"{{login}}\",\n    \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/registration",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"registration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"int\",",
+											"        \"token\": \"string\"",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.environment.set(\"token\", pm.response.json().data.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"{{login}}\",\n    \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/login",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login: doesn't exist",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'user doesn\\'t exists'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql(\"user doesn't exist\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"invalid_{{login}}\",\n    \"password\": \"{{password}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/login",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login: invalid password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"password\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'incorrect'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.password).to.eql(\"incorrect\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"login\": \"{{login}}\",\n    \"password\": \"{{password}}_123\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/login",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login: empty data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"login\": \"string\",",
+											"        \"password\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'incorrect'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.login).to.eql(\"invalid\");",
+											"    pm.expect(jsonData.errors.password).to.eql(\"empty\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/login",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "logout: ok",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is not present\", function () {",
+											"    pm.expect(pm.response).to.not.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.not.withBody;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/logout",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "logout: no auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'unauthorized'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImFzZGFzZEBtYWlsLnJ1IiwiaWQiOjEsImV4cCI6MTY3OTczMzgxNSwiaWF0IjoxNjc5NDc0NjE1fQ.uUbeK27bxqxq7krZQd0SNB3VRAYJtC9lX_f_-xqeZYM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/auth/logout",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "files",
+					"item": [
+						{
+							"name": "add",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"        \"url\": \"string\"",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.environment.set(\"file_id\", pm.response.json().data.id);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some page",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/add",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add: no auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'unauthorized'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some page",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/add",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"add"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"files\": [",
+											"            {",
+											"                \"id\": \"string\",",
+											"                \"title\": \"string\",",
+											"                \"length\": \"int\",",
+											"                \"url\": \"string\"",
+											"            }",
+											"        ]",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test('Added file id present', function () {",
+											"    const file = pm.response.json().data.files.find((item) => {",
+											"        item.id === pm.environment.get(\"file_id\")",
+											"    });",
+											"    pm.expect(file).to.be.not.null;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/get",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"get"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "md",
+											"disabled": true
+										},
+										{
+											"key": "style",
+											"value": "bulma",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get: bulma",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response.to.have.header(\"Content-Type\"));",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response.to.be.withBody);",
+											"    pm.expect(pm.response.to.be.string);",
+											"});",
+											"",
+											"pm.test('Added file id present', function () {",
+											"    pm.expect(pm.response.text()).to.match(/<link rel=\"stylesheet\" href=\"https:\\/\\/cdn\\.jsdelivr\\.net\\/npm\\/bulma@[0-9]+.[0-9]+.[0-9]+\\/css\\/bulma.min.css\">/);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/get/{{file_id}}?style=bulma",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"get",
+										"{{file_id}}"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "md",
+											"disabled": true
+										},
+										{
+											"key": "style",
+											"value": "bulma"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get: pico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response.to.have.status(200));",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response.to.have.header(\"Content-Type\"));",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/html\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response.to.be.withBody);",
+											"    pm.expect(pm.response.to.be.string);",
+											"});",
+											"",
+											"pm.test('Added file id present', function () {",
+											"    pm.expect(pm.response.text()).to.match(/<link rel=\"stylesheet\" href=\"https:\\/\\/unpkg.com\\/@picocss\\/pico@[0-9]+.[0-9]+.[0-9]+\\/css\\/pico.min.css\">/);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/get/{{file_id}}?style=pico",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"get",
+										"{{file_id}}"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "md",
+											"disabled": true
+										},
+										{
+											"key": "style",
+											"value": "pico"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get: invalid id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test('Error is correct', function () {",
+											"    pm.expect(pm.response.json().errors.id).to.eql('invalid');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/get/undefined",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"get",
+										"undefined"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "md",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get: no auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'unauthorized'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/get",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"get"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "md",
+											"disabled": true
+										},
+										{
+											"key": "style",
+											"value": "bulma",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "del",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});",
+											"",
+											"pm.environment.unset(\"file_id\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/del/{{file_id}}",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"del",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "del: invalid id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test('Error is correct', function () {",
+											"    pm.expect(pm.response.json().errors.id).to.eql('invalid');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"del",
+										"undefined"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "del: no auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'unauthorized'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"del",
+										"undefined"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: invalid id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test('Error is correct', function () {",
+											"    pm.expect(pm.response.json().errors.id).to.eql('invalid');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/upd/undefined",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"undefined"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: no auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'unauthorized'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
