@@ -1421,6 +1421,164 @@
 							"response": []
 						},
 						{
+							"name": "upd: title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "./test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "https",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "upd: invalid id",
 							"event": [
 								{
