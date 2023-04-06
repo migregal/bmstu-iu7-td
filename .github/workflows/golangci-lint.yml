@@ -25,3 +25,4 @@ jobs:
         with:
           version: v1.51.2
           working-directory: backend
+          args: --timeout=3m
