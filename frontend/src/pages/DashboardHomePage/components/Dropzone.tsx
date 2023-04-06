@@ -1,7 +1,7 @@
 import InnerDropzone from "components/Dropzone"
-import { useDraftFilesContext } from "../contexts/DraftFilesContext"
+import { ACCEPT } from "constants/accepts"
 
-const ACCEPT = {"text/markdown": [".md"]}
+import { useDraftFilesContext } from "../contexts/DraftFilesContext"
 
 export function Dropzone() {
   const { isLoading, handleDrop } = useDraftFilesContext()

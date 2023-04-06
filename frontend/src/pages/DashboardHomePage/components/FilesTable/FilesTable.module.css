@@ -4,10 +4,11 @@
 
 .cell_qr {
     width: 40px;
+    vertical-align: middle;
 }
 
 .cell_size {
-    width: 16em;
+    width: 10em;
 }
 
 .size__wrapper {
@@ -66,21 +67,4 @@
     user-select: none;
     width: 20px;
     height: 20px;
-}
-
-.title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.edit {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.edit:hover {
-    color: var(--c-primary);
 }

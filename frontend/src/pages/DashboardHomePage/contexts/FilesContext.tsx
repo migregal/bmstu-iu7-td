@@ -1,15 +1,15 @@
 import { fetchAllFiles } from "api/fetchAllFiles"
+import { fetchUpdateFile } from "api/fetchUpdateFile"
 import bus from "bus"
 import { DraftsSavedEventPayload } from "bus/events"
 import { useViewerContext } from "contexts/viewer"
-import { useRef, useState, createContext, PropsWithChildren, useContext, useEffect } from "react"
+import { useRef, useState, createContext, PropsWithChildren, useContext, useEffect, useCallback } from "react"
 
 export type File = {
   id: string
   url: string
   length: number
   title: string
-  saveErrors?: string[] | null
 }
 
 export function createFilesContext() {
@@ -31,7 +31,7 @@ export function createFilesContext() {
         }
         else if (errors) {
           setIsLoading(false)
-          if (errors.id === "empty") {
+          if (errors.default === "unauthorized") {
             resetViewer()
           } else {
             setLoadErrors(errors)
@@ -68,10 +68,59 @@ export function createFilesContext() {
     }
   }, [])
 
+  const handlePartialChange = useCallback(async (id: string, update: Partial<File>) => {
+    const form = new FormData()
+
+    if (update.title) {
+      form.append("title", update.title)
+    }
+
+    try {
+      const { data, errors } = await fetchUpdateFile(id, form)
+      if (data) {
+        setFiles(files => files.map(file => file.id === id ? { ...file, ...update } : file))
+        return {}
+      } else if (errors) {
+        return { errors }
+      } else {
+        console.error("createFilesContext.handlePartialChange unknown response")
+        return { errors: {default: "Unknown repsonse"}}
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("createFilesContext.handlePartialChange", error)
+      return { errors: {default: error.message || "Unknown error"}}
+    }
+  }, [])
+
+  const handleUploadFile = useCallback(async (id: string, file: globalThis.File) => {
+    const form = new FormData()
+    form.append("file", file)
+
+    try {
+      const { data, errors } = await fetchUpdateFile(id, form)
+      if (data) {
+        setFiles(files => files.map(f => f.id === id ? { ...f, length: file.size } : f))
+        return {}
+      } else if (errors) {
+        return { errors }
+      } else {
+        console.error("createFilesContext.handleUploadFile unknown response")
+        return { errors: {default: "Unknown repsonse"}}
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("createFilesContext.handleUploadFile", error)
+      return { errors: {default: error.message || "Unknown error"}}
+    }
+  }, [])
+
   return {
     files,
     loadErrors,
     isLoading,
+    handleUploadFile,
+    handlePartialChange,
   }
 }
 

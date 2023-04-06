@@ -6,6 +6,10 @@
   --c-danger: #F72585;
   --c-gray: #fafafa;
   --c-success: #00e676;
+  --toastify-color-success: var(--c-success);
+  --toastify-color-error: var(--c-danger);
+  --toastify-text-color-light: var(--c-primary-text);
+  --toastify-color-dark: var(--c-primary-text);
 }
 
 body {

@@ -69,6 +69,15 @@ export class ApiClient {
     return this.parseResponseJson(resp)
   }
 
+  async patchForm<B>(url: string, body: FormData): Promise<Response<B>> {
+    const resp = await this.fetch(url, {
+      method: "PATCH",
+      body,
+    })
+
+    return this.parseResponseJson(resp)
+  }
+
   async get<B>(url: string): Promise<Response<B>> {
     const resp = await this.fetch(url, {
       method: "GET",
