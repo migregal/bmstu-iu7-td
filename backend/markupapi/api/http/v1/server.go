@@ -135,18 +135,19 @@ func (s *Server) InitFiles() error {
 
 	get := get.New(get.Config{RedirectHost: s.cfg.RedirectHost}, files)
 	optAuth.GET("/get/:id", get.Handle)
-	optAuth.GET("/get", get.Handle)
 
 	authCfg := pkgjwt.NewConfig([]byte(s.cfg.Secret), ForceAuthError)
 	authed := s.Group("/api/v1/files")
 	authed.Use(echojwt.WithConfig(authCfg))
 	authed.Use(auth.AuthMiddleware)
 
+	authed.GET("/get", get.Handle)
+
 	add := add.New(add.Config{RedirectHost: s.cfg.RedirectHost}, files)
 	authed.POST("/add", add.Handle)
 
 	upd := upd.New(files)
-	authed.PUT("/upd/:id", upd.Handle)
+	authed.PATCH("/upd/:id", upd.Handle)
 
 	del := del.New(files)
 	authed.DELETE("/del/:id", del.Handle)

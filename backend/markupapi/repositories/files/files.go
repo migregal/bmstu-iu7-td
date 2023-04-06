@@ -188,8 +188,25 @@ func (r *Repository) Update(ctx context.Context, ownerID uint64, id string, titl
 		return "", fmt.Errorf("failed to find owned file by id: %w", err)
 	}
 
+	if content == nil {
+		fileBuffer := bytes.NewBuffer(nil)
+		if _, err := bucket.DownloadToStream(fileID, fileBuffer); err != nil {
+			return "", fmt.Errorf("failed to get file from db: %w", err)
+		}
+
+		content = fileBuffer
+	}
+
 	if err := bucket.Delete(fileID); err != nil {
 		return "", fmt.Errorf("failed to delete file from db: %w", err)
+	}
+
+	if title == "" {
+		oldTitle, ok := foundFiles[0].Meta.Map()["title"].(string)
+		if !ok {
+			return "", fmt.Errorf("failed to update file title: %w", ErrInvalid)
+		}
+		title = oldTitle
 	}
 
 	uploadOpts := options.GridFSUpload().SetMetadata(bson.D{

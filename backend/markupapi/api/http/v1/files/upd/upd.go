@@ -2,6 +2,8 @@ package upd
 
 import (
 	"bufio"
+	"errors"
+	"io"
 	"markup2/markupapi/api/http/v1/response"
 	"markup2/markupapi/core/interactors/files"
 	"markup2/pkg/shortener"
@@ -41,7 +43,7 @@ func (h *Handler) Handle(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	formFile, err := c.FormFile("file")
-	if err != nil {
+	if err != nil && !errors.Is(err, http.ErrMissingFile){
 		log.Warnf("bad request: %v", err)
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -55,10 +57,8 @@ func (h *Handler) Handle(c echo.Context) error {
 		errs["id"] = response.StatusInvalid
 	}
 
-	if req.Title == "" {
+	if req.Title == "" && formFile == nil {
 		errs["title"] = response.StatusEmpty
-	}
-	if formFile == nil {
 		errs["file"] = response.StatusEmpty
 	}
 
@@ -69,17 +69,22 @@ func (h *Handler) Handle(c echo.Context) error {
 		return c.JSON(http.StatusOK, resp)
 	}
 
-	file, err := formFile.Open()
-	if err != nil {
-		log.Errorf("failed to open file: %v", err)
-		resp := response.Response{Errors: echo.Map{
-			"default": err,
-		}}
+	var reader io.Reader
+	if formFile != nil {
+		file, err := formFile.Open()
+		if err != nil {
+			log.Errorf("failed to open file: %v", err)
+			resp := response.Response{Errors: echo.Map{
+				"default": err,
+			}}
 
-		return c.JSON(http.StatusOK, resp)
+			return c.JSON(http.StatusOK, resp)
+		}
+
+		reader = bufio.NewReader(file)
 	}
 
-	id, err := h.files.Update(c.Request().Context(), ownerID, req.Title, string(fullID), bufio.NewReader(file))
+	id, err := h.files.Update(c.Request().Context(), ownerID, req.Title, string(fullID), reader)
 	if err != nil {
 		log.Warnf("failed to update file info: %v", err)
 
