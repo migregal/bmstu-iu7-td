@@ -1,4 +1,5 @@
 import { fetchAllFiles } from "api/fetchAllFiles"
+import { fetchDeleteFile } from "api/fetchDeleteFile"
 import { fetchUpdateFile } from "api/fetchUpdateFile"
 import bus from "bus"
 import { DraftsSavedEventPayload } from "bus/events"
@@ -115,12 +116,32 @@ export function createFilesContext() {
     }
   }, [])
 
+  const handleDeleteFile = useCallback(async (id: string) => {
+    try {
+      const { data, errors } = await fetchDeleteFile(id)
+      if (data) {
+        setFiles(files => files.filter(file => file.id !== id))
+        return {}
+      } else if (errors) {
+        return { errors }
+      } else {
+        console.error("createFilesContext.deleteFile unknown response")
+        return { errors: { default: "Unknown response" }}
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("createFilesContext.deleteFile", error)
+      return { errors: {default: error.message || "Unknown error"}}
+    }
+  }, [])
+
   return {
     files,
     loadErrors,
     isLoading,
     handleUploadFile,
     handlePartialChange,
+    handleDeleteFile,
   }
 }
 
