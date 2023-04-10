@@ -2,7 +2,9 @@ version: '3.9'
 
 services:
   nginx:
-    image: macbre/nginx-http3:1.23.1
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.nginx
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ../nginx/out/crypto/:/etc/markup2/
