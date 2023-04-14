@@ -771,7 +771,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/g.mironov/projects/bmstu/bmstu-iu7-td/test.md"
+											"src": "test.md"
 										}
 									]
 								},
@@ -1275,7 +1275,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/g.mironov/projects/bmstu/bmstu-iu7-td/test.md"
+											"src": "test.md"
 										}
 									]
 								},
@@ -1443,7 +1443,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/g.mironov/projects/bmstu/bmstu-iu7-td/backend/test/regress/test.md"
+											"src": "test.md"
 										}
 									]
 								},
@@ -1533,7 +1533,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/g.mironov/projects/bmstu/bmstu-iu7-td/test.md"
+											"src": "test.md"
 										}
 									]
 								},
@@ -1617,7 +1617,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/g.mironov/projects/bmstu/bmstu-iu7-td/test.md"
+											"src": "test.md"
 										}
 									]
 								},
