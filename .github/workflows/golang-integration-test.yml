@@ -66,6 +66,6 @@ jobs:
 
       - name: Run API tests
         run: |
-          postman collection run "${{ github.workspace }}/postman/collections/regress.json" -e "16256001-8b786d30-abf1-4f2e-9725-9c59d88d4480" --integration-id "138491-${{ github.run_id }}" --working-dir "${{ github.workspace }}/backend/test/regress"
+          postman collection run "${{ github.workspace }}/postman/collections/regress.json" -e "${{ github.workspace }}/backend/test/regress/CI.postman_environment.json" --integration-id "138491-${{ github.run_id }}" --working-dir "${{ github.workspace }}/backend/test/regress"
           # Lint your API using Postman CLI
           postman api lint --integration-id 138491
