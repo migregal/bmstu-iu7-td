@@ -41,6 +41,16 @@ coverage:
 
 # unit ^========================================================================
 
+# integration ==================================================================
+
+.PHONY: dev-integration-test
+dev-integration-test:
+	newman run MarkUP2.postman_collection.json \
+		--working-dir ./test/regress \
+		-e MarkUP2\ DEV.postman_environment.json
+
+# integration ^=================================================================
+
 # build ========================================================================
 
 .PHONY: build

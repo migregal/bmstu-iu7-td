@@ -51,6 +51,20 @@ jobs:
           go-version: '1.20'
           cache-dependency-path: backend/go.mod
 
-      - run: make b-build
+      - name: Build app
+        run: make b-build
 
-      - run: ./backend/out/markupapi.out --config ./backend/config.ci.yaml &
+      - name: Start backend
+        run: ./backend/out/markupapi.out --config ./backend/config.ci.yaml &
+
+      - name: Run API Tests
+        id: run-newman
+        uses: anthonyvscode/newman-action@v1
+        with:
+          workingDir: ./backend/test/regress
+          collection: MarkUP2.postman_collection.json
+          environment: 'MarkUP2 DEV.postman_environment.json'
+          reporters: cli
+
+      - name: Output summary to console
+        run: echo ${{ steps.run-newman.outputs.summary }}
