@@ -30,7 +30,7 @@
 											"});",
 											"",
 											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
 											"});",
 											"",
 											"var schema = {",
