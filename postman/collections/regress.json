@@ -688,7 +688,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/g.mironov/projects/bmstu/bmstu-iu7-td/test.md"
+											"src": "test.md"
 										}
 									]
 								},
@@ -1208,226 +1208,6 @@
 							"response": []
 						},
 						{
-							"name": "del",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "4e3c6c55-7fba-4c71-b274-3ef2096c4dec",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.expect(pm.response).to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(100);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"data\": {",
-											"        \"id\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.expect(pm.response).to.be.withBody;",
-											"    pm.expect(pm.response).to.be.json;",
-											"",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"",
-											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
-											"    pm.expect(pm.response.json().data.id).to.be.string;",
-											"});",
-											"",
-											"pm.environment.unset(\"file_id\");"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "2fa4f5f3-771e-4342-a253-a9ba64712493",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/{{file_id}}",
-									"protocol": "{{proto}}",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"del",
-										"{{file_id}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "del: invalid id",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "0e60203e-6834-445c-bdc2-9158f90398b4",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.expect(pm.response).to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(100);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"errors\": {",
-											"        \"id\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.expect(pm.response).to.be.withBody;",
-											"    pm.expect(pm.response).to.be.json;",
-											"",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"});",
-											"",
-											"pm.test('Error is correct', function () {",
-											"    pm.expect(pm.response.json().errors.id).to.eql('invalid');",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "62c79cc6-101d-46f2-976d-b7c7cc865c74",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
-									"protocol": "{{proto}}",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"del",
-										"undefined"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "del: no auth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "0e60203e-6834-445c-bdc2-9158f90398b4",
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.response.to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(75);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"errors\": {",
-											"        \"default\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.response.to.be.withBody;",
-											"    pm.response.to.be.json;",
-											"    ",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"});",
-											"",
-											"pm.test(\"Error is 'unauthorized'\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"id": "4ca1118f-5861-4725-82a9-9fbdf35253ea",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
-									"protocol": "{{proto}}",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"del",
-										"undefined"
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "upd",
 							"event": [
 								{
@@ -1853,6 +1633,226 @@
 										"files",
 										"upd",
 										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "del",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4e3c6c55-7fba-4c71-b274-3ef2096c4dec",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});",
+											"",
+											"pm.environment.unset(\"file_id\");"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "2fa4f5f3-771e-4342-a253-a9ba64712493",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/{{file_id}}",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"del",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "del: invalid id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0e60203e-6834-445c-bdc2-9158f90398b4",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test('Error is correct', function () {",
+											"    pm.expect(pm.response.json().errors.id).to.eql('invalid');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "62c79cc6-101d-46f2-976d-b7c7cc865c74",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"del",
+										"undefined"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "del: no auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0e60203e-6834-445c-bdc2-9158f90398b4",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'unauthorized'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4ca1118f-5861-4725-82a9-9fbdf35253ea",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"del",
+										"undefined"
 									]
 								}
 							},
