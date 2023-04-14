@@ -73,8 +73,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/registration",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/registration",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -151,8 +151,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/registration",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/registration",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -227,8 +227,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -305,8 +305,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -383,8 +383,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -463,8 +463,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -524,8 +524,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/logout",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/logout",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -599,8 +599,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/logout",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/logout",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -693,8 +693,8 @@
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/add",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/add",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -776,8 +776,8 @@
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/add",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/add",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -860,8 +860,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -939,8 +939,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get/{{file_id}}?style=bulma",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get/{{file_id}}?style=bulma",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1018,8 +1018,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get/{{file_id}}?style=pico",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get/{{file_id}}?style=pico",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1104,8 +1104,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get/undefined",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get/undefined",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1180,8 +1180,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1267,8 +1267,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/del/{{file_id}}",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/{{file_id}}",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1342,8 +1342,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/del/undefined",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1411,8 +1411,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/del/undefined",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1500,8 +1500,8 @@
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1584,8 +1584,8 @@
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1668,8 +1668,8 @@
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1758,8 +1758,8 @@
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/undefined",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/undefined",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1842,8 +1842,8 @@
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
