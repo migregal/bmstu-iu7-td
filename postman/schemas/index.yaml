@@ -166,6 +166,21 @@ paths:
                 ## Welcome
                 
                 It is file content
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/Error'
+                - $ref: '#/components/schemas/DefaultError'
+              examples:
+                InvalidID:
+                  value:
+                    errors:
+                      id: 'invalid'
+                Unauthorized:
+                  value:
+                    errors:
+                      default: 'unauthorized'
+                    
 
   /files/upd/{fileID}:
     parameters:
@@ -186,7 +201,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FileID"
+                oneOf:
+                - $ref: "#/components/schemas/FileID"
+                - $ref: '#/components/schemas/Error'
+                - $ref: '#/components/schemas/DefaultError'
+              examples:
+                OK:
+                  value:
+                    data:
+                      id: 'ahtwhasXdasdEw_a'
+                InvalidID:
+                  value:
+                    errors:
+                      id: 'invalid'
+                Unauthorized:
+                  value:
+                    errors:
+                      default: 'unauthorized'
+
 
   /files/del/{fileID}:
     parameters:
@@ -209,6 +241,21 @@ paths:
               schema:
                 oneOf:
                 - $ref: "#/components/schemas/FileID"
+                - $ref: '#/components/schemas/Error'
+                - $ref: '#/components/schemas/DefaultError'
+              examples:
+                OK:
+                  value:
+                    data:
+                      id: 'ahtwhasXdasdEw_a'
+                InvalidID:
+                  value:
+                    errors:
+                      id: 'invalid'
+                Unauthorized:
+                  value:
+                    errors:
+                      default: 'unauthorized'
 
 components:
   schemas:
