@@ -5,11 +5,11 @@ info:
   description: Static HTML page renderer from MD
 
 servers:
-  - url: markup2.com
-  - url: localhost
+  - url: markup2.com/api/v1
+  - url: localhost/api/v1
 
 paths:
-  /api/v1/registration:
+  /auth/registration:
     post:
       summary: Registration
       security: []
@@ -39,7 +39,7 @@ paths:
                     errors:
                       default: 'user already exists'
 
-  /api/v1/login:
+  /auth/login:
     post:
       summary: Login
       security: []
@@ -78,7 +78,7 @@ paths:
                     errors:
                       login: 'empty'
 
-  /api/v1/logout:
+  /auth/logout:
     post:
       summary: Logout
       security: []
@@ -99,7 +99,7 @@ paths:
                     errors:
                       default: 'unauthorized'
 
-  /api/v1/files/add/:
+  /files/add/:
     post:
       summary: Upload a new file
       security:
@@ -112,7 +112,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/null_type"
 
-  /api/v1/files/get/:
+  /files/get/:
     get:
       summary: Get list of owned files
       security:
@@ -125,7 +125,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/null_type"
   
-  /api/v1/files/get/{fileID}:
+  /files/get/{fileID}:
     parameters:
       - name: fileID
         description: The unique identifier of the file
@@ -148,11 +148,26 @@ paths:
         200:
           description: Backend Respond
           content:
-            application/json:
+            text/html:
               schema:
-                $ref: "#/components/schemas/null_type"
+                type: string
+              example: '<h2>Welcome</h2><p>It is file content</p>'
+            text/plain:
+              schema:
+                type: string
+              example: >
+                Welcome
 
-  /api/v1/files/upd/{fileID}:
+                It is file content
+            text/markdown:
+              schema:
+                type: string
+              example: >
+                ## Welcome
+                
+                It is file content
+
+  /files/upd/{fileID}:
     parameters:
       - name: fileID
         description: The unique identifier of the file
@@ -171,9 +186,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/null_type"
+                $ref: "#/components/schemas/FileID"
 
-  /api/v1/files/del/{fileID}:
+  /files/del/{fileID}:
     parameters:
       - name: fileID
         description: The unique identifier of the file
@@ -192,7 +207,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/null_type"
+                oneOf:
+                - $ref: "#/components/schemas/FileID"
 
 components:
   schemas:
@@ -224,6 +240,16 @@ components:
             token: 
               type: string
               format: JWT
+    
+    FileID:
+      description: Minimal info about file
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id: 
+              type: string
 
     DefaultError:
       description: A human readable error message
