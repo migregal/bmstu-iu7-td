@@ -4,7 +4,7 @@ http:
   address: ":2000"
   gracefull_timeout: 10
   redirect_host: markup2.com
-  jwt_secret: 'some super secret'
+  jwt_secret: 'secret'
 
 render:
   styles:
@@ -19,15 +19,15 @@ render:
       end: '</main>'
 
 user_db:
-  host: postgres_db
+  host: 127.0.0.1
   port: 5432
   name: markup2
-  user: username
-  password: "#dDay!5HQQ3@f!mf^*+Y"
+  user: user
+  password: "test"
 
 files_db:
-  host: mongo_db
+  host: 127.0.0.1
   port: 27017
   name: markup2
-  user: username
-  password: "wmMCfyDG0WjKgCL"
+  user: user
+  password: "test"

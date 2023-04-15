@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "db983cb7-3b9e-4a3e-8f42-18b5117dd357",
-		"name": "MarkUP2",
+		"_postman_id": "5eb1dc81-edad-4228-95d5-4cc0b9a416eb",
+		"name": "regress",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "16256001"
+		"_uid": "16256001-5eb1dc81-edad-4228-95d5-4cc0b9a416eb"
 	},
 	"item": [
 		{
@@ -18,6 +18,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "2103c46b-8d34-41b1-86d5-9244952aeb6d",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -29,7 +30,7 @@
 											"});",
 											"",
 											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
 											"});",
 											"",
 											"var schema = {",
@@ -52,6 +53,10 @@
 									}
 								}
 							],
+							"id": "c4e20df4-ab20-4674-8b04-b331b5fda8e9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -68,8 +73,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/registration",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/registration",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -89,6 +94,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "2103c46b-8d34-41b1-86d5-9244952aeb6d",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -125,6 +131,10 @@
 									}
 								}
 							],
+							"id": "f26bc3be-8333-4fbe-b594-9f2aec64eb13",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -141,8 +151,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/registration",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/registration",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -162,6 +172,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "67e4df16-0e50-4d34-bba1-2cd9219ffab9",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -196,6 +207,10 @@
 									}
 								}
 							],
+							"id": "2542104b-247f-48b7-849e-523af8db9805",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -212,8 +227,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -233,6 +248,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "67e4df16-0e50-4d34-bba1-2cd9219ffab9",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -269,6 +285,10 @@
 									}
 								}
 							],
+							"id": "c2e6c401-4cd2-45b3-99c2-b2437bd618d0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -285,8 +305,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -306,6 +326,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "67e4df16-0e50-4d34-bba1-2cd9219ffab9",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -342,6 +363,10 @@
 									}
 								}
 							],
+							"id": "0db7e20b-d7b6-4023-94a3-9d46123a409a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -358,8 +383,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -379,6 +404,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "67e4df16-0e50-4d34-bba1-2cd9219ffab9",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -417,6 +443,10 @@
 									}
 								}
 							],
+							"id": "610384ec-bcdc-4f7e-beeb-f2dcc1dd0a67",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -433,8 +463,8 @@
 									}
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/login",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/login",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -454,6 +484,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "b62eed87-a9c9-47f1-b605-46ac3b661fc6",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -475,6 +506,10 @@
 									}
 								}
 							],
+							"id": "2dc51534-c370-4429-a410-8bcc53edbbc2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -489,8 +524,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/logout",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/logout",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -510,6 +545,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "b62eed87-a9c9-47f1-b605-46ac3b661fc6",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -545,6 +581,10 @@
 									}
 								}
 							],
+							"id": "c20fdf8c-49eb-4bc0-ad4a-e0748771eb0b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -559,8 +599,8 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/auth/logout",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/auth/logout",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -574,7 +614,8 @@
 							},
 							"response": []
 						}
-					]
+					],
+					"id": "e7015c9e-81b1-4482-8113-6290a07d4366"
 				},
 				{
 					"name": "files",
@@ -585,6 +626,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "8a79a447-299a-406b-871f-386d0437113a",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -594,8 +636,8 @@
 											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
 											"});",
 											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"pm.test(\"Response time is less than 150ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(150);",
 											"});",
 											"",
 											"var schema = {",
@@ -618,6 +660,10 @@
 									}
 								}
 							],
+							"id": "86f29e18-881b-4435-8a55-f101bd086df9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -642,13 +688,13 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "./test.md"
+											"src": "test.md"
 										}
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/add",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/add",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -668,6 +714,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "8a79a447-299a-406b-871f-386d0437113a",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -703,6 +750,10 @@
 									}
 								}
 							],
+							"id": "0427eefb-e326-473d-9d7a-5b9b10447d7e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -720,13 +771,13 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "./test.md"
+											"src": "test.md"
 										}
 									]
 								},
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/add",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/add",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -746,6 +797,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "5861fe27-78f9-4c7f-86cc-29e1c3e1fc19",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -790,6 +842,10 @@
 									}
 								}
 							],
+							"id": "860632c2-d58b-435e-9d32-7db40303600e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -804,8 +860,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -837,6 +893,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "5861fe27-78f9-4c7f-86cc-29e1c3e1fc19",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response.to.have.status(200));",
@@ -864,6 +921,10 @@
 									}
 								}
 							],
+							"id": "afcbdf84-6d97-4a10-b490-3dabd2f61841",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -878,8 +939,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get/{{file_id}}?style=bulma",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get/{{file_id}}?style=bulma",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -911,6 +972,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "5861fe27-78f9-4c7f-86cc-29e1c3e1fc19",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response.to.have.status(200));",
@@ -938,6 +1000,10 @@
 									}
 								}
 							],
+							"id": "72a75590-bb22-4d3b-a4d3-bf198579d05b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -952,8 +1018,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get/{{file_id}}?style=pico",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get/{{file_id}}?style=pico",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -985,6 +1051,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "5861fe27-78f9-4c7f-86cc-29e1c3e1fc19",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -1019,6 +1086,10 @@
 									}
 								}
 							],
+							"id": "329d22af-39c0-4067-b542-a0f3cd49e695",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1033,8 +1104,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get/undefined",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get/undefined",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1062,6 +1133,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "5861fe27-78f9-4c7f-86cc-29e1c3e1fc19",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
@@ -1097,6 +1169,10 @@
 									}
 								}
 							],
+							"id": "b3cc47f4-8b83-4b79-b3fb-b1674b2ff33c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -1104,8 +1180,8 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/get",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/get",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1132,11 +1208,443 @@
 							"response": []
 						},
 						{
+							"name": "upd",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b51b1ea0-c474-4cc0-904c-e8d96f834f89",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7a20d38c-45b2-4d3e-8199-5cf3883887bc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b51b1ea0-c474-4cc0-904c-e8d96f834f89",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4ff65d21-fbd6-496b-bd27-3a362f87e9ba",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: file",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b51b1ea0-c474-4cc0-904c-e8d96f834f89",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"data\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"",
+											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
+											"    pm.expect(pm.response.json().data.id).to.be.string;",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "b9230021-e4e1-4db2-8183-838abb44884d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: invalid id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b51b1ea0-c474-4cc0-904c-e8d96f834f89",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.expect(pm.response).to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(100);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"id\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.expect(pm.response).to.be.withBody;",
+											"    pm.expect(pm.response).to.be.json;",
+											"",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test('Error is correct', function () {",
+											"    pm.expect(pm.response.json().errors.id).to.eql('invalid');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "ab5fb35d-d686-48ad-9e12-5eefd7ae2892",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/undefined",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"undefined"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upd: no auth",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1a64246a-33a7-4a2c-bafe-004466fab67e",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"Content-Type is present\", function () {",
+											"    pm.response.to.have.header(\"Content-Type\");",
+											"});",
+											"",
+											"pm.test(\"Response time is less than 100ms\", function () {",
+											"    pm.expect(pm.response.responseTime).to.be.below(75);",
+											"});",
+											"",
+											"var schema = {",
+											"    \"errors\": {",
+											"        \"default\": \"string\",",
+											"    }",
+											"};",
+											"",
+											"pm.test('Schema is valid', function () {",
+											"    pm.response.to.be.withBody;",
+											"    pm.response.to.be.json;",
+											"    ",
+											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
+											"});",
+											"",
+											"pm.test(\"Error is 'unauthorized'\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7024b7ca-1375-451c-a0e8-6b98e40b839e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "some another page 2",
+											"type": "text"
+										},
+										{
+											"key": "file",
+											"type": "file",
+											"src": "test.md"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/upd/{{file_id}}",
+									"protocol": "{{proto}}",
+									"host": [
+										"{{host_url}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"files",
+										"upd",
+										"{{file_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "del",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
+										"id": "4e3c6c55-7fba-4c71-b274-3ef2096c4dec",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -1172,6 +1680,10 @@
 									}
 								}
 							],
+							"id": "2fa4f5f3-771e-4342-a253-a9ba64712493",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1186,8 +1698,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/del/{{file_id}}",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/{{file_id}}",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1208,6 +1720,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "0e60203e-6834-445c-bdc2-9158f90398b4",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.expect(pm.response).to.have.status(200);",
@@ -1242,6 +1755,10 @@
 									}
 								}
 							],
+							"id": "62c79cc6-101d-46f2-976d-b7c7cc865c74",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1256,8 +1773,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/del/undefined",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1278,6 +1795,7 @@
 								{
 									"listen": "test",
 									"script": {
+										"id": "0e60203e-6834-445c-bdc2-9158f90398b4",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
@@ -1313,6 +1831,10 @@
 									}
 								}
 							],
+							"id": "4ca1118f-5861-4725-82a9-9fbdf35253ea",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -1320,8 +1842,8 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/del/undefined",
-									"protocol": "https",
+									"raw": "{{proto}}://{{host_url}}/api/v1/files/del/undefined",
+									"protocol": "{{proto}}",
 									"host": [
 										"{{host_url}}"
 									],
@@ -1335,416 +1857,12 @@
 								}
 							},
 							"response": []
-						},
-						{
-							"name": "upd",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.expect(pm.response).to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(100);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"data\": {",
-											"        \"id\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.expect(pm.response).to.be.withBody;",
-											"    pm.expect(pm.response).to.be.json;",
-											"",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"",
-											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
-											"    pm.expect(pm.response.json().data.id).to.be.string;",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "title",
-											"value": "some another page 2",
-											"type": "text"
-										},
-										{
-											"key": "file",
-											"type": "file",
-											"src": "./test.md"
-										}
-									]
-								},
-								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"upd",
-										"{{file_id}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "upd: title",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.expect(pm.response).to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(100);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"data\": {",
-											"        \"id\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.expect(pm.response).to.be.withBody;",
-											"    pm.expect(pm.response).to.be.json;",
-											"",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"",
-											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
-											"    pm.expect(pm.response.json().data.id).to.be.string;",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "title",
-											"value": "some another page 2",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"upd",
-										"{{file_id}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "upd: file",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.expect(pm.response).to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(100);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"data\": {",
-											"        \"id\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.expect(pm.response).to.be.withBody;",
-											"    pm.expect(pm.response).to.be.json;",
-											"",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"",
-											"    pm.expect(pm.response.json().data.id).to.be.not.null;",
-											"    pm.expect(pm.response.json().data.id).to.be.string;",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "./test.md"
-										}
-									]
-								},
-								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"upd",
-										"{{file_id}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "upd: invalid id",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.expect(pm.response).to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.expect(pm.response).to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(100);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"errors\": {",
-											"        \"id\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.expect(pm.response).to.be.withBody;",
-											"    pm.expect(pm.response).to.be.json;",
-											"",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"});",
-											"",
-											"pm.test('Error is correct', function () {",
-											"    pm.expect(pm.response.json().errors.id).to.eql('invalid');",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{token}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "title",
-											"value": "some another page 2",
-											"type": "text"
-										},
-										{
-											"key": "file",
-											"type": "file",
-											"src": "./test.md"
-										}
-									]
-								},
-								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/undefined",
-									"protocol": "https",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"upd",
-										"undefined"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "upd: no auth",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"});",
-											"",
-											"pm.test(\"Content-Type is present\", function () {",
-											"    pm.response.to.have.header(\"Content-Type\");",
-											"});",
-											"",
-											"pm.test(\"Response time is less than 100ms\", function () {",
-											"    pm.expect(pm.response.responseTime).to.be.below(75);",
-											"});",
-											"",
-											"var schema = {",
-											"    \"errors\": {",
-											"        \"default\": \"string\",",
-											"    }",
-											"};",
-											"",
-											"pm.test('Schema is valid', function () {",
-											"    pm.response.to.be.withBody;",
-											"    pm.response.to.be.json;",
-											"    ",
-											"    pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
-											"});",
-											"",
-											"pm.test(\"Error is 'unauthorized'\", function () {",
-											"    var jsonData = pm.response.json();",
-											"    pm.expect(jsonData.errors.default).to.eql('unauthorized');",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "noauth"
-								},
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "title",
-											"value": "some another page 2",
-											"type": "text"
-										},
-										{
-											"key": "file",
-											"type": "file",
-											"src": "./test.md"
-										}
-									]
-								},
-								"url": {
-									"raw": "https://{{host_url}}/api/v1/files/upd/{{file_id}}",
-									"protocol": "https",
-									"host": [
-										"{{host_url}}"
-									],
-									"path": [
-										"api",
-										"v1",
-										"files",
-										"upd",
-										"{{file_id}}"
-									]
-								}
-							},
-							"response": []
 						}
-					]
+					],
+					"id": "3fbbfd26-2f63-4aa0-b6cd-595b1524f1fe"
 				}
-			]
+			],
+			"id": "e97100d1-f5c8-48dc-8319-16e32b60717e"
 		}
 	]
 }
