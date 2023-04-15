@@ -1,0 +1,198 @@
+openapi: '3.0.0'
+info:
+  version: '1.0.0'
+  title: 'MarkUP2 API'
+  description: Static HTML page renderer from MD
+
+servers:
+  - url: markup2.com
+  - url: localhost
+
+paths:
+  /api/v1/registration:
+    post:
+      summary: Registration
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthData'
+      responses:
+        200:
+          description: Backend Respond
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AuthedData'
+                - $ref: '#/components/schemas/DefaultError'
+              examples:
+                Authed:
+                  value:
+                    data:
+                      id: 1
+                      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+                Exists:
+                  value:
+                    errors:
+                      default: 'user already exists'
+
+  /api/v1/login:
+    post:
+      summary: Login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthData'
+      responses:
+        200:
+          description: Backend Respond
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/AuthedData'
+                - $ref: '#/components/schemas/DefaultError'
+                - $ref: '#/components/schemas/Error'
+              examples:
+                Authed:
+                  value:
+                    data:
+                      id: 1
+                      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+                NotExists:
+                  value:
+                    errors:
+                      default: "user doesn't exist"
+                InvalidPassword:
+                  value:
+                    errors:
+                      password: 'incorrect'
+                EmptyLogin:
+                  value:
+                    errors:
+                      login: 'empty'
+
+  /api/v1/logout:
+    post:
+      summary: Logout
+      security: []
+      responses:
+        200:
+          description: Backend Respond
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: "#/components/schemas/null_type"
+                - $ref: '#/components/schemas/DefaultError'
+              examples:
+                OK:
+                  value: null
+                Unauthorized:
+                  value:
+                    errors:
+                      default: 'unauthorized'
+
+  /api/v1/files/get/:
+    get:
+      summary: Get list of owned files
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: Backend Respond
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/null_type"
+  
+  /api/v1/files/get/{fileID}:
+    parameters:
+      - name: fileID
+        description: The unique identifier of the file
+        in: path
+        required: true
+        schema:
+          type: string
+          format: hex
+      - name: format
+        description: File format to be send
+        in: query
+        required: false
+        schema:
+          type: string
+          enum: ['html', 'md', 'plain']
+
+    get:
+      summary: Get file content
+      security: []
+      responses:
+        200:
+          description: Backend Respond
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/null_type"
+
+components:
+  schemas:
+    null_type:
+      title: "OpenAPI 3.0 null-type ref"
+      description: "for adding nullability to a ref"
+      enum: [null]
+
+    AuthData:
+      description: Data to Sign In
+      type: object
+      properties:
+        login: 
+          type: string
+          format: email
+        password: 
+          type: string
+
+    AuthedData:
+      description: Info obtained after auth
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id: 
+              type: integer
+              format: int64
+            token: 
+              type: string
+              format: JWT
+
+    DefaultError:
+      description: A human readable error message
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            default: 
+              type: string
+    
+    Error:
+      description: A human readable error message
+      type: object
+      properties:
+        errors:
+          type: object
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+
+security:
+  - bearerAuth: []
