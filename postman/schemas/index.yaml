@@ -123,7 +123,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/null_type"
+                oneOf:
+                - $ref: "#/components/schemas/null_type"
+                - $ref: '#/components/schemas/Error'
+                - $ref: '#/components/schemas/DefaultError'
+              examples:
+                Unauthorized:
+                  value:
+                    errors:
+                      default: 'unauthorized'
   
   /files/get/{fileID}:
     parameters:
@@ -176,10 +184,10 @@ paths:
                   value:
                     errors:
                       id: 'invalid'
-                Unauthorized:
+                Internal:
                   value:
                     errors:
-                      default: 'unauthorized'
+                      default: 'failed to get files info'
                     
 
   /files/upd/{fileID}:
