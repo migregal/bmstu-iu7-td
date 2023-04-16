@@ -104,13 +104,44 @@ paths:
       summary: Upload a new file
       security:
         - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                file:
+                  type: string
+                  format: markdown
+              required:
+                - title
+                - file
       responses:
         200:
           description: Backend Respond
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/null_type"
+                oneOf:
+                - $ref: "#/components/schemas/FileID"
+                - $ref: '#/components/schemas/Error'
+                - $ref: '#/components/schemas/DefaultError'
+              examples:
+                OK:
+                  value:
+                    data:
+                      file_id: 'ahtwhasXdasdEw_a'
+                EmptyRequest:
+                  value:
+                    errors:
+                      title: 'empty'
+                      file: 'empty'
+                Unauthorized:
+                  value:
+                    errors:
+                      default: 'unauthorized'
 
   /files/get/:
     get:
@@ -124,15 +155,27 @@ paths:
             application/json:
               schema:
                 oneOf:
-                - $ref: "#/components/schemas/null_type"
+                - $ref: "#/components/schemas/FilesList"
                 - $ref: '#/components/schemas/Error'
                 - $ref: '#/components/schemas/DefaultError'
               examples:
+                Files:
+                  value:
+                    data:
+                      files:
+                        - [
+                            {
+                              'id': 'ahtwhasXdasdEw_a',
+                              'title': 'some file',
+                              'length': 123,
+                              'url': 'https://markup2.com/pages/ahtwhasXdasdEw_a'
+                            }
+                          ]
                 Unauthorized:
                   value:
                     errors:
                       default: 'unauthorized'
-  
+
   /files/get/{fileID}:
     parameters:
       - name: fileID
@@ -189,7 +232,6 @@ paths:
                     errors:
                       default: 'failed to get files info'
                     
-
   /files/upd/{fileID}:
     parameters:
       - name: fileID
@@ -198,11 +240,21 @@ paths:
         required: true
         schema:
           type: string
-
     patch:
       summary: Update one of owned files
       security:
         - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                file:
+                  type: string
+                  format: markdown
       responses:
         200:
           description: Backend Respond
@@ -217,7 +269,12 @@ paths:
                 OK:
                   value:
                     data:
-                      id: 'ahtwhasXdasdEw_a'
+                      file_id: 'ahtwhasXdasdEw_a'
+                EmptyBody:
+                  value:
+                    errors:
+                      title: 'empty'
+                      file: 'empty'
                 InvalidID:
                   value:
                     errors:
@@ -226,7 +283,6 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
-
 
   /files/del/{fileID}:
     parameters:
@@ -255,7 +311,7 @@ paths:
                 OK:
                   value:
                     data:
-                      id: 'ahtwhasXdasdEw_a'
+                      file_id: 'ahtwhasXdasdEw_a'
                 InvalidID:
                   value:
                     errors:
@@ -303,8 +359,31 @@ components:
         data:
           type: object
           properties:
-            id: 
+            file_id: 
               type: string
+    
+    FilesList:
+      description: Minimal info about owned files
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            files: 
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  length:
+                    type: integer
+                    format: int64
+                  url:
+                    type: string
+                    format: url
 
     DefaultError:
       description: A human readable error message
