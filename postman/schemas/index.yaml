@@ -25,9 +25,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                - $ref: '#/components/schemas/AuthedData'
-                - $ref: '#/components/schemas/DefaultError'
+                $ref: '#/components/schemas/AuthResponse'
               examples:
                 Authed:
                   value:
@@ -38,6 +36,14 @@ paths:
                   value:
                     errors:
                       default: 'user already exists'
+                InvalidPassword:
+                  value:
+                    errors:
+                      password: 'incorrect'
+                EmptyLogin:
+                  value:
+                    errors:
+                      login: 'empty'
         500:
           description: Backend doesn't respond
 
@@ -57,10 +63,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                - $ref: '#/components/schemas/AuthedData'
-                - $ref: '#/components/schemas/DefaultError'
-                - $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/AuthResponse'
               examples:
                 Authed:
                   value:
@@ -367,6 +370,13 @@ components:
             token: 
               type: string
               format: JWT
+    
+    AuthResponse:
+      description: Response from auth api
+      oneOf:
+        - $ref: '#/components/schemas/AuthedData'
+        - $ref: '#/components/schemas/DefaultError'
+        - $ref: '#/components/schemas/Error'
     
     FileID:
       description: Minimal info about file
