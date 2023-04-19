@@ -25,7 +25,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthResponse'
+                oneOf:
+                - $ref: '#/components/schemas/AuthedData'
+                - $ref: '#/components/schemas/DefaultError'
+                - $ref: '#/components/schemas/Error'
               examples:
                 Authed:
                   value:
@@ -63,7 +66,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AuthResponse'
+                oneOf:
+                - $ref: '#/components/schemas/AuthedData'
+                - $ref: '#/components/schemas/DefaultError'
+                - $ref: '#/components/schemas/Error'
               examples:
                 Authed:
                   value:
@@ -108,7 +114,7 @@ paths:
         500:
           description: Backend doesn't respond
 
-  /files/add/:
+  /files/add:
     post:
       summary: Upload a new file
       security:
@@ -154,7 +160,7 @@ paths:
         500:
           description: Backend doesn't respond
 
-  /files/get/:
+  /files/get:
     get:
       summary: Get list of owned files
       security:
@@ -370,13 +376,6 @@ components:
             token: 
               type: string
               format: JWT
-    
-    AuthResponse:
-      description: Response from auth api
-      oneOf:
-        - $ref: '#/components/schemas/AuthedData'
-        - $ref: '#/components/schemas/DefaultError'
-        - $ref: '#/components/schemas/Error'
     
     FileID:
       description: Minimal info about file
