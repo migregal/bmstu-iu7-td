@@ -38,6 +38,8 @@ paths:
                   value:
                     errors:
                       default: 'user already exists'
+        500:
+          description: Backend doesn't respond
 
   /auth/login:
     post:
@@ -77,6 +79,8 @@ paths:
                   value:
                     errors:
                       login: 'empty'
+        500:
+          description: Backend doesn't respond
 
   /auth/logout:
     post:
@@ -98,6 +102,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
   /files/add/:
     post:
@@ -142,6 +148,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
   /files/get/:
     get:
@@ -175,6 +183,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
   /files/get/{fileID}:
     parameters:
@@ -231,6 +241,8 @@ paths:
                   value:
                     errors:
                       default: 'failed to get files info'
+        500:
+          description: Backend doesn't respond
                     
   /files/upd/{fileID}:
     parameters:
@@ -283,6 +295,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
   /files/del/{fileID}:
     parameters:
@@ -320,6 +334,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
 components:
   schemas:
