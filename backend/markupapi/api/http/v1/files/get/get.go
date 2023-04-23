@@ -56,7 +56,7 @@ func (h *Handler) Handle(c echo.Context) error {
 	if req.ID != "" {
 		decoded, err := shortener.Decode([]byte(req.ID))
 		if err != nil || !validation.IsHex(string(decoded)) {
-			errs["id"] = response.StatusInvalid
+			return c.Redirect(http.StatusTemporaryRedirect, "/404")
 		}
 
 		fullID = string(decoded)
