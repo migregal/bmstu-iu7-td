@@ -28,6 +28,7 @@ paths:
                 oneOf:
                 - $ref: '#/components/schemas/AuthedData'
                 - $ref: '#/components/schemas/DefaultError'
+                - $ref: '#/components/schemas/Error'
               examples:
                 Authed:
                   value:
@@ -38,6 +39,16 @@ paths:
                   value:
                     errors:
                       default: 'user already exists'
+                InvalidPassword:
+                  value:
+                    errors:
+                      password: 'incorrect'
+                EmptyLogin:
+                  value:
+                    errors:
+                      login: 'empty'
+        500:
+          description: Backend doesn't respond
 
   /auth/login:
     post:
@@ -77,6 +88,8 @@ paths:
                   value:
                     errors:
                       login: 'empty'
+        500:
+          description: Backend doesn't respond
 
   /auth/logout:
     post:
@@ -98,8 +111,10 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
-  /files/add/:
+  /files/add:
     post:
       summary: Upload a new file
       security:
@@ -142,8 +157,10 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
-  /files/get/:
+  /files/get:
     get:
       summary: Get list of owned files
       security:
@@ -175,6 +192,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
   /files/get/{fileID}:
     parameters:
@@ -231,6 +250,8 @@ paths:
                   value:
                     errors:
                       default: 'failed to get files info'
+        500:
+          description: Backend doesn't respond
                     
   /files/upd/{fileID}:
     parameters:
@@ -283,6 +304,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
   /files/del/{fileID}:
     parameters:
@@ -320,6 +343,8 @@ paths:
                   value:
                     errors:
                       default: 'unauthorized'
+        500:
+          description: Backend doesn't respond
 
 components:
   schemas:

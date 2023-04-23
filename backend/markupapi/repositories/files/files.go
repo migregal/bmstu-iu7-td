@@ -56,7 +56,7 @@ func (r *Repository) Get(ctx context.Context, id string) (io.Reader, string, err
 
 	fileID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return nil, "", fmt.Errorf("invalid file id: %w", err)
+		return nil, "", fmt.Errorf("failed to convert file id: %w", repositories.ErrInvalid)
 	}
 
 	// extract exact file title from metadata of gridfs
@@ -71,7 +71,7 @@ func (r *Repository) Get(ctx context.Context, id string) (io.Reader, string, err
 		return nil, "", fmt.Errorf("failed to retrieve file metadata: %w", err)
 	}
 	if len(foundFiles) == 0 {
-		return nil, "", fmt.Errorf("failed to find file by id: %w", err)
+		return nil, "", fmt.Errorf("failed to find owned file by id: %w", repositories.ErrNotFound)
 	}
 
 	fileBuffer := bytes.NewBuffer(nil)
@@ -170,7 +170,7 @@ func (r *Repository) Update(ctx context.Context, ownerID uint64, id string, titl
 		return "", fmt.Errorf("invalid file id: %w", err)
 	}
 
-	// echck that file exists in gridfs
+	// check that file exists in gridfs
 	filter := bson.D{
 		{Key: "_id", Value: bson.D{{Key: "$eq", Value: fileID}}},
 		{Key: "metadata.owner_id", Value: bson.D{{Key: "$eq", Value: ownerID}}},

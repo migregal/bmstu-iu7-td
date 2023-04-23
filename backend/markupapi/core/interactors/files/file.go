@@ -63,6 +63,13 @@ func (i *Interactor) Get(ctx context.Context, id string, opts GetOpts) ([]byte, 
 
 	reader, title, err := i.repo.Get(ctx, id)
 	if err != nil {
+		switch {
+		case errors.Is(err, repositories.ErrNotFound):
+			err = interactors.ErrNotFound
+		case errors.Is(err, repositories.ErrInvalid):
+			err = interactors.ErrInvalid
+		}
+
 		return nil, fmt.Errorf("failed to get file from db: %w", err)
 	}
 

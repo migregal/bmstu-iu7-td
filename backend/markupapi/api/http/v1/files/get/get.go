@@ -15,6 +15,8 @@ import (
 	"markup2/pkg/validation"
 )
 
+var NotFoundPath = "/404"
+
 type Config struct {
 	RedirectHost string
 }
@@ -56,7 +58,7 @@ func (h *Handler) Handle(c echo.Context) error {
 	if req.ID != "" {
 		decoded, err := shortener.Decode([]byte(req.ID))
 		if err != nil || !validation.IsHex(string(decoded)) {
-			errs["id"] = response.StatusInvalid
+			return c.Redirect(http.StatusTemporaryRedirect, NotFoundPath)
 		}
 
 		fullID = string(decoded)
@@ -91,9 +93,13 @@ func (h *Handler) Handle(c echo.Context) error {
 			log.Warnf("failed to get file info: %v", err)
 
 			desc := "failed to get file info"
-			if errors.Is(err, interactors.ErrNotFound) {
-				desc = "user doesn't exist"
+			switch {
+			case errors.Is(err, interactors.ErrNotFound):
+				fallthrough
+			case errors.Is(err, interactors.ErrInvalid):
+				return c.Redirect(http.StatusTemporaryRedirect, NotFoundPath)
 			}
+
 			resp := response.Response{Errors: echo.Map{
 				"default": desc,
 			}}
