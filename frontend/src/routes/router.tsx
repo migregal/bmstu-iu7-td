@@ -3,6 +3,7 @@ import RequireViewer from "components/RequireViewer"
 import DashboardHomePage from "pages/DashboardHomePage"
 import LoginPage from "pages/LoginPage"
 import RegistrationPage from "pages/RegistrationPage"
+import NotFoundPage from "pages/NotFoundPage"
 import {
   createBrowserRouter,
 } from "react-router-dom"
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: PATH.LOGIN,
         element: <LoginPage />
+      },
+      {
+        path: PATH.NOT_FOUND,
+        element: <NotFoundPage />
       }
     ]
   },
@@ -38,5 +43,5 @@ export const router = createBrowserRouter([
         element: <DashboardHomePage />,
       }
     ]
-  }
+  },
 ])
