@@ -92,7 +92,7 @@ func (h *Handler) Handle(c echo.Context) error {
 
 			desc := "failed to get file info"
 			if errors.Is(err, interactors.ErrNotFound) {
-				desc = "user doesn't exist"
+				return c.Redirect(http.StatusTemporaryRedirect, "/404")
 			}
 			resp := response.Response{Errors: echo.Map{
 				"default": desc,
