@@ -56,7 +56,7 @@ func (r *Repository) Get(ctx context.Context, id string) (io.Reader, string, err
 
 	fileID, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return nil, "", fmt.Errorf("invalid file id: %w", err)
+		return nil, "", fmt.Errorf("failed to convert file id: %w", repositories.ErrInvalid)
 	}
 
 	// extract exact file title from metadata of gridfs
