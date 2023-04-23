@@ -1,0 +1,86 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile.nginx
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../nginx/out/crypto/:/etc/markup2/
+    networks:
+      - api-gateaway
+    ports:
+      - 443:443/tcp
+      - 443:443/udp
+      - 80:80/tcp
+      - 80:80/udp
+    depends_on:
+      - markupapi
+    restart: always
+
+  markupapi-dev:
+    extends:
+      file: ../backend/docker/common-services.yml
+      service: markupapi
+    image: cosmtrek/air
+    working_dir: /tmp/project
+    entrypoint: ["/go/bin/air", "-c", "markupapi/.air.toml"]
+    networks:
+      - api-gateaway
+      - backend
+      - database
+      - storage
+    volumes:
+      - ../backend:/tmp/project
+      - ../backend/config.yaml:/usr/local/etc/markup2.yaml
+    depends_on:
+      - postgres_db
+    restart: always
+
+  postgres_db:
+    extends:
+      file: ../backend/docker/common-services.yml
+      service: postgres_db
+    env_file: ../backend/docker/database/.dev.env
+    networks:
+      - database
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mongo_db:
+    extends:
+      file: ../backend/docker/common-services.yml
+      service: mongo_db
+    env_file: ../backend/docker/storage/.dev.env
+    networks:
+      - storage
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u $$MONGO_INITDB_ROOT_USERNAME -p $$MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  api-gateaway:
+    driver: bridge
+
+  backend:
+    driver: bridge
+    internal: true
+
+  database:
+    driver: bridge
+    internal: true
+
+  storage:
+    driver: bridge
+    internal: true

@@ -1,0 +1,25 @@
+:root {
+  --c-primary-text: #290342;
+  --c-primary: #7209B7;
+  --c-primary-light: #e3cef1;
+  --c-primary-button-hover: #520684;
+  --c-danger: #F72585;
+  --c-gray: #fafafa;
+  --c-success: #00e676;
+  --toastify-color-success: var(--c-success);
+  --toastify-color-error: var(--c-danger);
+  --toastify-text-color-light: var(--c-primary-text);
+  --toastify-color-dark: var(--c-primary-text);
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--c-primary-text);
+}
+
+* {
+  box-sizing: border-box;
+}

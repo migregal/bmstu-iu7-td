@@ -1,0 +1,16 @@
+.DashboardLayout {
+    position: relative;
+    min-height: 100vh;
+    padding: 80px 0px 0;
+}
+
+.DashboardLayout__header {
+    position: fixed;
+    top: 0;
+}
+
+.DashboardLayout__content {
+    margin: auto;
+    max-width: 1170px;
+    padding: 0 16px;
+}

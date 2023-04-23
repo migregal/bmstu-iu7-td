@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  markupapi:
+    expose:
+      - 2000
+      - 2047
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://markupapi:2000/readiness"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 6
+      start_period: 10s

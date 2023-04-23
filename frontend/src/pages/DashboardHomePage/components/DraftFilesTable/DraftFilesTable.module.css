@@ -1,0 +1,45 @@
+.table {
+    margin: 16px 0;
+}
+
+.title__errors {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--c-danger);
+}
+
+.title__input {
+    padding: 8px;
+    width: 100%;
+}
+
+.cell_size {
+    width: 6em;
+    font-family: monospace;
+    font-size: 1.2em;
+    text-align: right;
+}
+
+.cell_delete {
+    width: 24px;
+}
+
+.deleteDraft {
+    cursor: pointer;
+    color: var(--c-primary-text);
+    transform: translate(3px, -3px);
+}
+
+.deleteDraft:hover {
+    color: var(--c-danger);
+}
+
+.deleteDraft_disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.actions>* {
+    margin-right: 16px;
+}

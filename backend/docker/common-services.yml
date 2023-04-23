@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  markupapi:
+    expose:
+      - 10001
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://markaupapi:10001/readiness"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 6
+      start_period: 10s
+
+  postgres_db:
+    image: postgres:14.2
+    container_name: postgresql
+    restart: always
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER"
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mongo_db:
+    image: mongodb/mongodb-community-server:6.0.5-ubuntu2204
+    container_name: mongo
+    restart: always
+    healthcheck:
+      test:
+        - "CMD-SHELL"
+        - echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u $$MONGO_INITDB_ROOT_USERNAME -p $$MONGO_INITDB_ROOT_PASSWORD --quiet | grep 1
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

@@ -1,0 +1,39 @@
+.title {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.title_editing {
+    display: block;
+    margin: -4px 0;
+}
+
+.title__input {
+    padding: 8px;
+    width: 100%;
+}
+
+.title__row {
+    position: relative;
+}
+
+.title .title__edit {
+    width: 18px;
+    height: 18px;
+}
+
+.title .save {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.title__errors {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--c-danger);
+}

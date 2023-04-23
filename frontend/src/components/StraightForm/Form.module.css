@@ -1,0 +1,31 @@
+.Form {
+    max-width: 300px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Form__title {
+    width: 100%;
+    text-align: center;
+}
+
+.Form__field {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.Form__label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.Form__input {
+    padding: 8px;
+    width: 100%;
+}
+
+.error {
+    color: var(--c-danger);
+}

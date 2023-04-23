@@ -1,0 +1,33 @@
+debug: true
+
+http:
+  address: ":2000"
+  gracefull_timeout: 10
+  redirect_host: markup2.com
+  jwt_secret: 'some super secret'
+
+render:
+  styles:
+    bulma: 'https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css'
+    pico: 'https://unpkg.com/@picocss/pico@1.5.7/css/pico.min.css'
+  wrappers:
+    bulma:
+      begin: '<br><div class="container is-max-desktop"><div class="content">'
+      end: '</div></div><br>'
+    pico:
+      begin: '<main class="container">'
+      end: '</main>'
+
+user_db:
+  host: postgres_db
+  port: 5432
+  name: markup2
+  user: username
+  password: "#dDay!5HQQ3@f!mf^*+Y"
+
+files_db:
+  host: mongo_db
+  port: 27017
+  name: markup2
+  user: username
+  password: "wmMCfyDG0WjKgCL"

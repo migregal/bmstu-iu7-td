@@ -1,0 +1,41 @@
+.table {
+    margin: 16px 0;
+}
+
+.cell_qr {
+    width: 40px;
+    vertical-align: middle;
+}
+
+.cell_size {
+    width: 10em;
+}
+
+.size__wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    align-items: center;
+}
+
+.size {
+    font-family: monospace;
+    font-size: 1.2em;
+    width: 6em;
+    text-align: right;
+}
+
+.cell_delete {
+    width: 64px;
+}
+
+.delete__wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.delete {
+    position: relative;
+}
